@@ -5,7 +5,6 @@ export default defineNuxtConfig({
     modules: [
         '@nuxt/test-utils',
         '@nuxt/ui',
-        '@pinia/nuxt',
         '@nuxt/eslint',
         '@nuxt/content',
     ],
