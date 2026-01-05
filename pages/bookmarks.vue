@@ -4,6 +4,7 @@
         class="grid gap-4"
         :class="{
           'grid-cols-[repeat(auto-fill,minmax(min(100%,350px),1fr))]': ['cards'].includes(viewMode),
+          'grid-cols-1': isBookmarksEmpty
         }">
       <Bookmark
           v-for="bookmark in bookmarks"
@@ -11,6 +12,16 @@
           as="article"
           :view="viewMode"
           :bookmark="bookmark"/>
+      <UEmpty
+          v-if="isBookmarksEmpty"
+          title="It looks like you haven't added any bookmarks"
+          icon="i-lucide-bookmark"
+          :actions="[
+            {
+              icon: 'i-lucide-plus',
+              label: 'Add'
+            }]
+          "/>
     </UContainer>
   </main>
 </template>
@@ -23,9 +34,7 @@ const {data: bookmarks} = await useFetch<BookmarksResponse>("/api/bookmarks", {
   default: () => []
 })
 
-const bookmarkStore = useBookmarkStore()
-const {bookmarks} = storeToRefs(bookmarkStore)
-const user = useStrapiUser()
+const isBookmarksEmpty = computed(() => bookmarks.value.length < 1)
 
 definePageMeta({
   middleware: ['auth'],
