@@ -16,13 +16,17 @@
 </template>
 
 <script setup lang="ts">
-import {useBookmarkStore} from "~/layers/bookmark/stores/bookmarks";
+import type {BookmarkView} from "~/layers/bookmark/components/Bookmark.vue"
+import type {Response as BookmarksResponse} from "~/layers/bookmark/server/api/bookmarks.get"
+
+const {data: bookmarks} = await useFetch<BookmarksResponse>("/api/bookmarks", {
+  default: () => []
+})
 
 const bookmarkStore = useBookmarkStore()
 const {bookmarks} = storeToRefs(bookmarkStore)
 const user = useStrapiUser()
 
-await callOnce('bookmarks', () => bookmarkStore.fetchBookmarks(user.value))
 definePageMeta({
   middleware: ['auth'],
 })
