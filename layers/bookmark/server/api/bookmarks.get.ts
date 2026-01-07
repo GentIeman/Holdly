@@ -1,15 +1,42 @@
-import {getCookie} from "h3";
+import {getCookie, getQuery} from "h3";
+import qs from "qs";
 import type {Bookmark} from "~/layers/bookmark/components/Bookmark.vue";
 
 export type Response = Bookmark[]
 
+type RequestParams = {
+    userDocumentId: string
+}
+
 export default defineEventHandler(async (event) => {
-    const config = useRuntimeConfig()
 
     const token = getCookie(event, "strapi_jwt")
 
-    const {data} = await $fetch<{data: Response}>(config.public.strapiOrigin + "/api/bookmarks", {
-    const {data} = await fetchStrapi<Response>(`/api/bookmarks?${query}`, {
+    const requestQuery = getQuery<RequestParams>(event)
+
+    const queryString  = qs.stringify(
+        {
+            fields: ['title', 'description', 'createdAt', "link"],
+            sort: ['createdAt:desc'],
+            filters: {
+                user: {
+                    documentId: {
+                        $eq: requestQuery.userDocumentId
+                    }
+                }
+            },
+            populate: {
+                preview: {
+                    fields: ['url', 'width', 'height']
+                }
+            },
+        },
+        {
+            encodeValuesOnly: true,
+        }
+    )
+
+    const {data} = await fetchStrapi<Response>(`/api/bookmarks?${queryString}`, {
         headers: {
             "Content-type": "application/json",
             Authorization: `Bearer ${token}`,
