@@ -30,8 +30,13 @@
 import type {BookmarkView} from "~/layers/bookmark/components/Bookmark.vue"
 import type {Response as BookmarksResponse} from "~/layers/bookmark/server/api/bookmarks.get"
 
+const user = useUser()
+
 const {data: bookmarks} = await useFetch<BookmarksResponse>("/api/bookmarks", {
-  default: () => []
+  default: () => [],
+  query: {
+    userDocumentId: user.value.documentId
+  }
 })
 
 const isBookmarksEmpty = computed(() => bookmarks.value.length < 1)
