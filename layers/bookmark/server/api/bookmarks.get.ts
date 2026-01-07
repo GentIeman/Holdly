@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
     const token = getCookie(event, "strapi_jwt")
 
     const {data} = await $fetch<{data: Response}>(config.public.strapiOrigin + "/api/bookmarks", {
+    const {data} = await fetchStrapi<Response>(`/api/bookmarks?${query}`, {
         headers: {
             "Content-type": "application/json",
             Authorization: `Bearer ${token}`,
