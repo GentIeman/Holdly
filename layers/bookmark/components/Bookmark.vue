@@ -26,10 +26,29 @@
 </template>
 
 <script setup lang="ts">
+import type {User} from "~/layers/user/composables/useUser"
+
 export type BookmarkView = "cards" | "list" | "headlines"
 
+type Preview = {
+  documentId: string
+  url: string
+  width: string
+  height: string
+}
+
+export type Bookmark = {
+  documentId: string
+  title: string
+  description: string
+  link: string
+  preview: Preview
+  createdAt: string
+  user: User
+}
+
 const props = withDefaults(defineProps<{
-  bookmark: IBookmark
+  bookmark: Bookmark
   view?: BookmarkView
 }>(), {
   view: 'cards'
