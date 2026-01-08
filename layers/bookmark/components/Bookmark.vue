@@ -54,18 +54,14 @@ const props = withDefaults(defineProps<{
   view: 'cards'
 })
 
-const mediaPath = useStrapiMedia("/")
+const config = useRuntimeConfig()
 
-const linkBadgeLabel = computed(() => {
-  return props.bookmark.link.replace(/^https?:\/\//, '')
+const mediaPath = computed(() => {
+  return config.public.strapiOrigin + props.bookmark.preview.url
 })
 
-const formattedCreatedAt = computed(() => {
-  return Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date(props.bookmark.createdAt))
+const domain = computed(() => {
+  return props.bookmark.link.replace(/^(https?:\/\/)?(www\.)?([^/]+).*/, "$3")
 })
 
 const viewChecks = computed(() => ({
