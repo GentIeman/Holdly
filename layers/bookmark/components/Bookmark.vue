@@ -1,28 +1,29 @@
 <template>
-  <UCard>
-    <template
-        v-if="viewChecks.isCards"
-        #header>
+  <article
+      class="flex gap-3 border-2 border-solid rounded-xl border-neutral-800 overflow-clip p-3.5"
+      :class="[{'flex-col': viewChecks.isCards}]">
+    <header
+        v-if="bookmark.preview && viewChecks.isCardsOrList"
+        :class="[{'max-h-30': !viewChecks.isCards}]">
       <img
-          :src="mediaPath + bookmark.preview?.url"
+          :src="mediaPath"
           alt=""
           :width="bookmark.preview?.width"
           :height="bookmark.preview?.height"
-          class="object-cover rounded-lg">
-    </template>
-    <div class="grid gap-2">
-      <h3 class="text-xl">{{ bookmark.title }}</h3>
+          class="object-cover rounded-lg h-full"
+          :class="[{'max-w-35': !viewChecks.isCards}]">
+    </header>
+    <div>
+      <h3 class="text-xl line-clamp-2">{{ bookmark.title }}</h3>
+      <p class="text-primary text-sm">{{ domain }}</p>
       <p
-          v-if="viewChecks.isCardsOrLines"
-          class="text-neutral-500 line-clamp-3"> {{ bookmark.description }}</p>
-      <div class="flex gap-3">
-        <UBadge
-            :label="linkBadgeLabel"
-            class="rounded-full"/>
-        <p>{{ formattedCreatedAt }}</p>
-      </div>
+          v-if="viewChecks.isCardsOrList"
+          class="text-neutral-500 text-pretty"
+          :class="[{'line-clamp-4': bookmark.preview && viewChecks.isCardsOrList}]">
+        {{ bookmark.description }}
+      </p>
     </div>
-  </UCard>
+  </article>
 </template>
 
 <script setup lang="ts">
