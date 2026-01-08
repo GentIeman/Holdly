@@ -70,7 +70,7 @@ const formattedCreatedAt = computed(() => {
 
 const viewChecks = computed(() => ({
   isCards: ['cards'].includes(props.view),
-  isCardsOrLines: ['cards', 'lines'].includes(props.view),
+  isCardsOrList: ['cards', 'list'].includes(props.view),
 }));
 
 </script>
