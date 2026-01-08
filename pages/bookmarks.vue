@@ -9,7 +9,6 @@
       <Bookmark
           v-for="bookmark in bookmarks"
           :key="bookmark.documentId"
-          as="article"
           :view="viewMode"
           :bookmark="bookmark"/>
       <UEmpty
