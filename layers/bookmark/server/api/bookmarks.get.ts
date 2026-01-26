@@ -1,6 +1,6 @@
 import {getCookie, getQuery} from "h3";
 import qs from "qs";
-import type {Bookmark} from "~/layers/bookmark/components/Bookmark.vue";
+import type {Bookmark} from "~~/layers/bookmark/app/components/Bookmark.vue";
 
 export type Response = Bookmark[]
 
