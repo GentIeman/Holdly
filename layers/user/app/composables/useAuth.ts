@@ -1,6 +1,6 @@
-import type {Response as LoginResponse} from "~/layers/user/server/api/login.post"
-import type {Response as RegisterResponse} from "~/layers/user/server/api/register.post"
-import type {Response as MeResponse} from "~/layers/user/server/api/me.get"
+import type {Response as LoginResponse} from "~~/layers/user/server/api/login.post"
+import type {Response as RegisterResponse} from "~~/layers/user/server/api/register.post"
+import type {Response as MeResponse} from "~~/layers/user/server/api/me.get"
 
 export const useAuth = () => {
     const user = useUser();

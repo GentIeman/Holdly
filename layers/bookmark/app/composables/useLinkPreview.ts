@@ -1,5 +1,5 @@
 import { shallowRef } from 'vue'
-import type {LinkPreview} from "~/layers/bookmark/components/LinkPreview.vue"
+import type {LinkPreview} from "~~/layers/bookmark/app/components/LinkPreview.vue"
 
 export function useLinkPreview() {
     const preview = shallowRef<LinkPreview | null>(null)

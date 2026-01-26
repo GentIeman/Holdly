@@ -9,5 +9,5 @@
 </template>
 <script setup lang="ts">
 // import AddBookmarkModal from "~/layers/bookmark/components/AddBookmarkModal.vue";
-import AppHeader from "~/layers/base/components/global/AppHeader.vue";
+import AppHeader from "~~/layers/base/app/components/global/AppHeader.vue";
 </script>
