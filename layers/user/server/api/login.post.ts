@@ -1,5 +1,5 @@
 import {setCookie, readBody} from "h3";
-import type {User} from "~/layers/user/composables/useUser"
+import type {User} from "~~/layers/user/app/composables/useUser"
 
 export type Response = {
     jwt: string
