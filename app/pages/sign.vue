@@ -27,8 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import {signInSchema, signUpSchema} from "~/layers/form/validators/authRules";
-import {useAuth} from "~/layers/user/composables/useAuth"
+import {signInSchema, signUpSchema} from "~~/layers/form/validators/authRules";
+import {useAuth} from "~~/layers/user/app/composables/useAuth"
+import DynamicForm from "~~/layers/form/app/components/global/DynamicForm.vue";
 
 const {login, register} = useAuth()
 

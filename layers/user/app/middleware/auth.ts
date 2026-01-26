@@ -1,4 +1,4 @@
-import {useAuth} from "~/layers/user/composables/useAuth"
+import {useAuth} from "~~/layers/user/app/composables/useAuth"
 export default defineNuxtRouteMiddleware(async (to, _from) => {
     const user = useUser()
 

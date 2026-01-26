@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import type {User} from "~/layers/user/composables/useUser"
+import type {User} from "~~/layers/user/app/composables/useUser"
 
 export type BookmarkView = "cards" | "list" | "headlines"
 

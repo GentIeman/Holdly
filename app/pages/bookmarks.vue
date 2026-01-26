@@ -26,8 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import type {BookmarkView} from "~/layers/bookmark/components/Bookmark.vue"
-import type {Response as BookmarksResponse} from "~/layers/bookmark/server/api/bookmarks.get"
+import type {BookmarkView} from "~~/layers/bookmark/app/components/Bookmark.vue"
+import type {Response as BookmarksResponse} from "~~/layers/bookmark/server/api/bookmarks.get"
 
 const user = useUser()
 

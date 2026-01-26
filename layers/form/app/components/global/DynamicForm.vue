@@ -27,8 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import ULegend from "~/layers/form/components/ULegend.vue";
-import UInputPassword from "~/layers/form/components/UInputPassword.vue";
+import ULegend from "~~/layers/form/app/components/ULegend.vue";
+import UInputPassword from "~~/layers/form/app/components/UInputPassword.vue";
 import {UInput} from "#components";
 import type {FormsCollectionItem} from "@nuxt/content";
 
