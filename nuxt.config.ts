@@ -9,11 +9,6 @@ export default defineNuxtConfig({
         '@nuxt/content',
     ],
     css: ['~/assets/css/main.css'],
-    extends: [
-        "./layers/form",
-        "./layers/base",
-        "./layers/bookmark",
-    ],
     app: {
         head: {
             viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
