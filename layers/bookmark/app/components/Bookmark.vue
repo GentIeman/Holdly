@@ -1,6 +1,6 @@
 <template>
   <article
-      class="flex gap-3 border-2 border-solid rounded-xl border-neutral-800 overflow-clip p-3.5"
+      class="flex gap-3 border-2 border-solid rounded-xl border-neutral-800 overflow-clip p-3.5 justify-between"
       :class="[{'flex-col': viewChecks.isCards}]">
     <header
         v-if="bookmark.preview && viewChecks.isCardsOrList"
@@ -23,11 +23,28 @@
         {{ bookmark.description }}
       </p>
     </div>
+    <footer class="flex justify-end items-start">
+      <UDropdownMenu
+          class="h-max"
+          :items="dropDownItems"
+          :content="{
+            align: 'end',
+            side: 'bottom',
+          }"
+      >
+        <UButton
+            icon="i-lucide-ellipsis"
+            color="neutral"
+            size="lg"
+            variant="outline"/>
+      </UDropdownMenu>
+    </footer>
   </article>
 </template>
 
 <script setup lang="ts">
 import type {User} from "~~/layers/user/app/composables/useUser"
+import type {DropdownMenuItem} from '@nuxt/ui'
 
 export type BookmarkView = "cards" | "list" | "headlines"
 
@@ -69,6 +86,32 @@ const viewChecks = computed(() => ({
   isCards: ['cards'].includes(props.view),
   isCardsOrList: ['cards', 'list'].includes(props.view),
 }));
+
+const dropDownItems = ref<DropdownMenuItem[][]>([
+    [
+      {
+        label: 'Add to Favorite',
+        icon: 'i-lucide-star'
+      },
+      {
+        label: 'Add to Collection',
+        icon: 'i-lucide-folder'
+      },
+    ],
+    [
+      {
+        label: 'Open in new tab',
+        icon: 'i-lucide-external-link'
+      },
+    ],
+    [
+      {
+        label: 'Delete',
+        icon: 'i-lucide-trash',
+        color: "error"
+      },
+    ]
+])
 
 </script>
 
