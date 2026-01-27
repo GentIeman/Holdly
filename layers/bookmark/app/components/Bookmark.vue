@@ -23,7 +23,7 @@
         {{ bookmark.description }}
       </p>
     </div>
-    <footer class="flex justify-end items-end">
+    <footer class="flex justify-end items-start">
       <UDropdownMenu
           class="h-max"
           :items="dropDownItems"
