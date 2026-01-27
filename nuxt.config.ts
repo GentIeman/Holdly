@@ -22,5 +22,8 @@ export default defineNuxtConfig({
             strapiOrigin: ""
         }
     },
-    ssr: false
+    ssr: false,
+    fonts: {
+        provider: "bunny"
+    }
 })
