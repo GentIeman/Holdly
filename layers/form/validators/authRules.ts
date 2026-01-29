@@ -1,29 +1,22 @@
-import * as yup from 'yup';
+import * as z from "zod";
 
-export const signInSchema = yup.object({
-    email: yup
-        .string()
+export const signInSchema = z.object({
+    email: z
         .email('Please enter a valid email address')
-        .required('Email is required')
         .min(6, "Email must be at least 6 characters long"),
-    password: yup
+    password: z
         .string()
-        .required('Password is required')
         .min(6, 'Password must be at least 6 characters long')
 });
 
-export const signUpSchema = yup.object({
-    username: yup
+export const signUpSchema = z.object({
+    username: z
         .string()
-        .required('Username is required')
         .min(6, "Username must be at least 6 characters long"),
-    email: yup
+    email: z
+        .email('Please enter a valid email address')
+        .min(6, "Email must be at least 6 characters long"),
+    password: z
         .string()
-        .required('Email is required')
-        .min(6, "Email must be at least 6 characters long")
-        .email('Please enter a valid email address'),
-    password: yup
-        .string()
-        .required('Password is required')
         .min(6, 'Password must be at least 6 characters long')
 });
