@@ -1,8 +1,5 @@
-import * as yup from 'yup';
+import * as z from "zod";
 
-export const bookmarkSchema = yup.object({
-    link: yup
-        .string()
-        .url()
-        .required('URL is required')
+export const bookmarkSchema = z.object({
+    link: z.url()
 });
