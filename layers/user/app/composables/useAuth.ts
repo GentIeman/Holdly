@@ -4,13 +4,13 @@ import type {Response as MeResponse} from "~~/layers/user/server/api/me.get"
 
 export const useAuth = () => {
     const user = useUser();
+    const toast = useToast()
 
     const login = async (identifier: string, password: string) => {
         const response = await $fetch<LoginResponse>("/api/login", {
             method: "POST",
             body: {identifier, password},
             onResponseError({ response } ) {
-                const toast = useToast()
                 toast.add({
                     title: "Trouble signing in?",
                     description: response._data.data.error.message,
@@ -27,7 +27,6 @@ export const useAuth = () => {
             method: "POST",
             body: {email, password, username},
             async onResponseError({ response } ) {
-                const toast = useToast()
                 toast.add({
                     title: " Oops, something went wrong!",
                     description: response._data.data.error.message,
