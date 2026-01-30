@@ -14,7 +14,7 @@
           :class="[{'max-w-35': !viewChecks.isCards}]">
     </header>
     <div>
-      <h3 class="text-xl line-clamp-2">{{ bookmark.title }}</h3>
+      <h2 class="text-xl line-clamp-2">{{ bookmark.title }}</h2>
       <p class="text-primary text-sm">{{ domain }}</p>
       <p
           v-if="viewChecks.isCardsOrList"
