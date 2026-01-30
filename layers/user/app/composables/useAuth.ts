@@ -40,7 +40,14 @@ export const useAuth = () => {
 
     const me = async () => {
         const requestFetch = useRequestFetch()
-        const response = await requestFetch<MeResponse>('/api/me')
+        const response = await requestFetch<MeResponse>('/api/me', {
+            async onResponseError() {
+                toast.add({
+                    title: "Your session may have expired. Please sign in again.",
+                    color: "error"
+                })
+            }
+        })
 
         user.value = response.user
     };
