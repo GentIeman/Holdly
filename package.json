@@ -12,7 +12,6 @@
     "test": "vitest run --reporter=verbose"
   },
   "dependencies": {
-    "@nuxt/content": "^3.6.1",
     "@nuxt/ui": "4.3.0",
     "nuxt": "^4.2.2",
     "qs": "^6.14.1",
