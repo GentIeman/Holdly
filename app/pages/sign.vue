@@ -30,17 +30,12 @@
 import {signInSchema, signUpSchema} from "~~/layers/form/validators/authRules";
 import {useAuth} from "~~/layers/user/app/composables/useAuth"
 import DynamicForm from "~~/layers/form/app/components/global/DynamicForm.vue";
+import getFormSchema from "~/utils/getFormSchema"
 
 const {login, register} = useAuth()
 
 const isSignIn = ref<boolean>(true)
-const {data: schema, refresh} = useAsyncData("signForm",
-    () => queryCollection('forms')
-        .where("stem", "=", `forms/${isSignIn.value ? "signIn" : "signUp"}`)
-        .select("button", "fields", "legend")
-        .first()
-)
-watch(isSignIn, () => refresh())
+const schema = computed(() => getFormSchema("user", `${isSignIn.value ? "signIn" : "signUp"}`))
 
 const state = reactive({
   email: "",
