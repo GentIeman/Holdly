@@ -30,13 +30,13 @@
 import ULegend from "~~/layers/form/app/components/ULegend.vue";
 import UInputPassword from "~~/layers/form/app/components/UInputPassword.vue";
 import {UInput} from "#components";
-import type {FormsCollectionItem} from "@nuxt/content";
+import type {FormSchema} from "~/utils/getFormSchema";
 
 export type FormState = Record<string, string | undefined | null | number>
 
 const props = defineProps<{
   state: FormState
-  schema: Pick<FormsCollectionItem, "button" | "fields" | "legend">
+  schema: FormSchema
   validationSchema: object
 }>()
 
