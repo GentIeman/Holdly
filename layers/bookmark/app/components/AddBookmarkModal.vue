@@ -8,6 +8,9 @@
     <UButton
         label="Save link"
         color="primary"
+        class="sm:w-fit"
+        block
+        size="lg"
     />
 
     <template #body>
