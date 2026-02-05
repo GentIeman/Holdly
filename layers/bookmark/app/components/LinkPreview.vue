@@ -1,14 +1,14 @@
 <template>
   <article
-      v-if="preview"
+      v-if="metadata"
       class="grid gap-3">
     <div>
-      <p class="text-primary font-bold">{{ preview.siteName }}</p>
-      <h3 class="font-bold">{{ preview.title }}</h3>
+      <p class="text-primary font-bold">{{ metadata.siteName }}</p>
+      <h3 class="font-bold">{{ metadata.title }}</h3>
     </div>
       <img
-          v-if="preview.image"
-          :src="preview.image"
+          v-if="metadata.image"
+          :src="metadata.image"
           alt="Link preview"
       >
   </article>
@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 
-export type LinkPreview = {
+export type LinkMetaData = {
   title: string
   image: string | null
   description: string | null
@@ -24,6 +24,6 @@ export type LinkPreview = {
 }
 
 defineProps<{
-  preview: LinkPreview
+  metadata: LinkMetaData
 }>()
 </script>
