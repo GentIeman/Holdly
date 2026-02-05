@@ -18,13 +18,13 @@ export default defineEventHandler(async (event) => {
             html.match(/<meta property="og:description" content="(.*?)"/)?.[1] ||
             html.match(/<meta name="description" content="(.*?)"/)?.[1]
 
-        const image =
+        const preview =
             html.match(/<meta property="og:image" content="(.*?)"/)?.[1]
 
         const siteName =
             html.match(/<meta property="og:site_name" content="(.*?)"/)?.[1]
 
-        return {title, description, image, siteName}
+        return {title, description, preview, siteName}
     } catch (e: any) {
         if (e.name === 'AbortError') {
             throw createError({
