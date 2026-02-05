@@ -6,7 +6,7 @@ type StrapiResponse<T> = {
     meta?: null
 }
 
-type Body = Record<string, string | number | boolean | Blob>;
+type Body = Record<string, string | number | boolean>;
 
 type Options = Omit<FetchRequest, "headers"> & {
     token?: string;
