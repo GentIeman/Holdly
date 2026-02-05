@@ -12,7 +12,7 @@ export function useLinkPreview() {
 
         if (url.length < 5) return
 
-        preview.value = await $fetch('/api/link-preview', {
+        preview.value = await $fetch('/api/link-metadata', {
             query: {url},
             onResponseError({response}) {
                 if (response.status == 400) {
