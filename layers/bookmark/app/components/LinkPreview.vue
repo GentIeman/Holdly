@@ -7,8 +7,8 @@
       <h3 class="font-bold">{{ metadata.title }}</h3>
     </div>
       <img
-          v-if="metadata.image"
-          :src="metadata.image"
+          v-if="metadata.preview"
+          :src="metadata.preview"
           alt="Link preview"
       >
   </article>
@@ -18,7 +18,7 @@
 
 export type LinkMetaData = {
   title: string
-  image: string | null
+  preview: string | null
   description: string | null
   siteName: string | null
 }
