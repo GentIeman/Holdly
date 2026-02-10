@@ -6,13 +6,11 @@ type StrapiResponse<T> = {
     meta?: null
 }
 
-type Body = Record<string, string | number | boolean>;
-
 type Options = Omit<FetchRequest, "headers"> & {
     token?: string;
     headers?: Record<string, string>;
     method?: "GET" | "POST" | "PUT" | "DELETE";
-    body?: Body
+    body?: Record<string, unknown>
 }
 
 export default async function <T>(collection: string, options: Options = {}) {
