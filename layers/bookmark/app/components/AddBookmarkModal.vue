@@ -19,7 +19,7 @@
             v-if="preview"
             :preview="preview"/>
         <DynamicForm
-            :state="state"
+            v-model:state="state"
             :schema="schema"
             class="grid gap-4 h-fit"
             :validation-schema="bookmarkSchema"/>
@@ -39,6 +39,13 @@ const schema = computed(() => getFormSchema("bookmark", "bookmark"))
 
 const state = shallowReactive({
   link: ""
+type BookmarkState = {
+  link: string
+  user: User["documentId"]
+}
+const state = shallowReactive<BookmarkState>({
+  link: "",
+  user: user.value.documentId
 })
 
 const {preview, fetchPreview} = useLinkPreview()
