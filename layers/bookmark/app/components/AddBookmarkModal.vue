@@ -37,6 +37,7 @@ import LinkPreview from "~~/layers/bookmark/app/components/LinkPreview.vue";
 import {useLinkPreview} from "~~/layers/bookmark/app/composables/useLinkPreview"
 import {shallowReactive} from "vue"
 import {useResettableFormState} from "~~/layers/form/app/composables/useResettableFormState"
+import {resetFormState} from "~/utils/resetFormState"
 
 const schema = computed(() => getFormSchema("bookmark", "bookmark"))
 
@@ -44,8 +45,11 @@ type BookmarkState = {
   link: string
 }
 
-const {preview, fetchPreview} = useLinkPreview()
-const {state, resetState} = useResettableFormState<BookmarkState>(() => ({
+const state = ref<BookmarkState>({
+  link: ""
+})
+
+const resetState = resetFormState<BookmarkState>(state, () => ({
   link: ""
 }))
 
