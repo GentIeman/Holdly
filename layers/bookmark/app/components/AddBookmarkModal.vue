@@ -51,9 +51,13 @@ const {state, resetState} = useResettableFormState<BookmarkState>(() => ({
 
 const isModalOpen = ref(false)
 
-watch(() => state.link, async () => {
-  await fetchPreview(state.link)
-})
+watch(
+    () => state.value.link,
+    (link) => {
+      if (!link) return
+      fetchMetaData(link)
+    },
+)
 </script>
 
 <style scoped>
