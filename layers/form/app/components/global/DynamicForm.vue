@@ -33,7 +33,7 @@ import UInputPassword from "~~/layers/form/app/components/UInputPassword.vue";
 import {UInput} from "#components";
 import type {FormSchema} from "~/utils/getFormSchema";
 
-type FormState = Record<string, string | undefined | null | number>
+export type FormState = Record<string, string | undefined | null | number>
 
 defineProps<{
   schema: FormSchema
