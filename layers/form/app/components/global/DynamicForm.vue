@@ -2,7 +2,8 @@
   <UForm
       novalidate
       :state="state"
-      :schema="validationSchema">
+      :schema="validationSchema"
+      @submit.prevent="$emit('submit', state)">
     <ULegend
         v-if="schema.legend"
         :text="schema.legend"
@@ -44,4 +45,9 @@ const state = defineModel<FormState>('state', {required: true})
 const componentMap: Record<string, Component> = {
   "password": UInputPassword,
 }
+
+defineEmits<{
+  (e: 'submit', state: FormState): void
+}>()
+
 </script>
