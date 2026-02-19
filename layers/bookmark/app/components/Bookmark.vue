@@ -6,11 +6,9 @@
         v-if="bookmark.preview && viewChecks.isCardsOrList"
         :class="[{'max-h-30': !viewChecks.isCards}]">
       <img
-          :src="mediaPath"
-          alt=""
-          :width="bookmark.preview?.width"
-          :height="bookmark.preview?.height"
-          class="object-cover rounded-lg h-full"
+          :src="bookmark.preview"
+          :alt="bookmark.title"
+          class="aspect-video object-cover rounded-lg h-full"
           :class="[{'max-w-35': !viewChecks.isCards}]">
     </header>
     <div>
@@ -48,19 +46,12 @@ import type {DropdownMenuItem} from '@nuxt/ui'
 
 export type BookmarkView = "cards" | "list" | "headlines"
 
-type Preview = {
-  documentId: string
-  url: string
-  width: string
-  height: string
-}
-
 export type Bookmark = {
   documentId: string
   title: string
   description: string
   link: string
-  preview: Preview
+  preview: string
   createdAt: string
   user: User
 }
@@ -70,12 +61,6 @@ const props = withDefaults(defineProps<{
   view?: BookmarkView
 }>(), {
   view: 'cards'
-})
-
-const config = useRuntimeConfig()
-
-const mediaPath = computed(() => {
-  return config.public.strapiOrigin + props.bookmark.preview.url
 })
 
 const domain = computed(() => {
