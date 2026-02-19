@@ -5,14 +5,16 @@
     <div>
       <p
           v-if="metadata.siteName"
-          class="text-primary font-bold">{{ metadata.siteName }}</p>
+          class="text-primary font-bold">
+        {{ metadata.siteName }}
+      </p>
       <h3 class="font-bold">{{ metadata.title }}</h3>
     </div>
     <img
         v-if="metadata.preview"
         :src="metadata.preview"
-        alt="Link preview"
-    >
+        class="aspect-video"
+        :alt="metadata.title">
   </article>
 </template>
 
