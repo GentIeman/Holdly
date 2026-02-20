@@ -24,7 +24,8 @@
             v-model:state="state"
             :schema="schema"
             class="grid gap-4 h-fit"
-            :validation-schema="bookmarkSchema"/>
+            :validation-schema="bookmarkSchema"
+            @submit="handleCreateBookmark"/>
       </div>
     </template>
   </UModal>
@@ -38,6 +39,11 @@ import {useLinkPreview} from "~~/layers/bookmark/app/composables/useLinkPreview"
 import {shallowReactive} from "vue"
 import {useResettableFormState} from "~~/layers/form/app/composables/useResettableFormState"
 import {useLinkMetaData} from "~~/layers/bookmark/app/composables/useLinkPreview"
+import {useUser} from "~~/layers/user/app/composables/useUser"
+import {useBookmarksStore} from "~~/layers/bookmark/app/stores/bookmarks"
+import {ref} from "vue"
+import type {FormState} from "~~/layers/form/app/components/global/DynamicForm.vue"
+import type {Response as BookmarkResponse} from "~~/layers/bookmark/server/api/bookmark.post"
 import {resetFormState} from "~/utils/resetFormState"
 
 const schema = computed(() => getFormSchema("bookmark", "bookmark"))
@@ -56,6 +62,27 @@ const resetState = resetFormState<BookmarkState>(state, () => ({
 
 const isModalOpen = ref(false)
 const {metadata, fetchMetaData} = useLinkMetaData()
+
+const user = useUser()
+const {fetchBookmarks} = useBookmarksStore()
+
+const handleCreateBookmark = async (state: FormState) => {
+  try {
+    await $fetch<BookmarkResponse>('/api/bookmark', {
+      method: 'POST',
+      body: {
+        ...state,
+        title: metadata.value.title,
+        description: metadata.value.description,
+        preview: metadata.value.preview,
+        user: user.value.documentId
+      }
+    })
+    await fetchBookmarks()
+  } finally {
+    isModalOpen.value = false
+  }
+}
 
 watch(
     () => state.value.link,
