@@ -1,8 +1,9 @@
 <template>
   <UForm
       novalidate
-      :state="localState"
-      :schema="validationSchema">
+      :state="state"
+      :schema="validationSchema"
+      @submit.prevent="$emit('submit', state)">
     <ULegend
         v-if="schema.legend"
         :text="schema.legend"
@@ -16,7 +17,7 @@
     >
       <Component
           :is="componentMap[field.name] ?? UInput"
-          v-model="localState[field.name]"
+          v-model="state[field.name]"
           v-bind="field"
           class="w-full"/>
     </UFormField>
@@ -34,15 +35,19 @@ import type {FormSchema} from "~/utils/getFormSchema";
 
 export type FormState = Record<string, string | undefined | null | number>
 
-const props = defineProps<{
-  state: FormState
+defineProps<{
   schema: FormSchema
   validationSchema: object
 }>()
 
-const localState = reactive(props.state)
+const state = defineModel<FormState>('state', {required: true})
 
 const componentMap: Record<string, Component> = {
   "password": UInputPassword,
 }
+
+defineEmits<{
+  (e: 'submit', state: FormState): void
+}>()
+
 </script>

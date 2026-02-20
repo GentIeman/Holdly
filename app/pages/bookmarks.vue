@@ -27,16 +27,11 @@
 
 <script setup lang="ts">
 import type {BookmarkView} from "~~/layers/bookmark/app/components/Bookmark.vue"
-import type {Response as BookmarksResponse} from "~~/layers/bookmark/server/api/bookmarks.get"
+import {useBookmarksStore} from "~~/layers/bookmark/app/stores/bookmarks"
 
-const user = useUser()
-
-const {data: bookmarks} = await useFetch<BookmarksResponse>("/api/bookmarks", {
-  default: () => [],
-  query: {
-    userDocumentId: user.value.documentId
-  }
-})
+const bookmarksStore = useBookmarksStore()
+const { bookmarks } = storeToRefs(bookmarksStore)
+const { fetchBookmarks } = bookmarksStore
 
 const isBookmarksEmpty = computed(() => bookmarks.value.length < 1)
 
@@ -46,6 +41,7 @@ definePageMeta({
 
 // temporary solution to switch between view modes
 const viewMode: BookmarkView = 'cards'
+onMounted(fetchBookmarks)
 </script>
 
 <style scoped>

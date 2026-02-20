@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
     const queryString  = qs.stringify(
         {
-            fields: ['title', 'description', 'createdAt', "link"],
+            fields: ['title', 'description', 'createdAt', "link", "preview"],
             sort: ['createdAt:desc'],
             filters: {
                 user: {
@@ -24,12 +24,7 @@ export default defineEventHandler(async (event) => {
                         $eq: requestQuery.userDocumentId
                     }
                 }
-            },
-            populate: {
-                preview: {
-                    fields: ['url', 'width', 'height']
-                }
-            },
+            }
         },
         {
             encodeValuesOnly: true,

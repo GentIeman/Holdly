@@ -1,25 +1,33 @@
 <template>
-  <section>
-    <p class="text-primary font-bold">{{ preview?.siteName }}</p>
-    <h1 class="font-bold">{{ preview?.title }}</h1>
-    <h2 class="line-clamp-2 text-neutral-300">{{ preview?.description }}</h2>
+  <article
+      v-if="metadata"
+      class="grid gap-3">
+    <div>
+      <p
+          v-if="metadata.siteName"
+          class="text-primary font-bold">
+        {{ metadata.siteName }}
+      </p>
+      <h3 class="font-bold">{{ metadata.title }}</h3>
+    </div>
     <img
-        v-if="preview?.image"
-        :src="preview?.image"
-        alt="Link preview">
-  </section>
+        v-if="metadata.preview"
+        :src="metadata.preview"
+        class="aspect-video"
+        :alt="metadata.title">
+  </article>
 </template>
 
 <script setup lang="ts">
 
-export type LinkPreview = {
+export type LinkMetaData = {
   title: string
-  image: string | null
-  description: string | null
-  siteName: string | null
+  preview?: string
+  description?: string
+  siteName?: string
 }
 
 defineProps<{
-  preview: LinkPreview
+  metadata: LinkMetaData
 }>()
 </script>

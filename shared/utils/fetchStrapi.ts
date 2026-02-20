@@ -1,4 +1,4 @@
-import type { FetchRequest } from "ofetch";
+import type { FetchOptions } from "ofetch";
 
 type StrapiResponse<T> = {
     data: T
@@ -6,9 +6,7 @@ type StrapiResponse<T> = {
     meta?: null
 }
 
-interface Options extends Omit<FetchRequest, "headers"> {
-    token?: string
-    headers?: Record<string, string>,
+type Options = FetchOptions & {
     method?: "GET" | "POST" | "PUT" | "DELETE"
 }
 
@@ -17,7 +15,13 @@ export default async function <T>(collection: string, options: Options = {}) {
     const config = useRuntimeConfig()
 
     const {data, error, meta} = await $fetch<StrapiResponse<T>>(config.public.strapiOrigin + collection, {
-        headers: options.headers
+        method: options.method ?? "GET",
+        headers: options.headers,
+        body: options.body,
+        onRequest: options.onRequest,
+        onRequestError: options.onRequestError,
+        onResponse: options.onResponse,
+        onResponseError: options.onResponseError,
     })
 
     return {
