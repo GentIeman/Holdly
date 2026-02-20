@@ -63,6 +63,8 @@ const {metadata, fetchMetaData} = useLinkMetaData()
 const user = useUser()
 const {fetchBookmarks} = useBookmarksStore()
 
+const toast = useToast()
+
 const handleCreateBookmark = async (state: FormState) => {
   try {
     await $fetch<BookmarkResponse>('/api/bookmark', {
@@ -73,6 +75,13 @@ const handleCreateBookmark = async (state: FormState) => {
         description: metadata.value.description,
         preview: metadata.value.preview,
         user: user.value.documentId
+      },
+      onResponseError() {
+        toast.add({
+          title: "Upps...",
+          description: "Something went wrong",
+          color: "error"
+        })
       }
     })
     await fetchBookmarks()
