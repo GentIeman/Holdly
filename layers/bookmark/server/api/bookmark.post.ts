@@ -1,4 +1,4 @@
-import {getCookie, readBody} from "h3"
+import {getCookie, readBody, createError} from "h3"
 import type {Bookmark} from "~~/layers/bookmark/app/components/Bookmark.vue"
 import fetchStrapi from "~~/shared/utils/fetchStrapi"
 
@@ -26,6 +26,11 @@ export default defineEventHandler(async (event) => {
         },
         body: {
             data: {...body}
+        },
+        onResponseError() {
+            throw createError({
+                statusCode: 500,
+            })
         }
     })
 
