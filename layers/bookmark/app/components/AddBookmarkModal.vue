@@ -33,11 +33,8 @@
 
 <script setup lang="ts">
 import {bookmarkSchema} from "~~/layers/bookmark/validators/bookmarkRules"
-import DynamicForm from "~~/layers/form/app/components/global/DynamicForm.vue";
-import LinkPreview from "~~/layers/bookmark/app/components/LinkPreview.vue";
-import {useLinkPreview} from "~~/layers/bookmark/app/composables/useLinkPreview"
-import {shallowReactive} from "vue"
-import {useResettableFormState} from "~~/layers/form/app/composables/useResettableFormState"
+import DynamicForm from "~~/layers/form/app/components/global/DynamicForm.vue"
+import LinkPreview from "~~/layers/bookmark/app/components/LinkPreview.vue"
 import {useLinkMetaData} from "~~/layers/bookmark/app/composables/useLinkPreview"
 import {useUser} from "~~/layers/user/app/composables/useUser"
 import {useBookmarksStore} from "~~/layers/bookmark/app/stores/bookmarks"
