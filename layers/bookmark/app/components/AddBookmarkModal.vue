@@ -18,8 +18,8 @@
     <template #body>
       <div class="grid gap-1">
         <LinkPreview
-            v-if="preview"
-            :preview="preview"/>
+            v-if="metadata"
+            :metadata="metadata"/>
         <DynamicForm
             v-model:state="state"
             :schema="schema"
@@ -37,6 +37,7 @@ import LinkPreview from "~~/layers/bookmark/app/components/LinkPreview.vue";
 import {useLinkPreview} from "~~/layers/bookmark/app/composables/useLinkPreview"
 import {shallowReactive} from "vue"
 import {useResettableFormState} from "~~/layers/form/app/composables/useResettableFormState"
+import {useLinkMetaData} from "~~/layers/bookmark/app/composables/useLinkPreview"
 import {resetFormState} from "~/utils/resetFormState"
 
 const schema = computed(() => getFormSchema("bookmark", "bookmark"))
@@ -54,6 +55,7 @@ const resetState = resetFormState<BookmarkState>(state, () => ({
 }))
 
 const isModalOpen = ref(false)
+const {metadata, fetchMetaData} = useLinkMetaData()
 
 watch(
     () => state.value.link,
