@@ -12,7 +12,14 @@
           :class="[{'max-w-35': !viewChecks.isCards}]">
     </header>
     <div>
-      <h2 class="text-xl line-clamp-2">{{ bookmark.title }}</h2>
+      <h2 class="text-xl">
+        <NuxtLink
+            :to="bookmark.link"
+            target="_blank"
+            class="line-clamp-2">
+          {{ bookmark.title }}
+        </NuxtLink>
+      </h2>
       <p class="text-primary text-sm">{{ domain }}</p>
       <p
           v-if="viewChecks.isCardsOrList"
@@ -73,29 +80,31 @@ const viewChecks = computed(() => ({
 }));
 
 const dropDownItems = ref<DropdownMenuItem[][]>([
-    [
-      {
-        label: 'Add to Favorite',
-        icon: 'i-lucide-star'
-      },
-      {
-        label: 'Add to Collection',
-        icon: 'i-lucide-folder'
-      },
-    ],
-    [
-      {
-        label: 'Open in new tab',
-        icon: 'i-lucide-external-link'
-      },
-    ],
-    [
-      {
-        label: 'Delete',
-        icon: 'i-lucide-trash',
-        color: "error"
-      },
-    ]
+  [
+    {
+      label: 'Add to Favorite',
+      icon: 'i-lucide-star'
+    },
+    {
+      label: 'Add to Collection',
+      icon: 'i-lucide-folder'
+    },
+  ],
+  [
+    {
+      label: 'Open in new tab',
+      icon: 'i-lucide-external-link',
+      to: props.bookmark.link,
+      target: '_blank'
+    },
+  ],
+  [
+    {
+      label: 'Delete',
+      icon: 'i-lucide-trash',
+      color: "error"
+    },
+  ]
 ])
 
 </script>
