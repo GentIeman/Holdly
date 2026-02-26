@@ -1,6 +1,3 @@
-import {setCookie, readBody} from "h3";
-import type {User} from "~~/layers/user/app/composables/useUser"
-
 export type Response = {
     jwt: string
     user: User
@@ -20,7 +17,12 @@ export default defineEventHandler(async (event) => {
         headers: {
             "Content-type": "application/json",
         },
-        body: body,
+        body,
+        onResponseError() {
+            throw createError({
+                statusCode: 500
+            })
+        }
     })
 
     if (!user) return null
