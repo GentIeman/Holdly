@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import ULegend from "~~/layers/form/app/components/ULegend.vue";
-import UInputPassword from "~~/layers/form/app/components/UInputPassword.vue";
+import InputPassword from "~~/layers/form/app/components/InputPassword.vue";
 import {UInput} from "#components";
 import type {FormSchema} from "~/utils/getFormSchema";
 
@@ -43,7 +43,7 @@ defineProps<{
 const state = defineModel<FormState>('state', {required: true})
 
 const componentMap: Record<string, Component> = {
-  "password": UInputPassword,
+  "password": InputPassword,
 }
 
 defineEmits<{
