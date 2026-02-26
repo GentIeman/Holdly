@@ -4,22 +4,14 @@
       POCKET<span class="underline decoration-primary-500">ALTERNATIVE</span>
     </p>
     <UContainer class="grid gap-4 p-10 w-lg h-fit rounded-xl border border-neutral-700 backdrop-blur-md">
-      <DynamicForm
-          v-if="schema"
-          :state="state"
-          :schema="schema"
-          class="grid gap-4 h-fit"
-          :validation-schema="validationSchema"
-          @submit="sign"/>
+      <Component :is="isSignIn ? signInForm : signUpForm" />
       <UContainer class="lg:px-0">
         <USeparator label="or"/>
-        {{ isSignIn ? "I don't have an": "I have an" }}
+        {{ isSignIn ? "I don't have an" : "I have an" }}
         <UButton
-            to="#"
-            class="px-0 text-md"
+            class="px-0 text-md cursor-pointer"
             variant="link"
             label="account"
-            color="primary"
             @click="isSignIn = !isSignIn"/>
       </UContainer>
     </UContainer>
@@ -27,39 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import {signInSchema, signUpSchema} from "~~/layers/form/validators/authRules";
-import {useAuth} from "~~/layers/user/app/composables/useAuth"
-import DynamicForm from "~~/layers/form/app/components/global/DynamicForm.vue";
-import getFormSchema from "~/utils/getFormSchema"
+import signInForm from "~~/layers/user/app/components/signInForm.vue"
+import signUpForm from "~~/layers/user/app/components/signUpForm.vue"
 
-const {login, register} = useAuth()
-
-const isSignIn = ref<boolean>(true)
-const schema = computed(() => getFormSchema("user", `${isSignIn.value ? "signIn" : "signUp"}`))
-
-const state = reactive({
-  email: "",
-  password: "",
-  username: "",
-})
-
-const validationSchema = computed(() => isSignIn.value ? signInSchema : signUpSchema)
-
-const sign = async () => {
-  const router = useRouter()
-
-  try {
-    await (
-        isSignIn.value
-            ? login(state.email, state.password)
-            : register(state.email, state.password, state.username)
-    )
-    await router.push("/")
-
-  } catch (e) {
-    console.log(e)
-  }
-}
+const isSignIn = ref(true)
 
 definePageMeta({
   layout: "sign"
