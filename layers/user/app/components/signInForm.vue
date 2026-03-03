@@ -57,9 +57,10 @@ const state = ref<Schema>({
 
 const toast = useToast()
 const router = useRouter()
+const user = useUser()
 
 async function handleSubmit(event: FormSubmitEvent<Schema>) {
-  await $fetch("/api/login", {
+  user.value = await $fetch("/api/login", {
     method: "POST",
     body: {
       identifier: event.data.email,
