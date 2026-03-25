@@ -1,5 +1,8 @@
+import {createUserSession} from "../utils/createUserSession"
+
 export type Response = {
     jwt: string
+    refreshToken: string
     user: User
 }
 
@@ -12,7 +15,7 @@ export default defineEventHandler(async (event) => {
     const body = await readBody<RequestBody>(event)
     const config = useRuntimeConfig()
 
-    const {jwt, user} = await $fetch<Response>(config.public.strapiOrigin + "/api/auth/local", {
+    const response = await $fetch<Response>(config.public.strapiOrigin + "/api/auth/local", {
         method: "POST",
         headers: {
             "Content-type": "application/json",
@@ -25,13 +28,9 @@ export default defineEventHandler(async (event) => {
         }
     })
 
-    if (!user) return null
+    if (!response.user) {
+        throw createError({ statusCode: 401 })
+    }
 
-    setCookie(event, "strapi_jwt", jwt, {
-        httpOnly: true,
-        priority: "high",
-        secure: process.env.NODE_ENV === "production",
-    })
-
-    return {user}
+    return createUserSession(event, response)
 })

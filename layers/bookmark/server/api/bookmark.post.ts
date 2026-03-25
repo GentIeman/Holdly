@@ -14,7 +14,7 @@ type RequestBody = {
 
 export default defineEventHandler(async (event) => {
 
-    const token = getCookie(event, "strapi_jwt")
+    const token = getCookie(event, "access_token")
 
     const body = await readBody<RequestBody>(event)
 
