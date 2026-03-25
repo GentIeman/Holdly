@@ -10,7 +10,7 @@ type RequestParams = {
 
 export default defineEventHandler(async (event) => {
 
-    const token = getCookie(event, "strapi_jwt")
+    const token = getCookie(event, "access_token")
 
     const requestQuery = getQuery<RequestParams>(event)
 
