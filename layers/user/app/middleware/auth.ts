@@ -1,15 +1,14 @@
-import {useAuth} from "~~/layers/user/app/composables/useAuth"
-export default defineNuxtRouteMiddleware(async (to, _from) => {
+export default defineNuxtRouteMiddleware(async () => {
+
     const user = useUser()
 
-    const {me} = useAuth()
+    if (user.value) return
 
     try {
-        if (!user.value) {
-            await me()
-        }
-    } catch (e) {
-        useCookie('redirect', { path: '/', httpOnly: true, secure: true, sameSite: 'strict' }).value = to.fullPath
+        user.value = await $fetch('/api/me', {
+            credentials: 'include'
+        })
+    } catch {
         return navigateTo('/sign')
     }
 })
