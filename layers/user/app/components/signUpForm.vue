@@ -75,8 +75,12 @@ const toast = useToast()
 const router = useRouter()
 const user = useUser()
 
+type RegisterResponse = {
+  user: User
+}
+
 async function handleSubmit(event: FormSubmitEvent<Schema>) {
-  user.value = await $fetch("/api/register", {
+  user.value = await $fetch<RegisterResponse>("/api/register", {
     method: "POST",
     body: {
       email: event.data.email,
