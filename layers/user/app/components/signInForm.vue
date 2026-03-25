@@ -59,8 +59,12 @@ const toast = useToast()
 const router = useRouter()
 const user = useUser()
 
+type LoginResponse = {
+  user: User
+}
+
 async function handleSubmit(event: FormSubmitEvent<Schema>) {
-  user.value = await $fetch("/api/login", {
+  user.value = await $fetch<LoginResponse>("/api/login", {
     method: "POST",
     body: {
       identifier: event.data.email,
