@@ -15,7 +15,10 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
         const url = toValue(link)
         error.value = null
 
-        if (url.length < 5) return
+        if (!url || url.length < 5) {
+            resetMetadata()
+            return
+        }
 
         metadata.value = await $fetch('/api/link-metadata', {
             query: {url},
@@ -40,6 +43,21 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
             }
         })
     }
+
+    const resetMetadata = () => {
+        metadata.value = {
+            title: "",
+            preview: undefined,
+            description: undefined,
+            siteName: undefined
+        }
+    }
+
+    watch(
+        () => toValue(link),
+        () => fetchMetaData(),
+        { immediate: true }
+    )
 
     return {
         metadata,
