@@ -58,7 +58,7 @@ const resetState = resetFormState<BookmarkState>(state, () => ({
 }))
 
 const isModalOpen = ref(false)
-const {metadata, fetchMetaData} = useLinkMetaData()
+const {metadata} = useLinkMetaData(() => state.value.link)
 
 const user = useUser()
 const {fetchBookmarks} = useBookmarksStore()
