@@ -1,7 +1,7 @@
-import {shallowRef} from 'vue'
+import {shallowRef, toValue} from 'vue'
 import type {LinkMetaData} from "~~/layers/bookmark/app/components/LinkPreview.vue"
 
-export function useLinkMetaData() {
+export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
     const metadata = shallowRef<LinkMetaData>({
         title: '',
         preview: undefined,
@@ -11,7 +11,8 @@ export function useLinkMetaData() {
     const error = shallowRef<Error | null>(null)
     const toast = useToast()
 
-    const fetchMetaData = async (url: string) => {
+    const fetchMetaData = async () => {
+        const url = toValue(link)
         error.value = null
 
         if (url.length < 5) return
