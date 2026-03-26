@@ -89,14 +89,6 @@ const handleCreateBookmark = async (state: FormState) => {
     isModalOpen.value = false
   }
 }
-
-watch(
-    () => state.value.link,
-    (link) => {
-      if (!link) return
-      fetchMetaData(link)
-    },
-)
 </script>
 
 <style scoped>
