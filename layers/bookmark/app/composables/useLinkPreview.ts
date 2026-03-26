@@ -62,6 +62,5 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
     return {
         metadata,
         error,
-        fetchMetaData,
     }
 }
