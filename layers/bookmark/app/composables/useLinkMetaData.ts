@@ -1,20 +1,24 @@
-import {shallowRef} from 'vue'
+import {ref, toValue} from 'vue'
 import type {LinkMetaData} from "~~/layers/bookmark/app/components/LinkPreview.vue"
 
-export function useLinkMetaData() {
-    const metadata = shallowRef<LinkMetaData>({
+export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
+    const metadata = ref<LinkMetaData>({
         title: '',
         preview: undefined,
         description: undefined,
         siteName: undefined,
     })
-    const error = shallowRef<Error | null>(null)
+    const error = ref<Error | null>(null)
     const toast = useToast()
 
-    const fetchMetaData = async (url: string) => {
+    const fetchMetaData = async () => {
+        const url = toValue(link)
         error.value = null
 
-        if (url.length < 5) return
+        if (!url || url.length < 5) {
+            resetMetadata()
+            return
+        }
 
         metadata.value = await $fetch('/api/link-metadata', {
             query: {url},
@@ -40,9 +44,23 @@ export function useLinkMetaData() {
         })
     }
 
+    const resetMetadata = () => {
+        metadata.value = {
+            title: "",
+            preview: undefined,
+            description: undefined,
+            siteName: undefined
+        }
+    }
+
+    watch(
+        () => toValue(link),
+        () => fetchMetaData(),
+        { immediate: true }
+    )
+
     return {
         metadata,
         error,
-        fetchMetaData,
     }
 }

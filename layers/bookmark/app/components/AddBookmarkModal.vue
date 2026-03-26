@@ -35,7 +35,7 @@
 import {bookmarkSchema} from "~~/layers/bookmark/validators/bookmarkRules"
 import DynamicForm from "~~/layers/form/app/components/global/DynamicForm.vue"
 import LinkPreview from "~~/layers/bookmark/app/components/LinkPreview.vue"
-import {useLinkMetaData} from "~~/layers/bookmark/app/composables/useLinkPreview"
+import {useLinkMetaData} from "~~/layers/bookmark/app/composables/useLinkMetaData"
 import {useUser} from "~~/layers/user/app/composables/useUser"
 import {useBookmarksStore} from "~~/layers/bookmark/app/stores/bookmarks"
 import {ref} from "vue"
@@ -58,7 +58,7 @@ const resetState = resetFormState<BookmarkState>(state, () => ({
 }))
 
 const isModalOpen = ref(false)
-const {metadata, fetchMetaData} = useLinkMetaData()
+const {metadata} = useLinkMetaData(() => state.value.link)
 
 const user = useUser()
 const {fetchBookmarks} = useBookmarksStore()
@@ -89,14 +89,6 @@ const handleCreateBookmark = async (state: FormState) => {
     isModalOpen.value = false
   }
 }
-
-watch(
-    () => state.value.link,
-    (link) => {
-      if (!link) return
-      fetchMetaData(link)
-    },
-)
 </script>
 
 <style scoped>
