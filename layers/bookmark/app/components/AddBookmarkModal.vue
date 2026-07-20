@@ -40,7 +40,7 @@ import {useUser} from "~~/layers/user/app/composables/useUser"
 import {useBookmarksStore} from "~~/layers/bookmark/app/stores/bookmarks"
 import {ref} from "vue"
 import type {FormState} from "~~/layers/form/app/components/global/DynamicForm.vue"
-import type {Response as BookmarkResponse} from "~~/layers/bookmark/server/api/bookmark.post"
+import type {Bookmark} from "~~/layers/bookmark/app/components/Bookmark.vue"
 import {resetFormState} from "~/utils/resetFormState"
 
 const schema = computed(() => getFormSchema("bookmark", "bookmark"))
@@ -62,13 +62,16 @@ const {metadata} = useLinkMetaData(() => state.value.link)
 
 const user = useUser()
 const {fetchBookmarks} = useBookmarksStore()
+const config = useRuntimeConfig()
 
 const toast = useToast()
 
 const handleCreateBookmark = async (state: FormState) => {
   try {
-    await $fetch<BookmarkResponse>('/api/bookmark', {
+    await $fetch<Bookmark>('/api/bookmark', {
+      baseURL: config.public.apiBase as string,
       method: 'POST',
+      credentials: "include",
       body: {
         ...state,
         title: metadata.value.title,
