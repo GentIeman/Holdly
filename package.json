@@ -3,13 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun run nuxt build",
-    "dev": "bun run nuxt dev --dotenv .env.local",
+    "build": "nuxt build",
+    "dev": "nuxt dev --dotenv .env.local",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint:eslint": "eslint . --ext .ts,.vue,.mjs,.js",
-    "test": "vitest run --reporter=verbose"
+    "lint:eslint": "eslint . --ext .ts,.vue,.mjs,.js"
   },
   "dependencies": {
     "@nuxt/ui": "4.3.0",
