@@ -7,7 +7,8 @@
 </template>
 
 <style>
-html, body {
+html,
+body {
   height: 100vh;
 }
 </style>

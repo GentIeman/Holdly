@@ -1,47 +1,50 @@
 <template>
   <UModal
-      v-model:open="isModalOpen"
-      title="Save Link"
-      description="Paste a link and save it for later"
-      :close="{
-        color: 'neutral',
-      }"
-      @after:leave="resetState">
+    v-model:open="isModalOpen"
+    title="Save Link"
+    description="Paste a link and save it for later"
+    :close="{
+      color: 'neutral'
+    }"
+    @after:leave="resetState"
+  >
     <UButton
-        label="Save link"
-        color="primary"
-        class="sm:w-fit"
-        block
-        size="lg"
+      label="Save link"
+      color="primary"
+      class="sm:w-fit"
+      block
+      size="lg"
     />
 
     <template #body>
       <div class="grid gap-1">
         <LinkPreview
-            v-if="metadata"
-            :metadata="metadata"/>
+          v-if="metadata"
+          :metadata="metadata"
+        />
         <DynamicForm
-            v-model:state="state"
-            :schema="schema"
-            class="grid gap-4 h-fit"
-            :validation-schema="bookmarkSchema"
-            @submit="handleCreateBookmark"/>
+          v-model:state="state"
+          :schema="schema"
+          class="grid gap-4 h-fit"
+          :validation-schema="bookmarkSchema"
+          @submit="handleCreateBookmark"
+        />
       </div>
     </template>
   </UModal>
 </template>
 
 <script setup lang="ts">
-import {bookmarkSchema} from "~~/layers/bookmark/validators/bookmarkRules"
+import { bookmarkSchema } from "~~/layers/bookmark/validators/bookmarkRules"
 import DynamicForm from "~~/layers/form/app/components/global/DynamicForm.vue"
 import LinkPreview from "~~/layers/bookmark/app/components/LinkPreview.vue"
-import {useLinkMetaData} from "~~/layers/bookmark/app/composables/useLinkMetaData"
-import {useUser} from "~~/layers/user/app/composables/useUser"
-import {useBookmarksStore} from "~~/layers/bookmark/app/stores/bookmarks"
-import {ref} from "vue"
-import type {FormState} from "~~/layers/form/app/components/global/DynamicForm.vue"
-import type {Bookmark} from "~~/layers/bookmark/app/components/Bookmark.vue"
-import {resetFormState} from "~/utils/resetFormState"
+import { useLinkMetaData } from "~~/layers/bookmark/app/composables/useLinkMetaData"
+import { useUser } from "~~/layers/user/app/composables/useUser"
+import { useBookmarksStore } from "~~/layers/bookmark/app/stores/bookmarks"
+import { ref } from "vue"
+import type { FormState } from "~~/layers/form/app/components/global/DynamicForm.vue"
+import type { Bookmark } from "~~/layers/bookmark/app/components/Bookmark.vue"
+import { resetFormState } from "~/utils/resetFormState"
 
 const schema = computed(() => getFormSchema("bookmark", "bookmark"))
 
@@ -58,19 +61,19 @@ const resetState = resetFormState<BookmarkState>(state, () => ({
 }))
 
 const isModalOpen = ref(false)
-const {metadata} = useLinkMetaData(() => state.value.link)
+const { metadata } = useLinkMetaData(() => state.value.link)
 
 const user = useUser()
-const {fetchBookmarks} = useBookmarksStore()
+const { fetchBookmarks } = useBookmarksStore()
 const config = useRuntimeConfig()
 
 const toast = useToast()
 
 const handleCreateBookmark = async (state: FormState) => {
   try {
-    await $fetch<Bookmark>('/api/bookmark', {
+    await $fetch<Bookmark>("/api/bookmark", {
       baseURL: config.public.apiBase as string,
-      method: 'POST',
+      method: "POST",
       credentials: "include",
       body: {
         ...state,
@@ -94,6 +97,4 @@ const handleCreateBookmark = async (state: FormState) => {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
