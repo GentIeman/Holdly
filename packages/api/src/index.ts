@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
@@ -16,7 +17,7 @@ app.use('*', cors({
 app.route('/api', auth)
 app.route('/api', bookmarks)
 
-const port = Number(process.env.API_PORT ?? 3001)
+const port = Number(process.env.API_PORT)
 
 serve({ fetch: app.fetch, port }, (info) => {
   console.log(`Hono API server running on http://localhost:${info.port}`)
