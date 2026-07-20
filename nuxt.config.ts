@@ -3,7 +3,6 @@ export default defineNuxtConfig({
     compatibilityDate: '2025-05-15',
     devtools: {enabled: false},
     modules: [
-        '@nuxt/test-utils',
         '@nuxt/ui',
         '@nuxt/eslint',
         '@pinia/nuxt'
