@@ -10,7 +10,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint:eslint": "eslint . --ext .ts,.vue,.mjs,.js"
+    "lint:eslint": "eslint . --ext .ts,.vue,.mjs,.js",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "dependencies": {
     "@nuxt/ui": "4.3.0",
@@ -22,6 +24,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^1.4.1",
     "concurrently": "^9.1.0",
+    "oxfmt": "^0.59.0",
     "typescript": "^5.6.3"
   }
 }
