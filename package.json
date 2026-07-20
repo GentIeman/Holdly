@@ -8,8 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint:eslint": "eslint . --ext .ts,.vue,.mjs,.js",
-    "test": "vitest run --reporter=verbose"
+    "lint:eslint": "eslint . --ext .ts,.vue,.mjs,.js"
   },
   "dependencies": {
     "@nuxt/ui": "4.3.0",
