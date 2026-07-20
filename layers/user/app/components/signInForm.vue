@@ -58,6 +58,7 @@ const state = ref<Schema>({
 const toast = useToast()
 const router = useRouter()
 const user = useUser()
+const config = useRuntimeConfig()
 
 type LoginResponse = {
   user: User
@@ -65,11 +66,13 @@ type LoginResponse = {
 
 async function handleSubmit(event: FormSubmitEvent<Schema>) {
   user.value = await $fetch<LoginResponse>("/api/login", {
+    baseURL: config.public.apiBase as string,
     method: "POST",
     body: {
       identifier: event.data.email,
       password: event.data.password
     },
+    credentials: "include",
     onResponseError() {
       toast.add({
         title: "Oops, something went wrong!",

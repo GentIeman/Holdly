@@ -10,6 +10,7 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
     })
     const error = ref<Error | null>(null)
     const toast = useToast()
+    const config = useRuntimeConfig()
 
     const fetchMetaData = async () => {
         const url = toValue(link)
@@ -21,7 +22,9 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
         }
 
         metadata.value = await $fetch('/api/link-metadata', {
+            baseURL: config.public.apiBase as string,
             query: {url},
+            credentials: "include",
             onResponseError({response}) {
                 if (response.status == 400) {
                     toast.add({

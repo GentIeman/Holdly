@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            strapiOrigin: ""
+            apiBase: "http://localhost:3001"
         }
     },
     ssr: false,
