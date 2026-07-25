@@ -22,31 +22,48 @@
           v-if="metadata"
           :metadata="metadata"
         />
-        <DynamicForm
-          v-model:state="state"
+        <UForm
           :schema="schema"
+          :state="state"
           class="grid gap-4 h-fit"
-          :validation-schema="bookmarkSchema"
-          @submit="handleCreateBookmark"
-        />
+          @submit.prevent="handleCreateBookmark"
+        >
+          <UFormField
+            label="Link"
+            name="link"
+            required
+          >
+            <UInput
+              v-model="state.link"
+              placeholder="https://example.com"
+              size="lg"
+              class="w-full"
+            />
+          </UFormField>
+          <UButton
+            type="submit"
+            label="Save"
+            size="lg"
+            block
+          />
+        </UForm>
       </div>
     </template>
   </UModal>
 </template>
 
 <script setup lang="ts">
-import { bookmarkSchema } from "~~/layers/bookmark/validators/bookmarkRules"
-import DynamicForm from "~~/layers/form/app/components/global/DynamicForm.vue"
+import * as z from "zod"
 import LinkPreview from "~~/layers/bookmark/app/components/LinkPreview.vue"
 import { useLinkMetaData } from "~~/layers/bookmark/app/composables/useLinkMetaData"
 import { useUserStore } from "~~/layers/user/app/stores/user"
 import { useBookmarkStore } from "~~/layers/bookmark/app/stores/bookmark"
 import { ref } from "vue"
-import type { FormState } from "~~/layers/form/app/components/global/DynamicForm.vue"
 import type { Bookmark } from "~~/layers/bookmark/app/components/Bookmark.vue"
-import { resetFormState } from "~/utils/resetFormState"
 
-const schema = computed(() => getFormSchema("bookmark", "bookmark"))
+const schema = z.object({
+  link: z.url()
+})
 
 type BookmarkState = {
   link: string
@@ -56,9 +73,9 @@ const state = ref<BookmarkState>({
   link: ""
 })
 
-const resetState = resetFormState<BookmarkState>(state, () => ({
-  link: ""
-}))
+const resetState = () => {
+  state.value = { link: "" }
+}
 
 const isModalOpen = ref(false)
 const { metadata } = useLinkMetaData(() => state.value.link)
@@ -69,14 +86,14 @@ const config = useRuntimeConfig()
 
 const toast = useToast()
 
-const handleCreateBookmark = async (state: FormState) => {
+const handleCreateBookmark = async () => {
   try {
     await $fetch<Bookmark>("/api/bookmark", {
       baseURL: config.public.apiBase as string,
       method: "POST",
       credentials: "include",
       body: {
-        ...state,
+        link: state.value.link,
         title: metadata.value.title,
         description: metadata.value.description,
         preview: metadata.value.preview,
