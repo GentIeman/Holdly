@@ -30,11 +30,11 @@
 
 <script setup lang="ts">
 import type { BookmarkView } from "~~/layers/bookmark/app/components/Bookmark.vue"
-import { useBookmarksStore } from "~~/layers/bookmark/app/stores/bookmarks"
+import { useBookmarkStore } from "~~/layers/bookmark/app/stores/bookmark"
 
-const bookmarksStore = useBookmarksStore()
-const { bookmarks } = storeToRefs(bookmarksStore)
-const { fetchBookmarks } = bookmarksStore
+const bookmarkStore = useBookmarkStore()
+const { bookmarks } = storeToRefs(bookmarkStore)
+const { fetchBookmarks } = bookmarkStore
 
 const isBookmarksEmpty = computed(() => bookmarks.value.length < 1)
 

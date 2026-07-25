@@ -40,7 +40,7 @@ import DynamicForm from "~~/layers/form/app/components/global/DynamicForm.vue"
 import LinkPreview from "~~/layers/bookmark/app/components/LinkPreview.vue"
 import { useLinkMetaData } from "~~/layers/bookmark/app/composables/useLinkMetaData"
 import { useUserStore } from "~~/layers/user/app/stores/user"
-import { useBookmarksStore } from "~~/layers/bookmark/app/stores/bookmarks"
+import { useBookmarkStore } from "~~/layers/bookmark/app/stores/bookmark"
 import { ref } from "vue"
 import type { FormState } from "~~/layers/form/app/components/global/DynamicForm.vue"
 import type { Bookmark } from "~~/layers/bookmark/app/components/Bookmark.vue"
@@ -64,7 +64,7 @@ const isModalOpen = ref(false)
 const { metadata } = useLinkMetaData(() => state.value.link)
 
 const userStore = useUserStore()
-const { fetchBookmarks } = useBookmarksStore()
+const { fetchBookmarks } = useBookmarkStore()
 const config = useRuntimeConfig()
 
 const toast = useToast()
