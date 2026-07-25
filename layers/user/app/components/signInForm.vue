@@ -44,6 +44,7 @@
 import * as z from "zod"
 import type { FormSubmitEvent } from "@nuxt/ui"
 import InputPassword from "#layers/form/app/components/InputPassword.vue"
+import { type User, useUserStore } from "~~/layers/user/app/stores/user"
 
 const schema = z.object({
   email: z
@@ -61,7 +62,7 @@ const state = ref<Schema>({
 
 const toast = useToast()
 const router = useRouter()
-const user = useUser()
+const userStore = useUserStore()
 const config = useRuntimeConfig()
 
 type LoginResponse = {
@@ -69,7 +70,7 @@ type LoginResponse = {
 }
 
 async function handleSubmit(event: FormSubmitEvent<Schema>) {
-  user.value = await $fetch<LoginResponse>("/api/login", {
+  const data = await $fetch<LoginResponse>("/api/login", {
     baseURL: config.public.apiBase as string,
     method: "POST",
     body: {
@@ -85,6 +86,7 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
     }
   })
 
+  userStore.user = data.user
   await router.push("/")
 }
 </script>

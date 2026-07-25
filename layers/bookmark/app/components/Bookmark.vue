@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "~~/layers/user/app/composables/useUser"
+import type { User } from "~~/layers/user/app/stores/user"
 import type { DropdownMenuItem } from "@nuxt/ui"
 
 export type BookmarkView = "cards" | "list" | "headlines"
