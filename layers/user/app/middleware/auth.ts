@@ -1,15 +1,13 @@
+import { useUserStore } from "~~/layers/user/app/stores/user"
+
 export default defineNuxtRouteMiddleware(async () => {
-  const user = useUser()
-  const config = useRuntimeConfig()
+  const userStore = useUserStore()
 
-  if (user.value) return
-
-  try {
-    user.value = await $fetch("/api/me", {
-      baseURL: config.public.apiBase as string,
-      credentials: "include"
-    })
-  } catch {
-    return navigateTo("/sign")
+  if (!userStore.user) {
+    try {
+      await userStore.fetchMe()
+    } catch {
+      return navigateTo("/sign")
+    }
   }
 })
