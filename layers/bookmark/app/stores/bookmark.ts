@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 import type { Bookmark } from "~~/layers/bookmark/app/components/Bookmark.vue"
 import { useUserStore } from "~~/layers/user/app/stores/user"
 
-export const useBookmarksStore = defineStore("bookmarks", () => {
+export const useBookmarkStore = defineStore("bookmark", () => {
   const userStore = useUserStore()
   const config = useRuntimeConfig()
 
