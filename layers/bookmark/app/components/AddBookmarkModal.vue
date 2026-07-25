@@ -60,6 +60,7 @@ import { useUserStore } from "~~/layers/user/app/stores/user"
 import { useBookmarkStore } from "~~/layers/bookmark/app/stores/bookmark"
 import { ref } from "vue"
 import type { Bookmark } from "~~/layers/bookmark/app/components/Bookmark.vue"
+import { resetFormState } from "~/utils/resetFormState"
 
 const schema = z.object({
   link: z.url()
@@ -69,13 +70,9 @@ type BookmarkState = {
   link: string
 }
 
-const state = ref<BookmarkState>({
-  link: ""
-})
+const state = ref<BookmarkState>({ link: "" })
 
-const resetState = () => {
-  state.value = { link: "" }
-}
+const resetState = () => resetFormState(state, () => ({ link: "" }))
 
 const isModalOpen = ref(false)
 const { metadata } = useLinkMetaData(() => state.value.link)
