@@ -1,31 +1,27 @@
 <template>
-  <UContainer class="flex justify-center items-center h-dvh">
-    <p
-      class="flex flex-col p-8 items-center lg:justify-center absolute text-[30px] lg:text-[250px] text-neutral-800 select-none h-dvh"
-    >
-      POCKET<span class="underline decoration-primary-500">ALTERNATIVE</span>
-    </p>
-    <UContainer
-      class="grid gap-4 p-10 w-lg h-fit rounded-xl border border-neutral-700 backdrop-blur-md"
-    >
+  <HContainer class="page">
+    <p class="bg-text">POCKET<span class="highlight">ALTERNATIVE</span></p>
+    <HContainer class="form-card">
       <Component :is="isSignIn ? signInForm : signUpForm" />
-      <UContainer class="lg:px-0">
-        <USeparator label="or" />
+      <HContainer class="form-footer">
+        <HSeparator label="or" />
         {{ isSignIn ? "I don't have an" : "I have an" }}
-        <UButton
-          class="px-0 text-md cursor-pointer"
-          variant="link"
+        <HButton
           label="account"
+          variant="link"
           @click="isSignIn = !isSignIn"
         />
-      </UContainer>
-    </UContainer>
-  </UContainer>
+      </HContainer>
+    </HContainer>
+  </HContainer>
 </template>
 
 <script setup lang="ts">
 import signInForm from "~~/layers/user/app/components/signInForm.vue"
 import signUpForm from "~~/layers/user/app/components/signUpForm.vue"
+import HButton from "~~/components/HButton.vue"
+import HSeparator from "~~/components/HSeparator.vue"
+import HContainer from "~~/components/HContainer.vue"
 
 const isSignIn = ref(true)
 
@@ -34,4 +30,51 @@ definePageMeta({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+
+  .bg-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    height: 100dvh;
+    padding: 2rem;
+    font-size: 30px;
+    color: var(--color-zinc-800);
+    user-select: none;
+
+    @media (min-width: 1024px) {
+      justify-content: center;
+      font-size: 250px;
+    }
+
+    .highlight {
+      text-decoration: underline;
+      text-decoration-color: var(--color-teal-500);
+    }
+  }
+}
+
+.form-card {
+  display: grid;
+  gap: 1rem;
+  padding: 2.5rem;
+  width: 512px;
+  height: fit-content;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-zinc-700);
+  backdrop-filter: blur(12px);
+
+  .form-footer {
+    @media (min-width: 1024px) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+</style>
