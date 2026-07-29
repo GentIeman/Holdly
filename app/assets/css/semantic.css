@@ -1,0 +1,62 @@
+@import "./primitives.css";
+
+/* ── Size ── */
+.size-sx {
+  --size-gap: var(--spacing-xs);
+  --size-padding: var(--spacing-s) var(--spacing-md);
+  --size-font-size: var(--font-size-xs);
+}
+.size-sm {
+  --size-gap: var(--spacing-s);
+  --size-padding: var(--spacing-sm) var(--spacing-xl);
+  --size-font-size: var(--font-size-sm);
+}
+.size-md {
+  --size-gap: var(--spacing-sm);
+  --size-padding: var(--spacing-md) var(--spacing-2xl);
+  --size-font-size: var(--font-size-base);
+}
+.size-lg {
+  --size-gap: var(--spacing-md);
+  --size-padding: var(--spacing-lg) var(--spacing-3xl);
+  --size-font-size: var(--font-size-lg);
+}
+
+/* ── Variant ── */
+.variant-outline {
+  --va-bg: transparent;
+  --va-text: var(--color-teal-500);
+  --va-border: var(--color-teal-500);
+  --va-hover-bg: var(--color-teal-950);
+  --va-hover-text: var(--color-teal-400);
+  --va-hover-border: var(--color-teal-400);
+  --va-focus-ring: var(--color-teal-500);
+}
+.variant-soft {
+  --va-bg: var(--color-zinc-800);
+  --va-text: var(--color-zinc-200);
+  --va-border: transparent;
+  --va-hover-bg: var(--color-zinc-700);
+  --va-hover-text: var(--color-zinc-100);
+  --va-hover-border: transparent;
+  --va-focus-ring: var(--color-teal-500);
+}
+.variant-ghost {
+  --va-bg: transparent;
+  --va-text: var(--color-teal-500);
+  --va-border: transparent;
+  --va-hover-bg: var(--color-teal-950);
+  --va-hover-text: var(--color-teal-400);
+  --va-hover-border: transparent;
+  --va-focus-ring: var(--color-teal-500);
+}
+.variant-link {
+  --va-bg: transparent;
+  --va-text: var(--color-teal-500);
+  --va-border: transparent;
+  --va-padding: 0;
+  --va-hover-bg: transparent;
+  --va-hover-text: var(--color-teal-400);
+  --va-hover-border: transparent;
+  --va-focus-ring: var(--color-teal-500);
+}
