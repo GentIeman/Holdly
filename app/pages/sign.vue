@@ -19,9 +19,9 @@
 <script setup lang="ts">
 import signInForm from "~~/layers/user/app/components/signInForm.vue"
 import signUpForm from "~~/layers/user/app/components/signUpForm.vue"
-import HButton from "~~/components/HButton.vue"
-import HSeparator from "~~/components/HSeparator.vue"
-import HContainer from "~~/components/HContainer.vue"
+import HButton from "@/components/ui/HButton.vue"
+import HSeparator from "@/components/ui/HSeparator.vue"
+import HContainer from "@/components/ui/HContainer.vue"
 
 const isSignIn = ref(true)
 
