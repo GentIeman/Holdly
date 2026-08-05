@@ -1,16 +1,23 @@
 <template>
-  <Button.Root :class="[$style.button, `size-${props.size}`, `variant-${props.variant}`]">
-    <Button.Icon v-show="icon">
+  <Button.Root
+    :class="[
+      $style.button,
+      `size-${props.size}`,
+      `variant-${props.variant}`,
+      `tone-${props.color}`
+    ]"
+  >
+    <Button.Icon v-if="icon">
       <HIcon
-          :icon="icon"
-          :size="props.size"
+        :icon="icon"
+        :size="props.size"
       />
     </Button.Icon>
     <span>{{ label }}</span>
-    <Button.Icon v-show="trailingIcon">
+    <Button.Icon v-if="trailingIcon">
       <HIcon
-          :icon="trailingIcon"
-          :size="props.size"
+        :icon="trailingIcon"
+        :size="props.size"
       />
     </Button.Icon>
   </Button.Root>
@@ -24,17 +31,21 @@ export type HButtonSize = "sx" | "sm" | "md" | "lg"
 
 export type HButtonVariant = "outline" | "soft" | "ghost" | "link"
 
+export type HButtonColor = "primary" | "neutral"
+
 export type HButtonProps = {
   icon?: string
   label?: string
   trailingIcon?: string
   size?: HButtonSize
   variant?: HButtonVariant
+  color?: HButtonColor
 }
 
 const props = withDefaults(defineProps<HButtonProps>(), {
   size: "md",
-  variant: "soft"
+  variant: "soft",
+  color: "primary"
 })
 </script>
 
