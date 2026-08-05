@@ -7,11 +7,12 @@
 
 <script setup lang="ts">
 import { Icon } from "@iconify/vue"
+import type { IconifyIcon } from "@iconify/vue"
 
 export type HIconSize = "sx" | "sm" | "md" | "lg"
 
 export type HIconProps = {
-  icon?: string
+  icon: IconifyIcon | string
   height?: string
   size?: HIconSize
 }
