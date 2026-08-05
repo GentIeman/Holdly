@@ -1,76 +1,61 @@
 <template>
-  <UForm
+  <HForm
+    class="form"
     :schema="schema"
-    :state="state"
-    class="grid gap-4 h-fit"
-    @submit.prevent="handleSubmit"
+    @submit="handleSubmit"
   >
-    <h1 class="text-center text-xl font-semibold">Sign Up</h1>
-    <UFormField
+    <h1 class="title">Sign Up</h1>
+    <HInput
+      v-model="state.username"
       label="Username"
-      size="lg"
-      required
       name="username"
-    >
-      <UInput
-        v-model="state.username"
-        placeholder="Your username"
-        autocomplete="autocomplete"
-        class="w-full"
-      />
-    </UFormField>
-    <UFormField
+      size="sm"
+      required
+      placeholder="Your username"
+      autocomplete="username"
+    />
+    <HInput
+      v-model="state.email"
       label="Email"
-      size="lg"
-      required
       name="email"
-    >
-      <UInput
-        v-model="state.email"
-        placeholder="mail@example.com"
-        autocomplete="autocomplete"
-        class="w-full"
-      />
-    </UFormField>
-    <UFormField
-      label="Password"
-      placeholder="Enter password"
-      size="lg"
+      size="sm"
       required
+      placeholder="mail@example.com"
+      autocomplete="email"
+    />
+    <InputPassword
+      v-model="state.password"
+      label="Password"
+      size="sm"
       name="password"
-    >
-      <InputPassword
-        v-model="state.password"
-        placeholder="Enter password"
-        class="w-full"
-      />
-    </UFormField>
+      required
+      placeholder="Enter password"
+    />
     <UButton
       size="lg"
       block
       type="submit"
       label="Sign Up"
     />
-  </UForm>
+  </HForm>
 </template>
 
 <script setup lang="ts">
 import * as z from "zod"
-import type { FormSubmitEvent } from "@nuxt/ui"
-import InputPassword from "#layers/form/app/components/InputPassword.vue"
+import HForm from "~/components/ui/form/HForm.vue"
+import HInput from "~/components/ui/form/HInput.vue"
+import InputPassword from "~/components/ui/form/HInputPassword.vue"
 import { type User, useUserStore } from "~~/layers/user/app/stores/user"
 
 const schema = z.object({
+  username: z.string().min(6, "Username must be at least 6 characters long"),
   email: z
     .email("Please enter a valid email address")
     .min(6, "Email must be at least 6 characters long"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-  username: z.string().min(6, "Password must be at least 6 characters long")
+  password: z.string().min(6, "Password must be at least 6 characters long")
 })
 
-type Schema = z.output<typeof schema>
-
-const state = ref<Schema>({
+const state = ref({
   email: "",
   password: "",
   username: ""
@@ -85,14 +70,16 @@ type RegisterResponse = {
   user: User
 }
 
-async function handleSubmit(event: FormSubmitEvent<Schema>) {
+async function handleSubmit({ valid }: { valid: boolean }) {
+  if (!valid) return
+
   const data = await $fetch<RegisterResponse>("/api/register", {
     baseURL: config.public.apiBase as string,
     method: "POST",
     body: {
-      email: event.data.email,
-      password: event.data.password,
-      username: event.data.username
+      email: state.value.email,
+      password: state.value.password,
+      username: state.value.username
     },
     credentials: "include",
     onResponseError() {
@@ -108,4 +95,15 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.form {
+  display: grid;
+  gap: 1rem;
+
+  .title {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+</style>
