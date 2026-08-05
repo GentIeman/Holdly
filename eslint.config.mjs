@@ -21,6 +21,7 @@ export default withNuxt({
         ],
         alphabetical: false
       }
-    ]
+    ],
+    "vue/require-default-prop": "off"
   }
 })
