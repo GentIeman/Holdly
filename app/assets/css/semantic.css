@@ -22,41 +22,75 @@
   --size-font-size: var(--font-size-lg);
 }
 
-/* ── Variant ── */
+/* ── Tone (color) ── */
+.tone-primary {
+  --tone-bg: transparent;
+  --tone-bg-soft: var(--color-teal-950);
+  --tone-bg-hover: var(--color-teal-950);
+  --tone-text: var(--color-teal-500);
+  --tone-text-hover: var(--color-teal-400);
+  --tone-border: var(--color-teal-500);
+  --tone-border-hover: var(--color-teal-400);
+  --tone-focus-ring: var(--color-teal-500);
+  --tone-focus-border: var(--color-teal-500);
+  --tone-placeholder: var(--color-teal-300);
+}
+.tone-neutral {
+  --tone-bg: transparent;
+  --tone-bg-soft: var(--color-zinc-800);
+  --tone-bg-hover: var(--color-zinc-700);
+  --tone-text: var(--color-zinc-200);
+  --tone-text-hover: var(--color-zinc-100);
+  --tone-border: var(--color-zinc-700);
+  --tone-border-hover: var(--color-zinc-600);
+  --tone-focus-ring: var(--color-teal-500);
+  --tone-focus-border: var(--color-teal-500);
+  --tone-placeholder: var(--color-zinc-500);
+}
+
+/* ── Variant (structure) ── */
 .variant-outline {
-  --va-bg: transparent;
-  --va-text: var(--color-teal-500);
-  --va-border: var(--color-teal-500);
-  --va-hover-bg: var(--color-teal-950);
-  --va-hover-text: var(--color-teal-400);
-  --va-hover-border: var(--color-teal-400);
-  --va-focus-ring: var(--color-teal-500);
+  --va-bg: var(--tone-bg);
+  --va-text: var(--tone-text);
+  --va-border: var(--tone-border);
+  --va-hover-bg: var(--tone-bg-hover);
+  --va-hover-text: var(--tone-text-hover);
+  --va-hover-border: var(--tone-border-hover);
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
 }
 .variant-soft {
-  --va-bg: var(--color-zinc-800);
-  --va-text: var(--color-zinc-200);
+  --va-bg: var(--tone-bg-soft);
+  --va-text: var(--tone-text);
   --va-border: transparent;
-  --va-hover-bg: var(--color-zinc-700);
-  --va-hover-text: var(--color-zinc-100);
+  --va-hover-bg: var(--tone-bg-hover);
+  --va-hover-text: var(--tone-text-hover);
   --va-hover-border: transparent;
-  --va-focus-ring: var(--color-teal-500);
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
 }
 .variant-ghost {
-  --va-bg: transparent;
-  --va-text: var(--color-teal-500);
+  --va-bg: var(--tone-bg);
+  --va-text: var(--tone-text);
   --va-border: transparent;
-  --va-hover-bg: var(--color-teal-950);
-  --va-hover-text: var(--color-teal-400);
+  --va-hover-bg: var(--tone-bg-hover);
+  --va-hover-text: var(--tone-text-hover);
   --va-hover-border: transparent;
-  --va-focus-ring: var(--color-teal-500);
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
 }
 .variant-link {
   --va-bg: transparent;
-  --va-text: var(--color-teal-500);
+  --va-text: var(--tone-text);
   --va-border: transparent;
   --va-padding: 0;
   --va-hover-bg: transparent;
-  --va-hover-text: var(--color-teal-400);
+  --va-hover-text: var(--tone-text-hover);
   --va-hover-border: transparent;
-  --va-focus-ring: var(--color-teal-500);
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
 }
