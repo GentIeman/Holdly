@@ -1,25 +1,29 @@
 @import "./primitives.css";
 
 /* ── Size ── */
-.size-sx {
-  --size-gap: var(--spacing-xs);
+.size-xs {
+  --size-gap: var(--spacing-s);
   --size-padding: var(--spacing-s) var(--spacing-md);
   --size-font-size: var(--font-size-xs);
+  --size-line-height: 1rem;
 }
 .size-sm {
-  --size-gap: var(--spacing-s);
-  --size-padding: var(--spacing-sm) var(--spacing-xl);
-  --size-font-size: var(--font-size-sm);
+  --size-gap: var(--spacing-sm);
+  --size-padding: var(--spacing-sm) var(--spacing-lg);
+  --size-font-size: var(--font-size-xs);
+  --size-line-height: 1rem;
 }
 .size-md {
   --size-gap: var(--spacing-sm);
-  --size-padding: var(--spacing-md) var(--spacing-2xl);
-  --size-font-size: var(--font-size-base);
+  --size-padding: var(--spacing-sm) var(--spacing-lg);
+  --size-font-size: var(--font-size-sm);
+  --size-line-height: 1.25rem;
 }
 .size-lg {
   --size-gap: var(--spacing-md);
-  --size-padding: var(--spacing-lg) var(--spacing-3xl);
-  --size-font-size: var(--font-size-lg);
+  --size-padding: var(--spacing-md) var(--spacing-xl);
+  --size-font-size: var(--font-size-sm);
+  --size-line-height: 1.25rem;
 }
 
 /* ── Tone (color) ── */
