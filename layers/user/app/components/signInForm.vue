@@ -9,22 +9,22 @@
       v-model="state.email"
       label="Email"
       name="email"
-      size="sm"
+      size="md"
       required
       autocomplete="email"
       placeholder="mail@example.com"
     />
-    <InputPassword
+    <HInputPassword
       v-model="state.password"
       label="Password"
-      size="sm"
+      size="md"
       name="password"
       required
       placeholder="Enter password"
     />
-    <UButton
-      size="lg"
-      block
+    <HButton
+      size="md"
+      variant="solid"
       type="submit"
       label="Continue"
     />
@@ -36,7 +36,8 @@ import * as z from "zod"
 import HForm from "~/components/ui/form/HForm.vue"
 import HInput from "~/components/ui/form/HInput.vue"
 import { type User, useUserStore } from "~~/layers/user/app/stores/user"
-import InputPassword from "~/components/ui/form/HInputPassword.vue"
+import HButton from "~/components/ui/HButton.vue"
+import HInputPassword from "~/components/ui/form/HInputPassword.vue"
 
 const schema = z.object({
   email: z
