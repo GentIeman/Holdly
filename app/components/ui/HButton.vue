@@ -7,14 +7,20 @@
       `tone-${props.color}`
     ]"
   >
-    <Button.Icon v-if="icon">
+    <Button.Icon
+      v-if="icon"
+      :class="$style.icon"
+    >
       <HIcon
         :icon="icon"
         :size="props.size"
       />
     </Button.Icon>
     <span>{{ label }}</span>
-    <Button.Icon v-if="trailingIcon">
+    <Button.Icon
+      v-if="trailingIcon"
+      :class="$style.icon"
+    >
       <HIcon
         :icon="trailingIcon"
         :size="props.size"
@@ -52,10 +58,12 @@ const props = withDefaults(defineProps<HButtonProps>(), {
 <style module>
 .button {
   display: inline-flex;
-  align-items: center;
+  place-content: center;
   gap: var(--size-gap);
   padding: var(--va-padding, var(--size-padding));
   font-size: var(--size-font-size);
+  line-height: var(--size-line-height, var(--size-font-size));
+  font-weight: 500;
   border-radius: var(--radius-md);
   background: var(--va-bg);
   color: var(--va-text);
@@ -71,6 +79,10 @@ const props = withDefaults(defineProps<HButtonProps>(), {
   &:focus-visible {
     outline: 2px solid var(--va-focus-ring);
     outline-offset: 2px;
+  }
+
+  .icon {
+    flex-shrink: 0;
   }
 }
 </style>
