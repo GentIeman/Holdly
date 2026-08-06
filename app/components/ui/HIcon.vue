@@ -1,7 +1,7 @@
 <template>
   <Icon
-      :icon="icon"
-      :style="iconStyle"
+    :icon="icon"
+    :style="iconStyle"
   />
 </template>
 
