@@ -33,7 +33,7 @@
 import { Button } from "@vuetify/v0"
 import HIcon from "./HIcon.vue"
 
-export type HButtonSize = "sx" | "sm" | "md" | "lg"
+export type HButtonSize = "xs" | "sm" | "md" | "lg"
 
 export type HButtonVariant = "outline" | "soft" | "solid" | "ghost" | "link"
 

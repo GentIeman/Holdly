@@ -9,7 +9,7 @@
 import { Icon } from "@iconify/vue"
 import type { IconifyIcon } from "@iconify/vue"
 
-export type HIconSize = "sx" | "sm" | "md" | "lg"
+export type HIconSize = "xs" | "sm" | "md" | "lg"
 
 export type HIconProps = {
   icon: IconifyIcon | string
