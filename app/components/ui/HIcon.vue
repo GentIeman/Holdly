@@ -1,7 +1,7 @@
 <template>
   <Icon
-    :icon="icon"
-    :height="height ?? sizeMap[size]"
+      :icon="icon"
+      :style="iconStyle"
   />
 </template>
 
@@ -17,14 +17,29 @@ export type HIconProps = {
   size?: HIconSize
 }
 
-const { size = "md" } = defineProps<HIconProps>()
+const props = withDefaults(defineProps<HIconProps>(), {
+  size: "md"
+})
 
 const sizeMap: Record<HIconSize, string> = {
-  sx: "12px",
+  xs: "16px",
   sm: "16px",
   md: "20px",
-  lg: "24px"
+  lg: "20px"
 }
+
+const iconStyle = computed(() => {
+  const sizeValue = props.height ?? sizeMap[props.size]
+
+  return {
+    width: sizeValue,
+    height: sizeValue
+  }
+})
 </script>
 
-<style scoped></style>
+<style scoped>
+svg {
+  display: block;
+}
+</style>
