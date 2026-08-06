@@ -11,7 +11,7 @@
   >
     <label
       v-if="props.label"
-      :class="$style.label"
+      :class="[$style.label, { [$style.required]: props.required }]"
       :for="id"
     >
       {{ props.label }}
@@ -108,6 +108,11 @@ const model = defineModel<string>({ required: true, default: "" })
   .label {
     font-size: var(--font-size-sm);
     color: var(--color-zinc-300);
+  }
+
+  .required::after {
+    content: " *";
+    color: var(--color-red-500);
   }
 
   .input {
