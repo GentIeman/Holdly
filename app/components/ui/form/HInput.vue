@@ -112,15 +112,12 @@ const model = defineModel<string>({ required: true, default: "" })
 
   .input {
     display: flex;
-    align-items: center;
-    gap: var(--size-gap);
     padding: var(--va-padding, var(--size-padding));
     font-size: var(--size-font-size);
     border-radius: var(--radius-md);
     background: var(--va-bg);
     color: var(--va-text);
     border: 1px solid var(--va-border);
-    width: 100%;
 
     &:focus-within {
       border-color: var(--va-focus-border);
@@ -133,9 +130,6 @@ const model = defineModel<string>({ required: true, default: "" })
       background: transparent;
       border: none;
       outline: none;
-      color: inherit;
-      font-size: inherit;
-      font-family: inherit;
 
       &::placeholder {
         color: var(--va-placeholder);
