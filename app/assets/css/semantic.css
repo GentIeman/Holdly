@@ -38,6 +38,9 @@
   --tone-focus-ring: var(--color-teal-500);
   --tone-focus-border: var(--color-teal-500);
   --tone-placeholder: var(--color-teal-300);
+  --tone-bg-solid: var(--color-teal-500);
+  --tone-bg-solid-hover: var(--color-teal-400);
+  --tone-text-solid: var(--color-zinc-950);
 }
 .tone-neutral {
   --tone-bg: transparent;
@@ -50,6 +53,9 @@
   --tone-focus-ring: var(--color-teal-500);
   --tone-focus-border: var(--color-teal-500);
   --tone-placeholder: var(--color-zinc-500);
+  --tone-bg-solid: var(--color-zinc-200);
+  --tone-bg-solid-hover: var(--color-zinc-100);
+  --tone-text-solid: var(--color-zinc-950);
 }
 
 /* ── Variant (structure) ── */
@@ -70,6 +76,17 @@
   --va-border: transparent;
   --va-hover-bg: var(--tone-bg-hover);
   --va-hover-text: var(--tone-text-hover);
+  --va-hover-border: transparent;
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
+}
+.variant-solid {
+  --va-bg: var(--tone-bg-solid);
+  --va-text: var(--tone-text-solid);
+  --va-border: transparent;
+  --va-hover-bg: var(--tone-bg-solid-hover);
+  --va-hover-text: var(--tone-text-solid);
   --va-hover-border: transparent;
   --va-focus-ring: var(--tone-focus-ring);
   --va-focus-border: var(--tone-focus-border);

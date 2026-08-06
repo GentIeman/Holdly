@@ -35,7 +35,7 @@ import HIcon from "./HIcon.vue"
 
 export type HButtonSize = "sx" | "sm" | "md" | "lg"
 
-export type HButtonVariant = "outline" | "soft" | "ghost" | "link"
+export type HButtonVariant = "outline" | "soft" | "solid" | "ghost" | "link"
 
 export type HButtonColor = "primary" | "neutral"
 
