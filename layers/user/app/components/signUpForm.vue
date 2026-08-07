@@ -18,7 +18,7 @@
       v-model="state.email"
       label="Email"
       name="email"
-      size="sm"
+      size="md"
       required
       placeholder="mail@example.com"
       autocomplete="email"
