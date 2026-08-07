@@ -1,5 +1,6 @@
 <template>
   <Button.Root
+    v-if="props.type != 'submit'"
     :class="[
       $style.button,
       `size-${props.size}`,
@@ -27,6 +28,19 @@
       />
     </Button.Icon>
   </Button.Root>
+  <!-- Button.Root has no type prop   -->
+  <button
+    v-else
+    :type="props.type"
+    :class="[
+      $style.button,
+      `size-${props.size}`,
+      `variant-${props.variant}`,
+      `tone-${props.color}`
+    ]"
+  >
+    {{ label }}
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -39,6 +53,8 @@ export type HButtonVariant = "outline" | "soft" | "solid" | "ghost" | "link"
 
 export type HButtonColor = "primary" | "neutral"
 
+export type HButtonType = "submit" | "button" | "reset"
+
 export type HButtonProps = {
   icon?: string
   label?: string
@@ -46,12 +62,14 @@ export type HButtonProps = {
   size?: HButtonSize
   variant?: HButtonVariant
   color?: HButtonColor
+  type?: HButtonType
 }
 
 const props = withDefaults(defineProps<HButtonProps>(), {
   size: "md",
   variant: "soft",
-  color: "primary"
+  color: "primary",
+  type: "submit"
 })
 </script>
 
