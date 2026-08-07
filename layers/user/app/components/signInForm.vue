@@ -1,32 +1,32 @@
 <template>
   <HForm
-    class="form"
-    :schema="schema"
-    @submit="handleSubmit"
+      class="form"
+      :schema="schema"
+      @submit="handleSubmit"
   >
     <h1 class="title">Sign In</h1>
     <HInput
-      v-model="state.email"
-      label="Email"
-      name="email"
-      size="md"
-      required
-      autocomplete="email"
-      placeholder="mail@example.com"
+        v-model="state.email"
+        label="Email"
+        name="email"
+        size="md"
+        required
+        autocomplete="email"
+        placeholder="mail@example.com"
     />
     <HInputPassword
-      v-model="state.password"
-      label="Password"
-      size="md"
-      name="password"
-      required
-      placeholder="Enter password"
+        v-model="state.password"
+        label="Password"
+        size="md"
+        name="password"
+        required
+        placeholder="Enter password"
     />
     <HButton
-      size="md"
-      variant="solid"
-      type="submit"
-      label="Continue"
+        size="md"
+        variant="solid"
+        type="submit"
+        label="Continue"
     />
   </HForm>
 </template>
@@ -38,11 +38,12 @@ import HInput from "~/components/ui/form/HInput.vue"
 import { type User, useUserStore } from "~~/layers/user/app/stores/user"
 import HButton from "~/components/ui/HButton.vue"
 import HInputPassword from "~/components/ui/form/HInputPassword.vue"
+import { useNotifications } from "@vuetify/v0"
 
 const schema = z.object({
   email: z
-    .email("Please enter a valid email address")
-    .min(6, "Email must be at least 6 characters long"),
+      .email("Please enter a valid email address")
+      .min(6, "Email must be at least 6 characters long"),
   password: z.string().min(6, "Password must be at least 6 characters long")
 })
 
@@ -51,7 +52,7 @@ const state = ref({
   password: ""
 })
 
-const toast = useToast()
+const notifications = useNotifications()
 const router = useRouter()
 const userStore = useUserStore()
 const config = useRuntimeConfig()
@@ -72,9 +73,9 @@ async function handleSubmit({ valid }: { valid: boolean }) {
     },
     credentials: "include",
     onResponseError() {
-      toast.add({
-        title: "Oops, something went wrong!",
-        color: "error"
+      notifications.send({
+        subject: "Oops, something went wrong!",
+        severity: "error"
       })
     }
   })

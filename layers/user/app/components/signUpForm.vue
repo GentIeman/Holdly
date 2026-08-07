@@ -47,6 +47,7 @@ import HInput from "~/components/ui/form/HInput.vue"
 import { type User, useUserStore } from "~~/layers/user/app/stores/user"
 import HButton from "~/components/ui/HButton.vue"
 import HInputPassword from "~/components/ui/form/HInputPassword.vue"
+import { useNotifications } from "@vuetify/v0"
 
 const schema = z.object({
   username: z.string().min(6, "Username must be at least 6 characters long"),
@@ -62,7 +63,7 @@ const state = ref({
   username: ""
 })
 
-const toast = useToast()
+const notifications = useNotifications()
 const router = useRouter()
 const userStore = useUserStore()
 const config = useRuntimeConfig()
@@ -84,9 +85,9 @@ async function handleSubmit({ valid }: { valid: boolean }) {
     },
     credentials: "include",
     onResponseError() {
-      toast.add({
-        title: "Oops, something went wrong!",
-        color: "error"
+      notifications.send({
+        subject: "Oops, something went wrong!",
+        severity: "error"
       })
     }
   })
