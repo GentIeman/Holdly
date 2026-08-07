@@ -17,7 +17,9 @@
         :size="props.size"
       />
     </Button.Icon>
-    <span>{{ label }}</span>
+    <Button.Content>
+      {{ label }}
+    </Button.Content>
     <Button.Icon
       v-if="trailingIcon"
       :class="$style.icon"
