@@ -5,10 +5,10 @@
       :class="$style.queue"
     >
       <Snackbar.Root
-        teleport="body"
         v-for="item in items"
         :id="item.id"
         :key="item.id"
+        teleport="body"
         :class="[$style.toast, $style[`toast-${item.severity ?? 'info'}`]]"
       >
         <Snackbar.Content :class="$style.content">
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { Snackbar, useTimer } from "@vuetify/v0"
+import { Snackbar } from "@vuetify/v0"
 import HIcon from "./HIcon.vue"
 </script>
 
