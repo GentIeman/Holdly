@@ -9,6 +9,7 @@
         <HButton
           label="account"
           variant="link"
+          type="button"
           @click="isSignIn = !isSignIn"
         />
       </HContainer>
