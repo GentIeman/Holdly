@@ -4,11 +4,11 @@
       <NuxtPage />
     </NuxtLayout>
   </UApp>
-  <HToast />
+  <HToastList />
 </template>
 
 <script setup lang="ts">
-import HToast from "~/components/ui/HToast.vue"
+import HToastList from "~/components/ui/toast/HToastList.vue"
 </script>
 
 <style>
