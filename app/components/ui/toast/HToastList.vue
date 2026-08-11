@@ -10,6 +10,7 @@
           :key="item.id"
           :item="item"
           :index="i"
+          :is-current="i === items.length - 1"
         />
       </TransitionGroup>
     </Snackbar.Queue>

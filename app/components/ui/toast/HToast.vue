@@ -13,6 +13,11 @@
         size="sm"
       />
     </Snackbar.Close>
+    <div
+      v-if="item.timeout"
+      :class="[$style.timer, isCurrent && $style.timerRunning]"
+      :style="{ '--toast-timeout': `${item.timeout}ms` }"
+    />
   </Snackbar.Root>
 </template>
 
@@ -24,6 +29,7 @@ import HIcon from "../HIcon.vue"
 defineProps<{
   item: NotificationTicket
   index: number
+  isCurrent?: boolean
 }>()
 
 const MAX_STACK = 3
@@ -60,11 +66,13 @@ function stackStyle(i: number) {
   bottom: 0;
   padding: var(--spacing-lg) var(--spacing-2xl);
   border-radius: var(--radius-md);
+  overflow: hidden;
   background: color-mix(in srgb, var(--color-zinc-800) 60%, transparent);
   backdrop-filter: blur(12px);
   color: var(--color-zinc-200);
   width: max-content;
   max-width: 300px;
+  --toast-accent: var(--color-zinc-400);
 
   .content {
     flex: 1;
@@ -86,13 +94,39 @@ function stackStyle(i: number) {
       background-color: var(--color-zinc-700);
     }
   }
+
+  .timer {
+    position: absolute;
+    inset-inline-start: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--toast-accent, var(--color-zinc-400));
+    opacity: 0.6;
+  }
+
+  .timerRunning {
+    animation: toast-progress linear forwards;
+    animation-duration: var(--toast-timeout);
+  }
+
+  &:hover .timerRunning {
+    animation-play-state: paused;
+  }
 }
 
 .toast-error {
+  --toast-accent: var(--color-red-500);
   border-color: var(--color-red-500);
 }
 
-.toast-success {
-  border-color: var(--color-teal-500);
+@keyframes toast-progress {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0;
+  }
 }
 </style>
