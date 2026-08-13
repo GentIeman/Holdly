@@ -25,6 +25,12 @@
   --size-font-size: var(--font-size-sm);
   --size-line-height: 1.25rem;
 }
+.size-xl {
+  --size-gap: var(--spacing-2xl);
+  --size-padding: var(--spacing-2xl) var(--spacing-3xl);
+  --size-font-size: var(--font-size-lg);
+  --size-line-height: 1.5rem;
+}
 
 /* ── Tone (color) ── */
 .tone-primary {
@@ -114,4 +120,33 @@
   --va-focus-ring: var(--tone-focus-ring);
   --va-focus-border: var(--tone-focus-border);
   --va-placeholder: var(--tone-placeholder);
+}
+
+/* ── Button (base) ── */
+.button {
+  display: inline-flex;
+  place-content: center;
+  gap: var(--size-gap);
+  padding: var(--va-padding, var(--size-padding));
+  font-size: var(--size-font-size);
+  line-height: var(--size-line-height, var(--size-font-size));
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  background: var(--va-bg);
+  color: var(--va-text);
+  border: 1px solid var(--va-border);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in;
+}
+
+.button:hover {
+  background: var(--va-hover-bg);
+  color: var(--va-hover-text);
+  border-color: var(--va-hover-border);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--va-focus-ring);
+  outline-offset: 2px;
 }
