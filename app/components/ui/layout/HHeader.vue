@@ -24,7 +24,7 @@
           </li>
         </ul>
       </nav>
-      <LazyAddBookmarkModal class="hidden sm:inline-flex" />
+      <AddBookmarkModal class="hidden sm:inline-flex" />
     </HContainer>
     <HDropdownMenu
       :items="dropDownMenuItems"
@@ -44,6 +44,7 @@ import type { HDropdownMenuItem } from "~/components/ui/HDropdownMenu.vue"
 import HContainer from "~/components/ui/HContainer.vue"
 import HButton from "~/components/ui/HButton.vue"
 import HDropdownMenu from "~/components/ui/HDropdownMenu.vue"
+import AddBookmarkModal from "~/components/ui/bookmark/AddBookmarkModal.vue"
 
 const navigationMenuItems = [
   {
