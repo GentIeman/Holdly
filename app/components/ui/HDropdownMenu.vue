@@ -30,19 +30,23 @@
           v-if="groupIndex > 0"
           :class="$style.separator"
         />
-        <HButton
-          v-for="(item, itemIndex) in group"
-          :key="itemIndex"
-          type="button"
-          variant="ghost"
-          color="neutral"
-          size="md"
-          :icon="item.icon"
-          :label="item.label"
-          :disabled="item.disabled"
-          :class="$style.item"
-          @click="select(item)"
-        />
+        <!-- wrapper keeps the button width at the menu content width -->
+        <div
+          v-for="(item, index) in group"
+          :key="index"
+        >
+          <HButton
+            type="button"
+            variant="ghost"
+            color="neutral"
+            size="md"
+            :icon="item.icon"
+            :class="$style.item"
+            :label="item.label"
+            :disabled="item.disabled"
+            @click="select(item)"
+          />
+        </div>
       </template>
     </Popover.Content>
   </Popover.Root>
@@ -111,14 +115,6 @@ function select(item: HDropdownMenuItem) {
 </script>
 
 <style module>
-.icon {
-  flex-shrink: 0;
-}
-
-.iconOnly {
-  padding: var(--spacing-sm);
-}
-
 .menu {
   padding: var(--spacing-s);
   background: var(--color-zinc-900);
@@ -134,9 +130,8 @@ function select(item: HDropdownMenuItem) {
   }
 
   .item {
-    justify-content: flex-start;
+    justify-content: start;
     width: 100%;
-    white-space: nowrap;
 
     &:disabled {
       opacity: 0.5;
@@ -155,5 +150,13 @@ function select(item: HDropdownMenuItem) {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.iconOnly {
+  padding: var(--spacing-sm);
 }
 </style>
