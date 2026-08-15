@@ -4,6 +4,7 @@
       <NuxtPage />
     </NuxtLayout>
   </UApp>
+  <!-- @TODO The Toast list z-index is lower than the modal window -->
   <HToastList />
 </template>
 

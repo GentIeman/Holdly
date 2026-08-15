@@ -26,6 +26,7 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
       query: { url },
       credentials: "include",
       onResponseError({ response }) {
+        // @TODO Toast shows on every keystroke, not on change
         if (response.status == 400) {
           toast.add({
             title: "Invalid link",
