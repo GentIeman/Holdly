@@ -1,7 +1,15 @@
 <template>
   <Dialog.Root v-model="isOpen">
-    <Dialog.Activator v-if="$slots.trigger">
-      <slot name="trigger" />
+    <Dialog.Activator
+      v-if="$slots.trigger"
+      renderless
+    >
+      <template #default="{ attrs }">
+        <slot
+          name="trigger"
+          :attrs="attrs"
+        />
+      </template>
     </Dialog.Activator>
     <Dialog.Content :class="$style.dialog">
       <header :class="$style.header">
