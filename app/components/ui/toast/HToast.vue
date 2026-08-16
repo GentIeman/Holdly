@@ -116,8 +116,8 @@ function stackStyle(i: number) {
 }
 
 .toast-error {
-  --toast-accent: var(--color-red-500);
-  border-color: var(--color-red-500);
+  --toast-accent: var(--color-rose-500);
+  border-color: var(--color-rose-500);
 }
 
 @keyframes toast-progress {

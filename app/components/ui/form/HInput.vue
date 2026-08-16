@@ -112,7 +112,7 @@ const model = defineModel<string>({ required: true, default: "" })
 
   .required::after {
     content: " *";
-    color: var(--color-red-500);
+    color: var(--color-rose-500);
   }
 
   .input {
@@ -149,7 +149,7 @@ const model = defineModel<string>({ required: true, default: "" })
 
   .error {
     font-size: var(--font-size-xs);
-    color: var(--color-red-500);
+    color: var(--color-rose-500);
   }
 }
 </style>
