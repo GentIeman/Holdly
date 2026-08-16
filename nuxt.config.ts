@@ -17,8 +17,5 @@ export default defineNuxtConfig({
       apiBase: "http://localhost:3001"
     }
   },
-  ssr: false,
-  fonts: {
-    provider: "bunny"
-  }
+  ssr: false
 })
