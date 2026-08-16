@@ -24,7 +24,9 @@
           </li>
         </ul>
       </nav>
-      <AddBookmarkModal class="hidden sm:inline-flex" />
+      <HContainer class="add-bookmark">
+        <AddBookmarkModal />
+      </HContainer>
     </HContainer>
     <HDropdownMenu
       :items="dropDownMenuItems"
@@ -101,6 +103,16 @@ const dropDownMenuItems: HDropdownMenuItem[][] = [
     align-items: center;
     gap: var(--spacing-3xl);
     list-style: none;
+  }
+}
+
+.add-bookmark {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .add-bookmark {
+    display: inline-flex;
   }
 }
 </style>
