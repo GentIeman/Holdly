@@ -1,8 +1,6 @@
-@import "tailwindcss";
-@import "@nuxt/ui";
 @import "./semantic.css";
 
-@theme {
+:root {
   /* ── Teal (primary) ── */
   --color-teal-50: oklch(98.4% 0.014 180.72);
   --color-teal-100: oklch(95.3% 0.051 180.801);
