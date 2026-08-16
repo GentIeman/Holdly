@@ -1,5 +1,6 @@
 import { ref, toValue } from "vue"
-import type { LinkMetaData } from "~~/layers/bookmark/app/components/LinkPreview.vue"
+import type { LinkMetaData } from "~/components/ui/bookmark/LinkPreview.vue"
+import { useNotifications } from "@vuetify/v0"
 
 export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
   const metadata = ref<LinkMetaData>({
@@ -9,7 +10,7 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
     siteName: undefined
   })
   const error = ref<Error | null>(null)
-  const toast = useToast()
+  const notification = useNotifications()
   const config = useRuntimeConfig()
 
   const fetchMetaData = async () => {
@@ -28,22 +29,20 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
       onResponseError({ response }) {
         // @TODO Toast shows on every keystroke, not on change
         if (response.status == 400) {
-          toast.add({
-            title: "Invalid link",
-            description: "Please check that the URL is correct and publicly accessible.",
-            color: "error"
+          notification.send({
+            subject: "Please check that the URL is correct.",
+            severity: "error"
           })
         }
 
         if (response.status == 504) {
-          toast.add({
-            title: "Request timed out",
-            description: "Please try again later or use a different link.",
-            color: "error"
+          notification.send({
+            subject: "Please try again later or use a different link.",
+            severity: "error"
           })
         }
 
-        toast.clear()
+        notification.clear()
       }
     })
   }
