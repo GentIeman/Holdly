@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: false },
-  modules: ["@nuxt/ui", "@nuxt/eslint", "@pinia/nuxt"],
+  modules: ["@nuxt/eslint", "@pinia/nuxt"],
   css: ["~/assets/css/main.css"],
   app: {
     head: {
@@ -17,8 +17,5 @@ export default defineNuxtConfig({
       apiBase: "http://localhost:3001"
     }
   },
-  ssr: false,
-  fonts: {
-    provider: "bunny"
-  }
+  ssr: false
 })

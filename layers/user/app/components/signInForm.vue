@@ -1,50 +1,44 @@
 <template>
-  <UForm
+  <HForm
+    class="form"
     :schema="schema"
-    :state="state"
-    class="grid gap-4"
-    @submit.prevent="handleSubmit"
+    @submit="handleSubmit"
   >
-    <h1 class="text-center text-xl font-semibold">Sign In</h1>
-    <UFormField
+    <h1 class="title">Sign In</h1>
+    <HInput
+      v-model="state.email"
       label="Email"
-      size="lg"
-      required
       name="email"
-    >
-      <UInput
-        v-model="state.email"
-        placeholder="mail@example.com"
-        autocomplete="autocomplete"
-        class="w-full"
-      />
-    </UFormField>
-    <UFormField
-      label="Password"
-      size="lg"
+      size="md"
       required
+      autocomplete="email"
+      placeholder="mail@example.com"
+    />
+    <HInputPassword
+      v-model="state.password"
+      label="Password"
+      size="md"
       name="password"
-    >
-      <InputPassword
-        v-model="state.password"
-        placeholder="Enter password"
-        class="w-full"
-      />
-    </UFormField>
-    <UButton
-      size="lg"
-      block
+      required
+      placeholder="Enter password"
+    />
+    <HButton
+      size="md"
+      variant="solid"
       type="submit"
       label="Continue"
     />
-  </UForm>
+  </HForm>
 </template>
 
 <script setup lang="ts">
 import * as z from "zod"
-import type { FormSubmitEvent } from "@nuxt/ui"
-import InputPassword from "#layers/form/app/components/InputPassword.vue"
+import HForm from "~/components/ui/form/HForm.vue"
+import HInput from "~/components/ui/form/HInput.vue"
 import { type User, useUserStore } from "~~/layers/user/app/stores/user"
+import HButton from "~/components/ui/HButton.vue"
+import HInputPassword from "~/components/ui/form/HInputPassword.vue"
+import { useNotifications } from "@vuetify/v0"
 
 const schema = z.object({
   email: z
@@ -53,14 +47,12 @@ const schema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters long")
 })
 
-type Schema = z.output<typeof schema>
-
-const state = ref<Schema>({
+const state = ref({
   email: "",
   password: ""
 })
 
-const toast = useToast()
+const notifications = useNotifications()
 const router = useRouter()
 const userStore = useUserStore()
 const config = useRuntimeConfig()
@@ -69,19 +61,21 @@ type LoginResponse = {
   user: User
 }
 
-async function handleSubmit(event: FormSubmitEvent<Schema>) {
+async function handleSubmit({ valid }: { valid: boolean }) {
+  if (!valid) return
+
   const data = await $fetch<LoginResponse>("/api/login", {
     baseURL: config.public.apiBase as string,
     method: "POST",
     body: {
-      identifier: event.data.email,
-      password: event.data.password
+      identifier: state.value.email,
+      password: state.value.password
     },
     credentials: "include",
     onResponseError() {
-      toast.add({
-        title: "Oops, something went wrong!",
-        color: "error"
+      notifications.send({
+        subject: "Oops, something went wrong!",
+        severity: "error"
       })
     }
   })
@@ -91,4 +85,15 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.form {
+  display: grid;
+  gap: 1rem;
+
+  .title {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+</style>

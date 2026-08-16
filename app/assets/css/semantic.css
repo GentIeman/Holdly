@@ -1,0 +1,152 @@
+@import "./primitives.css";
+
+/* ── Size ── */
+.size-xs {
+  --size-gap: var(--spacing-s);
+  --size-padding: var(--spacing-s) var(--spacing-md);
+  --size-font-size: var(--font-size-xs);
+  --size-line-height: 1rem;
+}
+.size-sm {
+  --size-gap: var(--spacing-sm);
+  --size-padding: var(--spacing-sm) var(--spacing-lg);
+  --size-font-size: var(--font-size-xs);
+  --size-line-height: 1rem;
+}
+.size-md {
+  --size-gap: var(--spacing-sm);
+  --size-padding: var(--spacing-sm) var(--spacing-lg);
+  --size-font-size: var(--font-size-sm);
+  --size-line-height: 1.25rem;
+}
+.size-lg {
+  --size-gap: var(--spacing-md);
+  --size-padding: var(--spacing-md) var(--spacing-xl);
+  --size-font-size: var(--font-size-sm);
+  --size-line-height: 1.25rem;
+}
+.size-xl {
+  --size-gap: var(--spacing-2xl);
+  --size-padding: var(--spacing-2xl) var(--spacing-3xl);
+  --size-font-size: var(--font-size-lg);
+  --size-line-height: 1.5rem;
+}
+
+/* ── Tone (color) ── */
+.tone-primary {
+  --tone-bg: transparent;
+  --tone-bg-soft: var(--color-teal-950);
+  --tone-bg-hover: var(--color-teal-950);
+  --tone-text: var(--color-teal-500);
+  --tone-text-hover: var(--color-teal-400);
+  --tone-border: var(--color-teal-500);
+  --tone-border-hover: var(--color-teal-400);
+  --tone-focus-ring: var(--color-teal-500);
+  --tone-focus-border: var(--color-teal-500);
+  --tone-placeholder: var(--color-teal-300);
+  --tone-bg-solid: var(--color-teal-500);
+  --tone-bg-solid-hover: var(--color-teal-400);
+  --tone-text-solid: var(--color-zinc-950);
+}
+.tone-neutral {
+  --tone-bg: transparent;
+  --tone-bg-soft: var(--color-zinc-800);
+  --tone-bg-hover: var(--color-zinc-700);
+  --tone-text: var(--color-zinc-200);
+  --tone-text-hover: var(--color-zinc-100);
+  --tone-border: var(--color-zinc-700);
+  --tone-border-hover: var(--color-zinc-600);
+  --tone-focus-ring: var(--color-teal-500);
+  --tone-focus-border: var(--color-teal-500);
+  --tone-placeholder: var(--color-zinc-500);
+  --tone-bg-solid: var(--color-zinc-200);
+  --tone-bg-solid-hover: var(--color-zinc-100);
+  --tone-text-solid: var(--color-zinc-950);
+}
+
+/* ── Variant (structure) ── */
+.variant-outline {
+  --va-bg: var(--tone-bg);
+  --va-text: var(--tone-text);
+  --va-border: var(--tone-border);
+  --va-hover-bg: var(--tone-bg-hover);
+  --va-hover-text: var(--tone-text-hover);
+  --va-hover-border: var(--tone-border-hover);
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
+}
+.variant-soft {
+  --va-bg: var(--tone-bg-soft);
+  --va-text: var(--tone-text);
+  --va-border: transparent;
+  --va-hover-bg: var(--tone-bg-hover);
+  --va-hover-text: var(--tone-text-hover);
+  --va-hover-border: transparent;
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
+}
+.variant-solid {
+  --va-bg: var(--tone-bg-solid);
+  --va-text: var(--tone-text-solid);
+  --va-border: transparent;
+  --va-hover-bg: var(--tone-bg-solid-hover);
+  --va-hover-text: var(--tone-text-solid);
+  --va-hover-border: transparent;
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
+}
+.variant-ghost {
+  --va-bg: var(--tone-bg);
+  --va-text: var(--tone-text);
+  --va-border: transparent;
+  --va-hover-bg: var(--tone-bg-hover);
+  --va-hover-text: var(--tone-text-hover);
+  --va-hover-border: transparent;
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
+}
+.variant-link {
+  --va-bg: transparent;
+  --va-text: var(--tone-text);
+  --va-border: transparent;
+  --va-padding: 0;
+  --va-hover-bg: transparent;
+  --va-hover-text: var(--tone-text-hover);
+  --va-hover-border: transparent;
+  --va-focus-ring: var(--tone-focus-ring);
+  --va-focus-border: var(--tone-focus-border);
+  --va-placeholder: var(--tone-placeholder);
+}
+
+/* ── Button (base) ── */
+.button {
+  display: inline-flex;
+  place-content: center;
+  gap: var(--size-gap);
+  padding: var(--va-padding, var(--size-padding));
+  font-size: var(--size-font-size);
+  line-height: var(--size-line-height, var(--size-font-size));
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  background: var(--va-bg);
+  color: var(--va-text);
+  border: 1px solid var(--va-border);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in;
+}
+
+.button:hover {
+  background: var(--va-hover-bg);
+  color: var(--va-hover-text);
+  border-color: var(--va-hover-border);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--va-focus-ring);
+  outline-offset: 2px;
+}
