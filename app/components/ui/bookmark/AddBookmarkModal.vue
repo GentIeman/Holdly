@@ -5,8 +5,10 @@
     description="Paste a link and save it for later"
     @close="resetState"
   >
-    <template #trigger>
+    <template #trigger="{ attrs }">
       <HButton
+        v-bind="attrs"
+        type="button"
         label="Save link"
         variant="solid"
         size="md"
