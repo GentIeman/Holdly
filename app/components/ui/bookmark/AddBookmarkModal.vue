@@ -126,10 +126,4 @@ async function onSubmit({ valid }: { valid: boolean }) {
   width: 100%;
   justify-content: center;
 }
-
-@media (min-width: 640px) {
-  .openButton {
-    width: fit-content;
-  }
-}
 </style>
