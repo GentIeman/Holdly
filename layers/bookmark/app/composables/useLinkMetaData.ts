@@ -27,7 +27,6 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
       query: { url },
       credentials: "include",
       onResponseError({ response }) {
-        // @TODO Toast shows on every keystroke, not on change
         if (response.status == 400) {
           notification.send({
             subject: "Please check that the URL is correct.",
@@ -41,8 +40,6 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
             severity: "error"
           })
         }
-
-        notification.clear()
       }
     })
   }
@@ -56,14 +53,9 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
     }
   }
 
-  watch(
-    () => toValue(link),
-    () => fetchMetaData(),
-    { immediate: true }
-  )
-
   return {
     metadata,
-    error
+    error,
+    fetchMetaData
   }
 }

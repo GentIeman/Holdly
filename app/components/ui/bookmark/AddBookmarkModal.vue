@@ -34,6 +34,7 @@
             required
             placeholder="https://example.com"
             size="lg"
+            @change="fetchMetaData"
           />
           <HButton
             type="submit"
@@ -74,7 +75,7 @@ const state = ref<BookmarkState>({ link: "" })
 const resetState = () => resetFormState(state, () => ({ link: "" }))
 
 const isModalOpen = ref(false)
-const { metadata } = useLinkMetaData(() => state.value.link)
+const { metadata, fetchMetaData } = useLinkMetaData(() => state.value.link)
 
 const userStore = useUserStore()
 const { fetchBookmarks } = useBookmarkStore()
