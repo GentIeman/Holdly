@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useCssModule } from "vue"
+import { computed } from "vue"
 import type { RouteLocationRaw } from "vue-router"
 import { Button } from "@vuetify/v0"
 import HIcon from "./HIcon.vue"
@@ -110,25 +110,16 @@ const props = withDefaults(defineProps<HButtonProps>(), {
 
 const linkTo = computed(() => props.to ?? props.href)
 
-const isIconOnly = computed(() => Boolean(props.icon) && !props.label)
-
-const style = useCssModule()
-
 const buttonClass = computed(() => [
   "button",
   `size-${props.size}`,
   `variant-${props.variant}`,
-  `tone-${props.color}`,
-  isIconOnly.value && style.iconOnly
+  `tone-${props.color}`
 ])
 </script>
 
 <style module>
 .icon {
   flex-shrink: 0;
-}
-
-.iconOnly {
-  padding: var(--spacing-sm);
 }
 </style>

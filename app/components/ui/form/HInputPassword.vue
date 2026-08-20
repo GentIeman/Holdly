@@ -12,7 +12,6 @@
     <template #trailing>
       <HButton
         type="button"
-        size="sm"
         variant="link"
         :icon="show ? 'tabler-eye-off' : 'tabler-eye'"
         @click="show = !show"
