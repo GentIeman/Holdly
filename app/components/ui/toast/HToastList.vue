@@ -1,9 +1,6 @@
 <template>
-  <Snackbar.Portal teleport="body">
-    <Snackbar.Queue
-      v-slot="{ items }"
-      :class="$style.queue"
-    >
+  <Snackbar.Portal :class="$style.portal">
+    <Snackbar.Queue v-slot="{ items }">
       <TransitionGroup name="snack-list-slide">
         <HToast
           v-for="(item, i) in items"
@@ -23,7 +20,7 @@ import HToast from "./HToast.vue"
 </script>
 
 <style module>
-.queue {
+.portal {
   position: fixed;
   bottom: var(--spacing-2xl);
   right: var(--spacing-2xl);
