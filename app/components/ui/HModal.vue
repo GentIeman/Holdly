@@ -73,8 +73,6 @@ watch(isOpen, (value) => {
 .dialog {
   width: min(90vw, 28rem);
   max-height: min(90vh, 40rem);
-  overflow: auto;
-  margin: auto;
   color: var(--color-zinc-200);
   background: var(--color-zinc-900);
   border: 1px solid var(--color-zinc-700);
@@ -84,10 +82,6 @@ watch(isOpen, (value) => {
   &::backdrop {
     background: rgba(0, 0, 0, 0.6);
     animation: backdrop-in 200ms ease;
-  }
-
-  &[open] {
-    animation: dialog-in 200ms ease;
   }
 
   .header {
@@ -136,18 +130,6 @@ watch(isOpen, (value) => {
     display: flex;
     justify-content: flex-end;
     margin-top: var(--spacing-3xl);
-  }
-}
-
-@keyframes dialog-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.5rem) scale(0.97);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 
