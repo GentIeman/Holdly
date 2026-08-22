@@ -46,7 +46,7 @@ import type { HDropdownMenuItem } from "~/components/ui/HDropdownMenu.vue"
 import HContainer from "~/components/ui/HContainer.vue"
 import HButton from "~/components/ui/HButton.vue"
 import HDropdownMenu from "~/components/ui/HDropdownMenu.vue"
-import AddBookmarkModal from "~/components/ui/bookmark/AddBookmarkModal.vue"
+import AddBookmarkModal from "~/components/bookmark/AddBookmarkModal.vue"
 
 const navigationMenuItems = [
   {

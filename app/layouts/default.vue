@@ -10,9 +10,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import HHeader from "~/components/ui/layout/HHeader.vue"
+import HHeader from "~/components/layout/HHeader.vue"
 import HContainer from "~/components/ui/HContainer.vue"
-import AddBookmarkModal from "~/components/ui/bookmark/AddBookmarkModal.vue"
+import AddBookmarkModal from "~/components/bookmark/AddBookmarkModal.vue"
 </script>
 
 <style scoped>

@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import type { Bookmark } from "~~/layers/bookmark/app/stores/bookmark"
-import BookmarkDropdownMenu from "~/components/ui/bookmark/BookmarkDropdownMenu.vue"
+import BookmarkDropdownMenu from "~/components/bookmark/BookmarkDropdownMenu.vue"
 import { getDomain } from "~/utils/getDomain.ts"
 
 defineProps<{

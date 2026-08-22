@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import BookmarkList, { type BookmarkView } from "@/components/ui/bookmark/BookmarkList.vue"
+import BookmarkList, { type BookmarkView } from "~/components/bookmark/BookmarkList.vue"
 import { useBookmarkStore } from "~~/layers/bookmark/app/stores/bookmark"
 
 const bookmarkStore = useBookmarkStore()

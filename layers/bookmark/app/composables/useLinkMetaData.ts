@@ -1,5 +1,5 @@
 import { ref, toValue } from "vue"
-import type { LinkMetaData } from "~/components/ui/bookmark/LinkPreview.vue"
+import type { LinkMetaData } from "~/components/bookmark/LinkPreview.vue"
 import { useNotifications } from "@vuetify/v0"
 
 export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
