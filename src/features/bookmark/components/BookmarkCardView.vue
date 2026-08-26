@@ -1,9 +1,6 @@
 <template>
   <article :class="$style.card">
-    <header
-      v-if="bookmark.preview"
-      :class="$style.preview"
-    >
+    <header v-if="bookmark.preview">
       <img
         :src="bookmark.preview"
         :alt="bookmark.title"
@@ -53,7 +50,8 @@ defineProps<{
   padding: 0.875rem;
   border: 2px solid var(--color-zinc-800);
   border-radius: 0.75rem;
-  overflow: clip;
+  min-height: 400px;
+  max-height: 500px;
 
   .image {
     width: 100%;
