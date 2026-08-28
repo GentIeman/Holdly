@@ -2,18 +2,23 @@
   <HDropdownMenu
     position-area="bottom span-left"
     :items="items"
-    :trigger="{
-      icon: 'tabler-dots',
-      variant: 'outline',
-      color: 'neutral',
-      size: 'md',
-      ariaLabel: 'Bookmark actions'
-    }"
-  />
+  >
+    <template #activator="{ attrs }">
+      <HButton
+        v-bind="attrs"
+        type="button"
+        variant="outline"
+        color="neutral"
+        icon="tabler-dots"
+        aria-label="Bookmark actions"
+      />
+    </template>
+  </HDropdownMenu>
 </template>
 
 <script setup lang="ts">
 import HDropdownMenu, { type HDropdownMenuItem } from "@/components/ui/HDropdownMenu.vue"
+import HButton from "@/components/ui/HButton.vue"
 import type { Bookmark } from "@/features/bookmark/stores/bookmark"
 
 const props = defineProps<{

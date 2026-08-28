@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
+import { computed, useCssModule } from "vue"
 import type { RouteLocationRaw } from "vue-router"
 import { Button } from "@vuetify/v0"
 import HIcon from "./HIcon.vue"
@@ -110,16 +110,53 @@ const props = withDefaults(defineProps<HButtonProps>(), {
 
 const linkTo = computed(() => props.to ?? props.href)
 
+const style = useCssModule()
+
+const isIconOnly = computed(() => props.icon && !props.label)
+
 const buttonClass = computed(() => [
-  "button",
+  style.button,
   `size-${props.size}`,
   `variant-${props.variant}`,
-  `tone-${props.color}`
+  `tone-${props.color}`,
+  isIconOnly && style.iconOnly
 ])
 </script>
 
 <style module>
+.button {
+  display: inline-flex;
+  place-content: center;
+  gap: var(--size-gap);
+  font-size: var(--size-font-size);
+  padding: var(--size-padding);
+  line-height: var(--size-line-height, var(--size-font-size));
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  background: var(--va-bg);
+  color: var(--va-text);
+  border: 1px solid var(--va-border);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in;
+
+  &:hover {
+    background: var(--va-hover-bg);
+    color: var(--va-hover-text);
+    border-color: var(--va-hover-border);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--va-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
 .icon {
   flex-shrink: 0;
+}
+
+.iconOnly {
+  padding: var(--spacing-sm);
 }
 </style>

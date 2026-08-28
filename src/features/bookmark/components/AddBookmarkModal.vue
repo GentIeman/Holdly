@@ -8,11 +8,8 @@
     <template #trigger="{ attrs }">
       <HButton
         v-bind="attrs"
-        type="button"
         label="Save link"
         variant="solid"
-        size="md"
-        :class="$style.openButton"
       />
     </template>
 
@@ -123,10 +120,5 @@ async function onSubmit({ valid }: { valid: boolean }) {
     display: grid;
     gap: var(--spacing-2xl);
   }
-}
-
-.openButton {
-  width: 100%;
-  justify-content: center;
 }
 </style>

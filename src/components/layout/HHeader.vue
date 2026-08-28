@@ -3,7 +3,7 @@
     <HButton
       variant="link"
       label="Clip It"
-      size="xl"
+      size="lg"
       to="/"
     />
     <HContainer class="header-navigation">
@@ -19,7 +19,6 @@
               :icon="item.icon"
               variant="soft"
               color="neutral"
-              size="md"
             />
           </li>
         </ul>
@@ -28,16 +27,18 @@
         <AddBookmarkModal />
       </HContainer>
     </HContainer>
-    <HDropdownMenu
-      :items="dropDownMenuItems"
-      :trigger="{
-        variant: 'outline',
-        color: 'neutral',
-        icon: 'tabler-user',
-        size: 'md',
-        ariaLabel: 'Account'
-      }"
-    />
+    <HDropdownMenu :items="dropDownMenuItems">
+      <template #activator="{ attrs }">
+        <HButton
+          v-bind="attrs"
+          type="button"
+          variant="outline"
+          color="neutral"
+          icon="tabler-user"
+          aria-label="Account"
+        />
+      </template>
+    </HDropdownMenu>
   </header>
 </template>
 
