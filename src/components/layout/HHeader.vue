@@ -3,7 +3,7 @@
     <HButton
       variant="link"
       label="Clip It"
-      size="lg"
+      size="xl"
       to="/"
     />
     <HContainer class="header-navigation">
