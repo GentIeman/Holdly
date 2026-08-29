@@ -20,6 +20,7 @@ import AddBookmarkModal from "@/features/bookmark/components/AddBookmarkModal.vu
   width: 100%;
   max-width: var(--container-xl);
   margin: auto;
+  padding: 0 var(--spacing-lg);
 }
 
 .bottom-bar {

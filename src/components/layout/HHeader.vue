@@ -85,7 +85,7 @@ const dropDownMenuItems: HDropdownMenuItem[][] = [
   width: 100%;
   max-width: var(--container-xl);
   margin: auto;
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-lg);
 
   .header-navigation {
     display: flex;
