@@ -112,14 +112,14 @@ const linkTo = computed(() => props.to ?? props.href)
 
 const style = useCssModule()
 
-const isIconOnly = computed(() => props.icon && !props.label)
+const isIconOnly = computed(() => (!!props.icon || !!props.trailingIcon) && !props.label)
 
 const buttonClass = computed(() => [
   style.button,
   `size-${props.size}`,
   `variant-${props.variant}`,
   `tone-${props.color}`,
-  isIconOnly && style.iconOnly
+  isIconOnly.value && style.iconOnly
 ])
 </script>
 
@@ -157,6 +157,6 @@ const buttonClass = computed(() => [
 }
 
 .iconOnly {
-  padding: var(--spacing-sm);
+  padding: var(--size-padding-icon);
 }
 </style>

@@ -4,30 +4,35 @@
 .size-xs {
   --size-gap: var(--spacing-s);
   --size-padding: var(--spacing-s) var(--spacing-md);
+  --size-padding-icon: var(--spacing-s);
   --size-font-size: var(--font-size-xs);
   --size-line-height: 1rem;
 }
 .size-sm {
   --size-gap: var(--spacing-sm);
   --size-padding: var(--spacing-sm) var(--spacing-lg);
+  --size-padding-icon: var(--spacing-sm);
   --size-font-size: var(--font-size-xs);
   --size-line-height: 1rem;
 }
 .size-md {
   --size-gap: var(--spacing-sm);
   --size-padding: var(--spacing-sm) var(--spacing-lg);
+  --size-padding-icon: var(--spacing-sm);
   --size-font-size: var(--font-size-sm);
   --size-line-height: 1.25rem;
 }
 .size-lg {
   --size-gap: var(--spacing-md);
   --size-padding: var(--spacing-md) var(--spacing-xl);
+  --size-padding-icon: var(--spacing-md);
   --size-font-size: var(--font-size-sm);
   --size-line-height: 1.25rem;
 }
 .size-xl {
   --size-gap: var(--spacing-2xl);
   --size-padding: var(--spacing-2xl) var(--spacing-3xl);
+  --size-padding-icon: var(--spacing-2xl);
   --size-font-size: var(--font-size-lg);
   --size-line-height: 1.5rem;
 }
@@ -113,7 +118,8 @@
   --va-bg: transparent;
   --va-text: var(--tone-text);
   --va-border: transparent;
-  --va-padding: 0;
+  --size-padding: 0;
+  --size-padding-icon: 0;
   --va-hover-bg: transparent;
   --va-hover-text: var(--tone-text-hover);
   --va-hover-border: transparent;
