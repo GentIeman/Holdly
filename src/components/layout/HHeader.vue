@@ -1,9 +1,9 @@
 <template>
   <header class="header">
     <HButton
+      class="brand"
       variant="link"
       label="Clip It"
-      size="xl"
       to="/"
     />
     <HContainer class="header-navigation">
@@ -92,18 +92,22 @@ const dropDownMenuItems: HDropdownMenuItem[][] = [
     flex: 1;
     align-items: center;
   }
-}
 
-.navigation {
-  display: flex;
-  flex: 1;
-  justify-content: center;
+  .brand {
+    font-size: var(--font-size-lg);
+  }
 
-  .navigation-list {
+  .navigation {
     display: flex;
-    align-items: center;
-    gap: var(--spacing-3xl);
-    list-style: none;
+    flex: 1;
+    justify-content: center;
+
+    .navigation-list {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3xl);
+      list-style: none;
+    }
   }
 }
 
