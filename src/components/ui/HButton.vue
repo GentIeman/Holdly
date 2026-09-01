@@ -1,6 +1,7 @@
 <template>
   <HLink
     v-if="linkTo"
+    v-bind="$attrs"
     :to="props.to"
     :href="props.href"
     :disabled="disabled"
