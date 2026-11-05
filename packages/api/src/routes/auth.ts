@@ -3,7 +3,7 @@ import { getAccessToken, getRefreshToken, setAuthCookies } from "../utils/cookie
 
 const auth = new Hono()
 
-const origin = process.env.STRAPI_ORIGIN
+const origin = import.meta.env.VITE_STRAPI_ORIGIN
 
 type User = {
   blocked: boolean
