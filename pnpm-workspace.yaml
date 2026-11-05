@@ -1,0 +1,8 @@
+packages:
+  - "packages/*"
+
+# Allows these deps to run install/build scripts (e.g. postinstall)
+# pnpm why <pkg> - shows who uses this package (dependency chain)
+# root node of a tree - queried package, branches - who uses it
+allowBuilds:
+  esbuild: true
