@@ -2,7 +2,7 @@ import { Hono } from "hono"
 import { getAccessToken } from "../utils/cookies"
 import qs from "qs"
 
-const origin = process.env.STRAPI_ORIGIN
+const origin = import.meta.env.VITE_STRAPI_ORIGIN
 
 type Bookmark = {
   documentId: string

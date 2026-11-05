@@ -1,7 +1,7 @@
 import type { Context } from "hono"
 import { getCookie, setCookie, deleteCookie } from "hono/cookie"
 
-const isProd = process.env.NODE_ENV === "production"
+const isProd = import.meta.env.PROD
 
 export function getAccessToken(c: Context) {
   return getCookie(c, "access_token")
