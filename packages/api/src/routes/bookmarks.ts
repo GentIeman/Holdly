@@ -1,23 +1,22 @@
 import { Hono } from "hono"
-import { getAccessToken } from "../utils/cookies"
 import qs from "qs"
+
+import { getAccessToken } from "../utils/cookies"
+import { httpError } from "../utils/errors"
+import { validate } from "../utils/validation"
+import {
+  bookmarkBodySchema,
+  bookmarksQuerySchema,
+  linkMetadataQuerySchema
+} from "../schemas/bookmarks"
 
 const origin = import.meta.env.VITE_STRAPI_ORIGIN
 
-type Bookmark = {
-  documentId: string
-  title: string
-  description: string
-  link: string
-  preview: string
-  createdAt: string
-}
-
 const bookmarks = new Hono()
 
-bookmarks.get("/bookmarks", async (c) => {
-  const token = getAccessToken(c)
-  const userDocumentId = c.req.query("userDocumentId")
+bookmarks.get("/bookmarks", validate("query", bookmarksQuerySchema), async (ctx) => {
+  const token = getAccessToken(ctx)
+  const { userDocumentId } = ctx.req.valid("query")
 
   const queryString = qs.stringify(
     {
@@ -41,14 +40,18 @@ bookmarks.get("/bookmarks", async (c) => {
     }
   })
 
+  if (!res.ok) {
+    return httpError(ctx, 502, "UPSTREAM_ERROR", "Unable to load bookmarks")
+  }
+
   const { data } = await res.json()
 
-  return c.json(data)
+  return ctx.json(data)
 })
 
-bookmarks.post("/bookmark", async (c) => {
-  const token = getAccessToken(c)
-  const body = await c.req.json()
+bookmarks.post("/bookmark", validate("json", bookmarkBodySchema), async (ctx) => {
+  const token = getAccessToken(ctx)
+  const body = ctx.req.valid("json")
 
   const res = await fetch(origin + "/api/bookmarks", {
     method: "POST",
@@ -59,23 +62,26 @@ bookmarks.post("/bookmark", async (c) => {
     body: JSON.stringify({ data: { ...body } })
   })
 
-  const { data } = await res.json()
-
-  return c.json(data)
-})
-
-bookmarks.get("/link-metadata", async (c) => {
-  const url = c.req.query("url")
-
-  if (!url) {
-    return c.json({ error: "URL is required" }, 400)
+  if (!res.ok) {
+    return httpError(ctx, 502, "UPSTREAM_ERROR", "Unable to save the bookmark")
   }
 
-  const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), 5000)
+  const { data } = await res.json()
+
+  return ctx.json(data)
+})
+
+bookmarks.get("/link-metadata", validate("query", linkMetadataQuerySchema), async (ctx) => {
+  const { url } = ctx.req.valid("query")
 
   try {
-    const html = await fetch(url, { signal: controller.signal }).then((r) => r.text())
+    const res = await fetch(url, { signal: AbortSignal.timeout(5000) })
+
+    if (!res.ok) {
+      return httpError(ctx, 502, "FETCH_FAILED", "Unable to fetch the link")
+    }
+
+    const html = await res.text()
 
     const title =
       html.match(/<meta property="og:title" content="(.*?)"/)?.[1] ||
@@ -89,14 +95,18 @@ bookmarks.get("/link-metadata", async (c) => {
 
     const siteName = html.match(/<meta property="og:site_name" content="(.*?)"/)?.[1]
 
-    return c.json({ title, description, preview, siteName })
-  } catch (e: any) {
-    if (e.name === "AbortError") {
-      return c.json({ error: "Link preview request timed out" }, 504)
+    return ctx.json({
+      title: title?.trim() || new URL(url).hostname,
+      description: description?.trim(),
+      preview: preview?.trim(),
+      siteName: siteName?.trim()
+    })
+  } catch (error: unknown) {
+    if (error instanceof DOMException && error.name === "TimeoutError") {
+      return httpError(ctx, 504, "FETCH_TIMEOUT", "The request timed out")
     }
-    return c.json({ error: "Failed to fetch link preview" }, 400)
-  } finally {
-    clearTimeout(timeout)
+
+    return httpError(ctx, 502, "FETCH_FAILED", "Could not reach the link")
   }
 })
 
