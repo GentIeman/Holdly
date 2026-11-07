@@ -3,6 +3,7 @@ import { cors } from "hono/cors"
 import { logger } from "hono/logger"
 import auth from "./routes/auth"
 import bookmarks from "./routes/bookmarks"
+import { httpError } from "./utils/errors"
 
 const app = new Hono()
 
@@ -17,5 +18,12 @@ app.use(
 
 app.route("/api", auth)
 app.route("/api", bookmarks)
+
+app.notFound((ctx) => httpError(ctx, 404, "NOT_FOUND", "Not found"))
+
+app.onError((error, ctx) => {
+  console.error(error)
+  return httpError(ctx, 500, "INTERNAL_ERROR", "Internal server error")
+})
 
 export default app

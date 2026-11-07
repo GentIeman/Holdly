@@ -1,5 +1,9 @@
 import { Hono } from "hono"
+
+import { loginSchema, registerSchema } from "../schemas/auth"
 import { getAccessToken, getRefreshToken, setAuthCookies } from "../utils/cookies"
+import { httpError } from "../utils/errors"
+import { validate } from "../utils/validation"
 
 const auth = new Hono()
 
@@ -20,8 +24,8 @@ type AuthResponse = {
   user: User
 }
 
-auth.post("/login", async (c) => {
-  const body = await c.req.json<{ identifier: string; password: string }>()
+auth.post("/login", validate("json", loginSchema), async (ctx) => {
+  const body = ctx.req.valid("json")
 
   const res = await fetch(origin + "/api/auth/local", {
     method: "POST",
@@ -30,18 +34,18 @@ auth.post("/login", async (c) => {
   })
 
   if (!res.ok) {
-    return c.json({ error: "Unauthorized" }, 401)
+    return httpError(ctx, 401, "UNAUTHORIZED", "Invalid credentials")
   }
 
   const data: AuthResponse = await res.json()
 
-  setAuthCookies(c, { accessToken: data.jwt, refreshToken: data.refreshToken })
+  setAuthCookies(ctx, { accessToken: data.jwt, refreshToken: data.refreshToken })
 
-  return c.json({ user: data.user })
+  return ctx.json({ user: data.user })
 })
 
-auth.post("/register", async (c) => {
-  const body = await c.req.json<{ email: string; password: string; username: string }>()
+auth.post("/register", validate("json", registerSchema), async (ctx) => {
+  const body = ctx.req.valid("json")
 
   const res = await fetch(origin + "/api/auth/local/register", {
     method: "POST",
@@ -50,21 +54,28 @@ auth.post("/register", async (c) => {
   })
 
   if (!res.ok) {
-    return c.json({ error: "Unauthorized" }, 401)
+    const isClientError = res.status === 400
+
+    return httpError(
+      ctx,
+      isClientError ? 400 : 502,
+      isClientError ? "VALIDATION_ERROR" : "UPSTREAM_ERROR",
+      "Unable to register"
+    )
   }
 
   const data: AuthResponse = await res.json()
 
-  setAuthCookies(c, { accessToken: data.jwt, refreshToken: data.refreshToken })
+  setAuthCookies(ctx, { accessToken: data.jwt, refreshToken: data.refreshToken })
 
-  return c.json({ user: data.user })
+  return ctx.json({ user: data.user })
 })
 
-auth.get("/me", async (c) => {
-  const token = getAccessToken(c)
+auth.get("/me", async (ctx) => {
+  const token = getAccessToken(ctx)
 
   if (!token) {
-    return c.json({ error: "Unauthorized" }, 401)
+    return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
   }
 
   const res = await fetch(origin + "/api/users/me", {
@@ -72,17 +83,17 @@ auth.get("/me", async (c) => {
   })
 
   if (!res.ok) {
-    return c.json({ error: "Internal Server Error" }, 500)
+    return httpError(ctx, 502, "UPSTREAM_ERROR", "Unable to load the user")
   }
 
-  return c.json(await res.json())
+  return ctx.json(await res.json())
 })
 
-auth.post("/refresh", async (c) => {
-  const refreshToken = getRefreshToken(c)
+auth.post("/refresh", async (ctx) => {
+  const refreshToken = getRefreshToken(ctx)
 
   if (!refreshToken) {
-    return c.json({ error: "Unauthorized" }, 401)
+    return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
   }
 
   const res = await fetch(origin + "/api/auth/refresh", {
@@ -92,17 +103,17 @@ auth.post("/refresh", async (c) => {
   })
 
   if (!res.ok) {
-    return c.json({ error: "Internal Server Error" }, 500)
+    return httpError(ctx, 502, "UPSTREAM_ERROR", "Unable to refresh the session")
   }
 
   const data: AuthResponse = await res.json()
 
-  setAuthCookies(c, {
+  setAuthCookies(ctx, {
     accessToken: data.jwt,
     refreshToken: data.refreshToken ?? refreshToken
   })
 
-  return c.json({ ok: true })
+  return ctx.json({ ok: true })
 })
 
 export default auth
