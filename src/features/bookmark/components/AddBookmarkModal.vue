@@ -16,13 +16,13 @@
     <template #body>
       <div :class="$style.body">
         <LinkPreview
-          v-if="metadata"
+          v-if="isLoaded"
           :metadata="metadata"
         />
         <HForm
           :schema="schema"
           :class="$style.form"
-          @submit="onSubmit"
+          @submit="saveBookmark"
         >
           <HInput
             v-model="state.link"
@@ -46,7 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, watch } from "vue"
+import { storeToRefs } from "pinia"
 
 import * as z from "zod"
 import { useNotifications } from "@vuetify/v0"
@@ -63,7 +64,7 @@ import { useUserStore } from "@/features/user/stores/user"
 import { resetFormState } from "@/utils/resetFormState"
 
 const schema = z.object({
-  link: z.url()
+  link: z.httpUrl()
 })
 
 type BookmarkState = {
@@ -72,16 +73,24 @@ type BookmarkState = {
 
 const state = ref<BookmarkState>({ link: "" })
 
-const resetState = () => resetFormState(state, () => ({ link: "" }))
-
 const isModalOpen = ref(false)
-const { metadata, fetchMetaData } = useLinkMetaData(() => state.value.link)
+const { metadata, isLoaded, fetchMetaData, error, resetMetaData } = useLinkMetaData(
+  () => state.value.link
+)
+
+const resetState = () => {
+  resetFormState<BookmarkState>(state, () => ({ link: "" }))
+  resetMetaData()
+}
 
 const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 const { fetchBookmarks } = useBookmarkStore()
 const notifications = useNotifications()
 
-const handleCreateBookmark = async () => {
+async function saveBookmark({ valid }: { valid: boolean }) {
+  if (!valid || !user.value) return
+
   try {
     await api<Bookmark>("/api/bookmark", {
       method: "POST",
@@ -90,25 +99,33 @@ const handleCreateBookmark = async () => {
         title: metadata.value.title,
         description: metadata.value.description,
         preview: metadata.value.preview,
-        user: userStore.user?.documentId
-      },
-      onResponseError() {
-        notifications.send({
-          subject: "Oops, something went wrong!",
-          severity: "error"
-        })
+        user: user.value.documentId
       }
     })
     await fetchBookmarks()
-  } finally {
     isModalOpen.value = false
+  } catch {
+    notifications.send({
+      subject: "Oops, something went wrong!",
+      severity: "error"
+    })
   }
 }
 
-async function onSubmit({ valid }: { valid: boolean }) {
-  if (!valid) return
-  await handleCreateBookmark()
+const errorMessages: Record<string, string> = {
+  VALIDATION_ERROR: "Please check that the URL is correct.",
+  FETCH_FAILED: "Please try again later or use a different link.",
+  FETCH_TIMEOUT: "Please try again later or use a different link."
 }
+
+watch(error, (value) => {
+  if (!value) return
+
+  notifications.send({
+    subject: errorMessages[value.code ?? ""] ?? "Could not load the link preview.",
+    severity: "error"
+  })
+})
 </script>
 
 <style module>

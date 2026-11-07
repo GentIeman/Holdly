@@ -1,61 +1,46 @@
 import { ref, toValue, type MaybeRefOrGetter } from "vue"
 
-import { useNotifications } from "@vuetify/v0"
-
-import { api } from "@/utils/api"
+import { api, toApiError, type ApiError } from "@/utils/api"
 import type { LinkMetaData } from "@/features/bookmark/components/LinkPreview.vue"
 
+const emptyMetaData: LinkMetaData = {
+  title: "",
+  description: undefined,
+  preview: undefined,
+  siteName: undefined
+}
+
 export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
-  const metadata = ref<LinkMetaData>({
-    title: "",
-    preview: undefined,
-    description: undefined,
-    siteName: undefined
-  })
-  const error = ref<Error | null>(null)
-  const notification = useNotifications()
+  const metadata = ref<LinkMetaData>({ ...emptyMetaData })
+  const isLoaded = ref(false)
+  const error = ref<ApiError | null>(null)
 
-  const fetchMetaData = async () => {
-    const url = toValue(link)
+  const resetMetaData = () => {
+    metadata.value = { ...emptyMetaData }
+    isLoaded.value = false
     error.value = null
-
-    if (!url || url.length < 5) {
-      resetMetadata()
-      return
-    }
-
-    metadata.value = await api<LinkMetaData>("/api/link-metadata", {
-      query: { url },
-      onResponseError({ response }) {
-        if (response.status == 400) {
-          notification.send({
-            subject: "Please check that the URL is correct.",
-            severity: "error"
-          })
-        }
-
-        if (response.status == 504) {
-          notification.send({
-            subject: "Please try again later or use a different link.",
-            severity: "error"
-          })
-        }
-      }
-    })
   }
 
-  const resetMetadata = () => {
-    metadata.value = {
-      title: "",
-      preview: undefined,
-      description: undefined,
-      siteName: undefined
+  const fetchMetaData = async () => {
+    const url = toValue(link).trim()
+
+    resetMetaData()
+
+    if (url.length < 5) return
+
+    try {
+      metadata.value = await api<LinkMetaData>("/api/link-metadata", { query: { url } })
+      isLoaded.value = true
+    } catch (cause) {
+      error.value = toApiError(cause)
     }
   }
 
   return {
     metadata,
+    isLoaded,
     error,
-    fetchMetaData
+    fetchMetaData,
+    resetMetaData
   }
 }
