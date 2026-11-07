@@ -57,12 +57,18 @@ importers:
       '@hono/node-server':
         specifier: 2.1.6
         version: 2.1.6(hono@4.13.16)
+      '@hono/zod-validator':
+        specifier: 0.9.1
+        version: 0.9.1(hono@4.13.16)(zod@4.6.7)
       hono:
         specifier: 4.13.16
         version: 4.13.16
       qs:
         specifier: 6.17.1
         version: 6.17.1
+      zod:
+        specifier: 4.6.7
+        version: 4.6.7
     devDependencies:
       '@hono/vite-build':
         specifier: ^1.11.1
@@ -315,6 +321,12 @@ packages:
         optional: true
       wrangler:
         optional: true
+
+  '@hono/zod-validator@0.9.1':
+    resolution: {integrity: sha512-iiv6w0qrIc0arfvCtUqBWsvl4fXjzaTcQcCJTTtCnkawF9HHGE+KjEl0ox3gQJ6rKZEgE3mLExlQCF72M+mNuw==}
+    peerDependencies:
+      hono: '>=4.11.2'
+      zod: ^3.25.0 || ^4.0.0
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1572,6 +1584,11 @@ snapshots:
       '@hono/node-server': 1.19.18(hono@4.13.16)
       hono: 4.13.16
       minimatch: 9.0.9
+
+  '@hono/zod-validator@0.9.1(hono@4.13.16)(zod@4.6.7)':
+    dependencies:
+      hono: 4.13.16
+      zod: 4.6.7
 
   '@iconify/types@2.0.0': {}
 
