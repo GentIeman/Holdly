@@ -10,10 +10,7 @@ type ApiErrorResponse = {
 export class ApiError extends Error {
   readonly code?: string
 
-  constructor(
-    message: string,
-    options: { code?: string; cause?: unknown } = {}
-  ) {
+  constructor(message: string, options: { code?: string; cause?: unknown } = {}) {
     super(message, { cause: options.cause })
     this.name = "ApiError"
     this.code = options.code
