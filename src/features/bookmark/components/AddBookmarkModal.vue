@@ -31,7 +31,7 @@
             required
             placeholder="https://example.com"
             size="lg"
-            @change="fetchMetaData"
+            @change="handleLinkChange"
           />
           <HButton
             type="submit"
@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue"
+import { ref } from "vue"
 import { storeToRefs } from "pinia"
 
 import * as z from "zod"
@@ -56,7 +56,8 @@ import HModal from "@/components/ui/HModal.vue"
 import HButton from "@/components/ui/HButton.vue"
 import HForm from "@/components/ui/form/HForm.vue"
 import HInput from "@/components/ui/form/HInput.vue"
-import { api } from "@/utils/api"
+import { api, getErrorMessage } from "@/utils/api"
+import { errorMessages } from "@/utils/errorMessages"
 import LinkPreview from "./LinkPreview.vue"
 import { useLinkMetaData } from "@/features/bookmark/composables/useLinkMetaData"
 import { useBookmarkStore, type Bookmark } from "@/features/bookmark/stores/bookmark"
@@ -74,13 +75,11 @@ type BookmarkState = {
 const state = ref<BookmarkState>({ link: "" })
 
 const isModalOpen = ref(false)
-const { metadata, isLoaded, fetchMetaData, error, resetMetaData } = useLinkMetaData(
-  () => state.value.link
-)
+const { metadata, isLoaded, fetchMetaData, reset } = useLinkMetaData(() => state.value.link)
 
 const resetState = () => {
   resetFormState<BookmarkState>(state, () => ({ link: "" }))
-  resetMetaData()
+  reset()
 }
 
 const userStore = useUserStore()
@@ -97,35 +96,31 @@ async function saveBookmark({ valid }: { valid: boolean }) {
       body: {
         link: state.value.link,
         title: metadata.value.title,
-        description: metadata.value.description,
-        preview: metadata.value.preview,
+        description: metadata.value?.description,
+        preview: metadata.value?.preview,
         user: user.value.documentId
       }
     })
     await fetchBookmarks()
     isModalOpen.value = false
-  } catch {
+  } catch (cause) {
     notifications.send({
-      subject: "Oops, something went wrong!",
+      subject: getErrorMessage(cause, errorMessages.bookmark),
       severity: "error"
     })
   }
 }
 
-const errorMessages: Record<string, string> = {
-  VALIDATION_ERROR: "Please check that the URL is correct.",
-  FETCH_FAILED: "Please try again later or use a different link.",
-  FETCH_TIMEOUT: "Please try again later or use a different link."
+async function handleLinkChange() {
+  try {
+    await fetchMetaData()
+  } catch (cause) {
+    notifications.send({
+      subject: getErrorMessage(cause, errorMessages.link),
+      severity: "error"
+    })
+  }
 }
-
-watch(error, (value) => {
-  if (!value) return
-
-  notifications.send({
-    subject: errorMessages[value.code ?? ""] ?? "Could not load the link preview.",
-    severity: "error"
-  })
-})
 </script>
 
 <style module>
