@@ -1,6 +1,6 @@
 import { ref, toValue, type MaybeRefOrGetter } from "vue"
 
-import { api, toApiError, type ApiError } from "@/utils/api"
+import { api } from "@/utils/api"
 import type { LinkMetaData } from "@/features/bookmark/components/LinkPreview.vue"
 
 const emptyMetaData: LinkMetaData = {
@@ -13,34 +13,27 @@ const emptyMetaData: LinkMetaData = {
 export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
   const metadata = ref<LinkMetaData>({ ...emptyMetaData })
   const isLoaded = ref(false)
-  const error = ref<ApiError | null>(null)
 
-  const resetMetaData = () => {
+  const reset = () => {
     metadata.value = { ...emptyMetaData }
     isLoaded.value = false
-    error.value = null
   }
 
   const fetchMetaData = async () => {
     const url = toValue(link).trim()
 
-    resetMetaData()
+    reset()
 
     if (url.length < 5) return
 
-    try {
-      metadata.value = await api<LinkMetaData>("/api/link-metadata", { query: { url } })
-      isLoaded.value = true
-    } catch (cause) {
-      error.value = toApiError(cause)
-    }
+    metadata.value = await api<LinkMetaData>("/api/link-metadata", { query: { url } })
+    isLoaded.value = true
   }
 
   return {
     metadata,
     isLoaded,
-    error,
     fetchMetaData,
-    resetMetaData
+    reset
   }
 }

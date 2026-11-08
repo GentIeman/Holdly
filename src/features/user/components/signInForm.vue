@@ -42,7 +42,8 @@ import HButton from "@/components/ui/HButton.vue"
 import HForm from "@/components/ui/form/HForm.vue"
 import HInput from "@/components/ui/form/HInput.vue"
 import HInputPassword from "@/components/ui/form/HInputPassword.vue"
-import { api } from "@/utils/api"
+import { api, getErrorMessage } from "@/utils/api"
+import { errorMessages } from "@/utils/errorMessages"
 import { type User, useUserStore } from "@/features/user/stores/user"
 
 const schema = z.object({
@@ -68,22 +69,23 @@ type LoginResponse = {
 async function handleSubmit({ valid }: { valid: boolean }) {
   if (!valid) return
 
-  const data = await api<LoginResponse>("/api/login", {
-    method: "POST",
-    body: {
-      identifier: state.value.email,
-      password: state.value.password
-    },
-    onResponseError() {
-      notifications.send({
-        subject: "Oops, something went wrong!",
-        severity: "error"
-      })
-    }
-  })
+  try {
+    const data = await api<LoginResponse>("/api/login", {
+      method: "POST",
+      body: {
+        identifier: state.value.email,
+        password: state.value.password
+      }
+    })
 
-  userStore.user = data.user
-  await router.push("/")
+    userStore.user = data.user
+    await router.push("/")
+  } catch (cause) {
+    notifications.send({
+      subject: getErrorMessage(cause, errorMessages.auth),
+      severity: "error"
+    })
+  }
 }
 </script>
 

@@ -11,15 +11,6 @@ export function validate<T extends ZodType, Target extends keyof ValidationTarge
   return zValidator(target, schema, (result, ctx) => {
     if (result.success) return
 
-    return httpError(
-      ctx,
-      400,
-      "VALIDATION_ERROR",
-      "Invalid request",
-      result.error.issues.map((issue) => ({
-        path: issue.path.map(String).join("."),
-        message: issue.message
-      }))
-    )
+    return httpError(ctx, 400, "VALIDATION_ERROR", "Invalid request")
   })
 }

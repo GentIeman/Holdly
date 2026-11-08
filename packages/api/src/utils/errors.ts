@@ -10,33 +10,11 @@ type HttpErrorCode =
   | "UPSTREAM_ERROR"
   | "INTERNAL_ERROR"
 
-type HttpErrorDetail = {
-  path: string
-  message: string
-}
-
-type HttpErrorBody = {
-  error: {
-    code: HttpErrorCode
-    message: string
-    details?: HttpErrorDetail[]
-  }
-}
-
 export function httpError(
   ctx: Context,
   status: ContentfulStatusCode,
   code: HttpErrorCode,
-  message: string,
-  details?: HttpErrorDetail[]
+  message: string
 ) {
-  const body: HttpErrorBody = {
-    error: {
-      code,
-      message,
-      ...(details?.length ? { details } : {})
-    }
-  }
-
-  return ctx.json(body, status)
+  return ctx.json({ error: { code, message } }, status)
 }
