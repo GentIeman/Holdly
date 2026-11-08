@@ -6,7 +6,6 @@
     :label="props.label"
     :name="props.name"
     :type="inputType"
-    :required="props.required"
     :rules="rules"
   >
     <label
