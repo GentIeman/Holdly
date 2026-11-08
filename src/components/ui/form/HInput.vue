@@ -1,24 +1,24 @@
 <template>
   <Input.Root
-      :id="id"
-      v-model="model"
-      :class="$style.field"
-      :label="props.label"
-      :name="props.name"
-      :type="inputType"
-      :required="props.required"
-      :rules="rules"
+    :id="id"
+    v-model="model"
+    :class="$style.field"
+    :label="props.label"
+    :name="props.name"
+    :type="inputType"
+    :required="props.required"
+    :rules="rules"
   >
     <label
-        v-if="props.label"
-        :class="[$style.label, { [$style.required]: props.required }]"
-        :for="id"
+      v-if="props.label"
+      :class="[$style.label, { [$style.required]: props.required }]"
+      :for="id"
     >
       {{ props.label }}
     </label>
 
     <div
-        :class="[
+      :class="[
         $style.input,
         `size-${props.size}`,
         `variant-${props.variant}`,
@@ -26,28 +26,28 @@
       ]"
     >
       <Input.Control
-          :class="$style.control"
-          :placeholder="props.placeholder"
-          :autocomplete="props.autocomplete"
+        :class="$style.control"
+        :placeholder="props.placeholder"
+        :autocomplete="props.autocomplete"
       />
       <span
-          v-if="!!$slots.trailing"
-          :class="$style.trailing"
+        v-if="!!$slots.trailing"
+        :class="$style.trailing"
       >
-        <slot name="trailing"/>
+        <slot name="trailing" />
       </span>
     </div>
 
     <Input.Error
-        v-if="!!rules?.length"
-        v-slot="{ errors }"
-        :class="$style.error"
+      v-if="!!rules?.length"
+      v-slot="{ errors }"
+      :class="$style.error"
     >
       <template v-if="errors.length">
         <span
-            v-for="msg in errors"
-            :key="msg"
-        >{{ msg }}
+          v-for="msg in errors"
+          :key="msg"
+          >{{ msg }}
         </span>
       </template>
     </Input.Error>
