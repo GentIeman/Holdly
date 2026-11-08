@@ -8,9 +8,7 @@ export const api = ofetch.create({
 })
 
 export function getErrorCode(error: unknown): string {
-  return error instanceof FetchError
-    ? (error.data?.error?.code ?? "UNKNOWN")
-    : "UNKNOWN"
+  return error instanceof FetchError ? (error.data?.error?.code ?? "UNKNOWN") : "UNKNOWN"
 }
 
 export function getErrorMessage(error: unknown, messages: ErrorMessages): string {
