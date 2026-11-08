@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { Form } from "@vuetify/v0"
 import type { ZodObject } from "zod"
-import { provideFormSchema } from "@/utils/formSchema"
+import { useFormSchema } from "@/composables/useFormSchema"
 
 export type HFormProps = {
   id?: string
@@ -19,7 +19,8 @@ export type HFormProps = {
 
 const props = defineProps<HFormProps>()
 
-provideFormSchema(() => props.schema)
+const { setSchema } = useFormSchema()
+setSchema(() => props.schema)
 
 const emits = defineEmits<{
   submit: [payload: { valid: boolean }]

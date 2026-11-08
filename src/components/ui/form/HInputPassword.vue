@@ -29,7 +29,7 @@ import type { HInputProps } from "./HInput.vue"
 const props = withDefaults(
   defineProps<{
     label?: string
-    name?: string
+    name: string
     placeholder?: string
     required?: boolean
     autocomplete?: string

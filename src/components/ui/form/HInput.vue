@@ -1,24 +1,24 @@
 <template>
   <Input.Root
-    :id="id"
-    v-model="model"
-    :class="$style.field"
-    :label="props.label"
-    :name="props.name"
-    :type="inputType"
-    :required="props.required"
-    :rules="resolvedRules"
+      :id="id"
+      v-model="model"
+      :class="$style.field"
+      :label="props.label"
+      :name="props.name"
+      :type="inputType"
+      :required="props.required"
+      :rules="rules"
   >
     <label
-      v-if="props.label"
-      :class="[$style.label, { [$style.required]: props.required }]"
-      :for="id"
+        v-if="props.label"
+        :class="[$style.label, { [$style.required]: props.required }]"
+        :for="id"
     >
       {{ props.label }}
     </label>
 
     <div
-      :class="[
+        :class="[
         $style.input,
         `size-${props.size}`,
         `variant-${props.variant}`,
@@ -26,28 +26,28 @@
       ]"
     >
       <Input.Control
-        :class="$style.control"
-        :placeholder="props.placeholder"
-        :autocomplete="props.autocomplete"
+          :class="$style.control"
+          :placeholder="props.placeholder"
+          :autocomplete="props.autocomplete"
       />
       <span
-        v-if="!!$slots.trailing"
-        :class="$style.trailing"
+          v-if="!!$slots.trailing"
+          :class="$style.trailing"
       >
-        <slot name="trailing" />
+        <slot name="trailing"/>
       </span>
     </div>
 
     <Input.Error
-      v-if="!!resolvedRules?.length"
-      v-slot="{ errors }"
-      :class="$style.error"
+        v-if="!!rules?.length"
+        v-slot="{ errors }"
+        :class="$style.error"
     >
       <template v-if="errors.length">
         <span
-          v-for="msg in errors"
-          :key="msg"
-          >{{ msg }}
+            v-for="msg in errors"
+            :key="msg"
+        >{{ msg }}
         </span>
       </template>
     </Input.Error>
@@ -56,8 +56,8 @@
 
 <script setup lang="ts">
 import { useId, computed } from "vue"
-import { Input, type InputRootProps } from "@vuetify/v0"
-import { useFormSchema } from "@/utils/formSchema"
+import { Input } from "@vuetify/v0"
+import { useFormSchema } from "@/composables/useFormSchema"
 
 export type HInputSize = "sm" | "md" | "lg"
 
@@ -69,7 +69,7 @@ export type HInputProps = {
   label?: string
   placeholder?: string
   type?: string
-  name?: string
+  name: string
   autocomplete?: string
   required?: boolean
   size?: HInputSize
@@ -86,13 +86,8 @@ const props = withDefaults(defineProps<HInputProps>(), {
 
 const id = useId()
 
-const formSchema = useFormSchema()
-
-const resolvedRules = computed<InputRootProps["rules"]>(() => {
-  const field = props.name ? formSchema?.value?.shape[props.name] : undefined
-
-  return field ? [field] : []
-})
+const { getRules } = useFormSchema()
+const rules = getRules(props.name)
 
 const inputType = computed(() => props.type ?? "text")
 
