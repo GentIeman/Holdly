@@ -6,8 +6,6 @@ type HttpErrorCode =
   | "UNAUTHORIZED"
   | "NOT_FOUND"
   | "FETCH_FAILED"
-  | "FETCH_TIMEOUT"
-  | "UPSTREAM_ERROR"
   | "INTERNAL_ERROR"
 
 export function httpError(

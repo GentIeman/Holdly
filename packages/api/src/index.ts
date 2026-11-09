@@ -1,6 +1,7 @@
 import { Hono } from "hono"
 import { cors } from "hono/cors"
 import { logger } from "hono/logger"
+import { HTTPException } from "hono/http-exception"
 import auth from "./routes/auth"
 import bookmarks from "./routes/bookmarks"
 import { httpError } from "./utils/errors"
@@ -22,6 +23,10 @@ app.route("/api", bookmarks)
 app.notFound((ctx) => httpError(ctx, 404, "NOT_FOUND", "Not found"))
 
 app.onError((error, ctx) => {
+  if (error instanceof HTTPException && error.status === 400) {
+    return httpError(ctx, 400, "VALIDATION_ERROR", "Invalid request")
+  }
+
   console.error(error)
   return httpError(ctx, 500, "INTERNAL_ERROR", "Internal server error")
 })
