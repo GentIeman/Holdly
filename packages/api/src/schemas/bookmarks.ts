@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { externalUrlSchema } from "./externalUrl"
+
 export const bookmarksQuerySchema = z.object({
   userDocumentId: z.string().min(1)
 })
@@ -13,5 +15,5 @@ export const bookmarkBodySchema = z.object({
 })
 
 export const linkMetadataQuerySchema = z.object({
-  url: z.httpUrl()
+  url: externalUrlSchema
 })
