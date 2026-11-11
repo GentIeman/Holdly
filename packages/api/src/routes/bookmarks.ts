@@ -82,7 +82,7 @@ bookmarks.get("/link-metadata", validate("query", linkMetadataQuerySchema), asyn
   const { url } = ctx.req.valid("query")
 
   try {
-    const safeUrl = assertSafeExternalHttpUrl(url)
+    const safeUrl = await assertSafeExternalHttpUrl(url)
     const html = await fetchTextWithLimit(safeUrl, { timeout: 5_000 })
 
     const title =
