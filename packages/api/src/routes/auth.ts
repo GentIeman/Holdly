@@ -1,13 +1,13 @@
 import { Hono } from "hono"
+import { ofetch } from "ofetch"
 
 import { loginSchema, registerSchema } from "../schemas/auth"
 import { getAccessToken, getRefreshToken, setAuthCookies } from "../utils/cookies"
 import { httpError } from "../utils/errors"
+import { origin, requestOptions } from "../utils/config"
 import { validate } from "../utils/validation"
 
 const auth = new Hono()
-
-const origin = import.meta.env.VITE_STRAPI_ORIGIN
 
 type User = {
   blocked: boolean
@@ -27,17 +27,17 @@ type AuthResponse = {
 auth.post("/login", validate("json", loginSchema), async (ctx) => {
   const body = ctx.req.valid("json")
 
-  const res = await fetch(origin + "/api/auth/local", {
+  const res = await ofetch.raw<AuthResponse>(origin + "/api/auth/local", {
+    ...requestOptions,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body)
+    body
   })
 
   if (!res.ok) {
     return httpError(ctx, 401, "UNAUTHORIZED", "Invalid credentials")
   }
 
-  const data: AuthResponse = await res.json()
+  const data = res._data as AuthResponse
 
   setAuthCookies(ctx, { accessToken: data.jwt, refreshToken: data.refreshToken })
 
@@ -47,10 +47,10 @@ auth.post("/login", validate("json", loginSchema), async (ctx) => {
 auth.post("/register", validate("json", registerSchema), async (ctx) => {
   const body = ctx.req.valid("json")
 
-  const res = await fetch(origin + "/api/auth/local/register", {
+  const res = await ofetch.raw<AuthResponse>(origin + "/api/auth/local/register", {
+    ...requestOptions,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body)
+    body
   })
 
   if (!res.ok) {
@@ -58,13 +58,13 @@ auth.post("/register", validate("json", registerSchema), async (ctx) => {
 
     return httpError(
       ctx,
-      isClientError ? 400 : 502,
-      isClientError ? "VALIDATION_ERROR" : "UPSTREAM_ERROR",
-      "Unable to register"
+      isClientError ? 400 : 500,
+      isClientError ? "VALIDATION_ERROR" : "INTERNAL_ERROR",
+      isClientError ? "Unable to register" : "Internal server error"
     )
   }
 
-  const data: AuthResponse = await res.json()
+  const data = res._data as AuthResponse
 
   setAuthCookies(ctx, { accessToken: data.jwt, refreshToken: data.refreshToken })
 
@@ -78,15 +78,20 @@ auth.get("/me", async (ctx) => {
     return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
   }
 
-  const res = await fetch(origin + "/api/users/me", {
+  const res = await ofetch.raw<User>(origin + "/api/users/me", {
+    ...requestOptions,
     headers: { Authorization: `Bearer ${token}` }
   })
 
   if (!res.ok) {
-    return httpError(ctx, 502, "UPSTREAM_ERROR", "Unable to load the user")
+    if (res.status === 401) {
+      return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
+    }
+
+    return httpError(ctx, 500, "INTERNAL_ERROR", "Internal server error")
   }
 
-  return ctx.json(await res.json())
+  return ctx.json(res._data as User)
 })
 
 auth.post("/refresh", async (ctx) => {
@@ -96,17 +101,17 @@ auth.post("/refresh", async (ctx) => {
     return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
   }
 
-  const res = await fetch(origin + "/api/auth/refresh", {
+  const res = await ofetch.raw<AuthResponse>(origin + "/api/auth/refresh", {
+    ...requestOptions,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refreshToken })
+    body: { refreshToken }
   })
 
   if (!res.ok) {
-    return httpError(ctx, 502, "UPSTREAM_ERROR", "Unable to refresh the session")
+    return httpError(ctx, 500, "INTERNAL_ERROR", "Internal server error")
   }
 
-  const data: AuthResponse = await res.json()
+  const data = res._data as AuthResponse
 
   setAuthCookies(ctx, {
     accessToken: data.jwt,
