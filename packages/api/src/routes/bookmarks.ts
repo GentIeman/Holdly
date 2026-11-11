@@ -6,6 +6,7 @@ import { getAccessToken } from "../utils/cookies"
 import { httpError } from "../utils/errors"
 import { origin, requestOptions } from "../utils/config"
 import { validate } from "../utils/validation"
+import { assertSafeExternalHttpUrl, fetchTextWithLimit, isClientUrlError } from "../utils/safeFetch"
 import {
   bookmarkBodySchema,
   bookmarksQuerySchema,
@@ -16,6 +17,11 @@ const bookmarks = new Hono()
 
 bookmarks.get("/bookmarks", validate("query", bookmarksQuerySchema), async (ctx) => {
   const token = getAccessToken(ctx)
+
+  if (!token) {
+    return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
+  }
+
   const { userDocumentId } = ctx.req.valid("query")
 
   const queryString = qs.stringify(
@@ -49,6 +55,11 @@ bookmarks.get("/bookmarks", validate("query", bookmarksQuerySchema), async (ctx)
 
 bookmarks.post("/bookmark", validate("json", bookmarkBodySchema), async (ctx) => {
   const token = getAccessToken(ctx)
+
+  if (!token) {
+    return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
+  }
+
   const body = ctx.req.valid("json")
 
   const res = await ofetch.raw(origin + "/api/bookmarks", {
@@ -70,36 +81,34 @@ bookmarks.post("/bookmark", validate("json", bookmarkBodySchema), async (ctx) =>
 bookmarks.get("/link-metadata", validate("query", linkMetadataQuerySchema), async (ctx) => {
   const { url } = ctx.req.valid("query")
 
-  const res = await ofetch.raw<string, "text">(url, {
-    ...requestOptions,
-    responseType: "text",
-    timeout: 5_000
-  })
+  try {
+    const safeUrl = assertSafeExternalHttpUrl(url)
+    const html = await fetchTextWithLimit(safeUrl, { timeout: 5_000 })
 
-  if (!res.ok) {
+    const title =
+      html.match(/<meta property="og:title" content="(.*?)"/)?.[1] ||
+      html.match(/<title>(.*?)<\/title>/)?.[1]
+
+    const description =
+      html.match(/<meta property="og:description" content="(.*?)"/)?.[1] ||
+      html.match(/<meta name="description" content="(.*?)"/)?.[1]
+
+    const preview = html.match(/<meta property="og:image" content="(.*?)"/)?.[1]
+
+    const siteName = html.match(/<meta property="og:site_name" content="(.*?)"/)?.[1]
+
+    return ctx.json({
+      title: title?.trim() || "",
+      description: description?.trim() || undefined,
+      preview: preview?.trim() || undefined,
+      siteName: siteName?.trim() || undefined
+    })
+  } catch (error) {
+    if (isClientUrlError(error)) {
+      return httpError(ctx, 400, "VALIDATION_ERROR", "Invalid URL")
+    }
     return httpError(ctx, 500, "FETCH_FAILED", "Unable to fetch the link")
   }
-
-  const html = res._data ?? ""
-
-  const title =
-    html.match(/<meta property="og:title" content="(.*?)"/)?.[1] ||
-    html.match(/<title>(.*?)<\/title>/)?.[1]
-
-  const description =
-    html.match(/<meta property="og:description" content="(.*?)"/)?.[1] ||
-    html.match(/<meta name="description" content="(.*?)"/)?.[1]
-
-  const preview = html.match(/<meta property="og:image" content="(.*?)"/)?.[1]
-
-  const siteName = html.match(/<meta property="og:site_name" content="(.*?)"/)?.[1]
-
-  return ctx.json({
-    title: title?.trim() || new URL(url).hostname,
-    description: description?.trim(),
-    preview: preview?.trim(),
-    siteName: siteName?.trim()
-  })
 })
 
 export default bookmarks
