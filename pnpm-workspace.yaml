@@ -6,3 +6,6 @@ packages:
 # root node of a tree - queried package, branches - who uses it
 allowBuilds:
   esbuild: true
+
+minimumReleaseAgeExclude:
+  - hono@4.13.18
