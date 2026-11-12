@@ -51,9 +51,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
 import { Popover } from "@vuetify/v0"
-import HButton from "./HButton.vue"
+import HButton, { type HButtonColor } from "./HButton.vue"
 import HSeparator from "./HSeparator.vue"
-import { HButtonColor } from "@/components/ui/HButton.vue"
 
 export type HDropdownMenuItem = {
   label?: string
