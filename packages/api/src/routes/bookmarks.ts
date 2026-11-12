@@ -9,6 +9,7 @@ import { validate } from "../utils/validation"
 import { assertSafeExternalHttpUrl, fetchTextWithLimit, isClientUrlError } from "../utils/safeFetch"
 import {
   bookmarkBodySchema,
+  bookmarkParamsSchema,
   bookmarksQuerySchema,
   linkMetadataQuerySchema
 } from "../schemas/bookmarks"
@@ -76,6 +77,33 @@ bookmarks.post("/bookmark", validate("json", bookmarkBodySchema), async (ctx) =>
   const { data } = res._data
 
   return ctx.json(data)
+})
+
+bookmarks.delete("/bookmark/:id", validate("param", bookmarkParamsSchema), async (ctx) => {
+  const token = getAccessToken(ctx)
+
+  if (!token) {
+    return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
+  }
+
+  const { id } = ctx.req.valid("param")
+
+  const res = await ofetch.raw(origin + `/api/bookmarks/${id}`, {
+    ...requestOptions,
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` }
+  })
+
+  if (!res.ok) {
+    if (res.status === 401) {
+      // Strapi returns 401 when the token is invalid or expired
+      return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
+    }
+
+    return httpError(ctx, 500, "INTERNAL_ERROR", "Internal server error")
+  }
+
+  return ctx.body(null, 204)
 })
 
 bookmarks.get("/link-metadata", validate("query", linkMetadataQuerySchema), async (ctx) => {

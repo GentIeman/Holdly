@@ -68,6 +68,21 @@
   --tone-bg-solid-hover: var(--color-zinc-100);
   --tone-text-solid: var(--color-zinc-950);
 }
+.tone-rose {
+  --tone-bg: transparent;
+  --tone-bg-soft: var(--color-rose-950);
+  --tone-bg-hover: var(--color-rose-950);
+  --tone-text: var(--color-rose-500);
+  --tone-text-hover: var(--color-rose-400);
+  --tone-border: var(--color-rose-500);
+  --tone-border-hover: var(--color-rose-400);
+  --tone-focus-ring: var(--color-rose-500);
+  --tone-focus-border: var(--color-rose-500);
+  --tone-placeholder: var(--color-rose-300);
+  --tone-bg-solid: var(--color-rose-500);
+  --tone-bg-solid-hover: var(--color-rose-400);
+  --tone-text-solid: var(--color-zinc-950);
+}
 
 /* ── Variant (structure) ── */
 .variant-outline {

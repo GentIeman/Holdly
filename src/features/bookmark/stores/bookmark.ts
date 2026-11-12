@@ -28,8 +28,17 @@ export const useBookmarkStore = defineStore("bookmark", () => {
     })
   }
 
+  const deleteBookmark = async (id: Bookmark["documentId"]) => {
+    await api(`/api/bookmark/${id}`, {
+      method: "DELETE"
+    })
+
+    bookmarks.value = bookmarks.value.filter((bookmark) => bookmark.documentId !== id)
+  }
+
   return {
     bookmarks,
-    fetchBookmarks
+    fetchBookmarks,
+    deleteBookmark
   }
 })

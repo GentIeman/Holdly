@@ -85,7 +85,7 @@ export type HButtonSize = "xs" | "sm" | "md" | "lg" | "xl"
 
 export type HButtonVariant = "outline" | "soft" | "solid" | "ghost" | "link"
 
-export type HButtonColor = "primary" | "neutral"
+export type HButtonColor = "primary" | "neutral" | "rose"
 
 export type HButtonType = "submit" | "button" | "reset"
 
