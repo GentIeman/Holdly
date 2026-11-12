@@ -66,17 +66,17 @@ const schema = z.object({
   link: z.httpUrl()
 })
 
-type BookmarkState = {
+type LinkState = {
   link: string
 }
 
-const state = ref<BookmarkState>({ link: "" })
+const state = ref<LinkState>({ link: "" })
 
 const isModalOpen = ref(false)
 const { metadata, isLoaded, fetchMetaData, reset } = useLinkMetaData(() => state.value.link)
 
 const resetState = () => {
-  resetFormState<BookmarkState>(state, () => ({ link: "" }))
+  resetFormState<LinkState>(state, () => ({ link: "" }))
   reset()
 }
 
