@@ -23,7 +23,7 @@ bookmarks.get("/bookmarks", validate("query", bookmarksQuerySchema), async (ctx)
     return httpError(ctx, 401, "UNAUTHORIZED", "Unauthorized")
   }
 
-  const { userDocumentId } = ctx.req.valid("query")
+  const { user } = ctx.req.valid("query")
 
   const queryString = qs.stringify(
     {
@@ -32,7 +32,7 @@ bookmarks.get("/bookmarks", validate("query", bookmarksQuerySchema), async (ctx)
       filters: {
         user: {
           documentId: {
-            $eq: userDocumentId
+            $eq: user
           }
         }
       }

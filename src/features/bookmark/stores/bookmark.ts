@@ -23,7 +23,7 @@ export const useBookmarkStore = defineStore("bookmark", () => {
     if (!userStore.user) return
     bookmarks.value = await api<Bookmark[]>("/api/bookmarks", {
       query: {
-        userDocumentId: userStore.user.documentId
+        user: userStore.user.documentId
       }
     })
   }
