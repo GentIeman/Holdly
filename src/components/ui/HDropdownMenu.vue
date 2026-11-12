@@ -35,7 +35,7 @@
           <HButton
             type="button"
             variant="ghost"
-            color="neutral"
+            :color="item.color ?? 'neutral'"
             :icon="item.icon"
             :class="$style.item"
             :label="item.label"
@@ -53,12 +53,14 @@ import { computed, ref } from "vue"
 import { Popover } from "@vuetify/v0"
 import HButton from "./HButton.vue"
 import HSeparator from "./HSeparator.vue"
+import { HButtonColor } from "@/components/ui/HButton.vue"
 
 export type HDropdownMenuItem = {
   label?: string
   icon?: string
   disabled?: boolean
   onSelect?: () => void
+  color?: HButtonColor
 }
 
 export type HDropdownMenuProps = {

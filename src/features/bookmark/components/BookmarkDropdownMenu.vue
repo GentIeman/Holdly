@@ -46,7 +46,8 @@ const items: HDropdownMenuItem[][] = [
   [
     {
       label: "Delete",
-      icon: "tabler-trash"
+      icon: "tabler-trash",
+      color: "rose"
     }
   ]
 ]
