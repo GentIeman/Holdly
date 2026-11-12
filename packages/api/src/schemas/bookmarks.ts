@@ -3,7 +3,7 @@ import { z } from "zod"
 import { externalUrlSchema } from "./externalUrl"
 
 export const bookmarksQuerySchema = z.object({
-  userDocumentId: z.string().min(1)
+  user: z.string().regex(/^[a-z0-9_-]+$/i)
 })
 
 export const bookmarkParamsSchema = z.object({
@@ -15,7 +15,7 @@ export const bookmarkBodySchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   preview: z.string().optional(),
-  user: z.string().min(1)
+  user: z.string().regex(/^[a-z0-9_-]+$/i)
 })
 
 export const linkMetadataQuerySchema = z.object({
