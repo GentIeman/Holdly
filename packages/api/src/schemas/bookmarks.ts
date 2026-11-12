@@ -12,7 +12,7 @@ export const bookmarkParamsSchema = z.object({
 
 export const bookmarkBodySchema = z.object({
   link: z.httpUrl(),
-  title: z.string().optional(),
+  title: z.string(),
   description: z.string().optional(),
   preview: z.string().optional(),
   user: z.string().regex(/^[a-z0-9_-]+$/i)

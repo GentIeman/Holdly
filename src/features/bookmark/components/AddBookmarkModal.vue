@@ -22,7 +22,7 @@
         <HForm
           :schema="schema"
           :class="$style.form"
-          @submit="saveBookmark"
+          @submit="save"
         >
           <HInput
             v-model="state.link"
@@ -47,7 +47,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import { storeToRefs } from "pinia"
 
 import * as z from "zod"
 import { useNotifications } from "@vuetify/v0"
@@ -56,12 +55,11 @@ import HModal from "@/components/ui/HModal.vue"
 import HButton from "@/components/ui/HButton.vue"
 import HForm from "@/components/ui/form/HForm.vue"
 import HInput from "@/components/ui/form/HInput.vue"
-import { api, getErrorMessage } from "@/utils/api"
+import { getErrorMessage } from "@/utils/api"
 import { errorMessages } from "@/utils/errorMessages"
 import LinkPreview from "./LinkPreview.vue"
 import { useLinkMetaData } from "@/features/bookmark/composables/useLinkMetaData"
-import { useBookmarkStore, type Bookmark } from "@/features/bookmark/stores/bookmark"
-import { useUserStore } from "@/features/user/stores/user"
+import { useBookmarkStore } from "@/features/bookmark/stores/bookmark"
 import { resetFormState } from "@/utils/resetFormState"
 
 const schema = z.object({
@@ -82,26 +80,17 @@ const resetState = () => {
   reset()
 }
 
-const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
-const { fetchBookmarks } = useBookmarkStore()
+const { saveBookmark } = useBookmarkStore()
 const notifications = useNotifications()
 
-async function saveBookmark({ valid }: { valid: boolean }) {
-  if (!valid || !user.value) return
+async function save({ valid }: { valid: boolean }) {
+  if (!valid) return
 
   try {
-    await api<Bookmark>("/api/bookmark", {
-      method: "POST",
-      body: {
-        link: state.value.link,
-        title: metadata.value.title,
-        description: metadata.value?.description,
-        preview: metadata.value?.preview,
-        user: user.value.documentId
-      }
+    await saveBookmark({
+      link: state.value.link,
+      ...metadata.value
     })
-    await fetchBookmarks()
     isModalOpen.value = false
   } catch (cause) {
     notifications.send({
