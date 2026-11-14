@@ -1,10 +1,8 @@
 <template>
   <article :class="$style.card">
-    <header
-      v-if="bookmark.preview"
-      :class="$style.header"
-    >
+    <header :class="$style.header">
       <img
+        v-if="bookmark.preview"
         :src="bookmark.preview"
         :alt="bookmark.title"
         :class="$style.image"
@@ -23,7 +21,7 @@
       </HContainer>
     </header>
     <p
-      v-if="bookmark.preview"
+      v-if="bookmark.description"
       :class="$style.description"
     >
       {{ bookmark.description }}
