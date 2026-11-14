@@ -1,5 +1,5 @@
 {
-  "name": "holdly-api",
+  "name": "@holdly/api",
   "private": true,
   "type": "module",
   "scripts": {

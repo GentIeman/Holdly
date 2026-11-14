@@ -1,11 +1,11 @@
 {
-  "name": "vue-app",
+  "name": "@holdly/app",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "dev:api": "pnpm --filter holdly-api dev",
+    "dev:api": "pnpm --filter @holdly/api dev",
     "dev:all": "concurrently \"pnpm dev\" \"pnpm dev:api\"",
     "preview": "vite preview",
     "lint:oxlint": "oxlint .",
