@@ -3,14 +3,14 @@ import { ref, toValue, type MaybeRefOrGetter } from "vue"
 import { api } from "@/utils/api"
 import type { LinkMetaData } from "@/features/bookmark/components/LinkPreview.vue"
 
-const emptyMetaData: LinkMetaData = {
-  title: "",
-  description: undefined,
-  preview: undefined,
-  siteName: undefined
-}
-
 export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
+  const emptyMetaData: LinkMetaData = {
+    title: "",
+    description: undefined,
+    preview: undefined,
+    siteName: undefined
+  }
+
   const metadata = ref<LinkMetaData>({ ...emptyMetaData })
   const isLoaded = ref(false)
 
