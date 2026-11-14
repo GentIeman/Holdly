@@ -16,8 +16,19 @@
 
     <template #body>
       <div :class="$style.body">
+        <HSkeleton v-if="isLoading">
+          <HSkeletonRow width="30%" />
+          <HSkeletonRow
+            width="100%"
+            height="1.25rem"
+          />
+          <HSkeletonRow
+            width="70%"
+            height="1.25rem"
+          />
+        </HSkeleton>
         <LinkPreview
-          v-if="isLoaded"
+          v-if="loaded"
           :metadata="metadata"
         />
         <HForm
@@ -35,7 +46,7 @@
             @change="handleLinkChange"
           />
           <HButton
-            v-if="isLoaded"
+            v-if="loaded"
             type="submit"
             label="Save"
             variant="solid"
@@ -63,6 +74,8 @@ import LinkPreview from "./LinkPreview.vue"
 import { useLinkMetaData } from "@/features/bookmark/composables/useLinkMetaData"
 import { useBookmarkStore } from "@/features/bookmark/stores/bookmark"
 import { resetFormState } from "@/utils/resetFormState"
+import HSkeleton from "@/components/ui/skeleton/HSkeleton.vue"
+import HSkeletonRow from "@/components/ui/skeleton/HSkeletonRow.vue"
 
 const { triggerLabel = "Save link" } = defineProps<{
   triggerLabel?: string
@@ -80,7 +93,9 @@ type LinkState = {
 const state = ref<LinkState>({ link: "" })
 
 const isModalOpen = ref(false)
-const { metadata, isLoaded, fetchMetaData, reset } = useLinkMetaData(() => state.value.link)
+const { metadata, loaded, isLoading, fetchMetaData, reset } = useLinkMetaData(
+  () => state.value.link
+)
 
 const resetState = () => {
   resetFormState<LinkState>(state, () => ({ link: "" }))
