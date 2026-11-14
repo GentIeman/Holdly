@@ -7,6 +7,7 @@ import { httpError } from "../utils/errors"
 import { origin, requestOptions } from "../utils/config"
 import { validate } from "../utils/validation"
 import { assertSafeExternalHttpUrl, isClientUrlError, readHtml } from "../utils/safeFetch"
+import cleanMetaDataText from "../utils/cleanMetaDataText"
 import {
   bookmarkBodySchema,
   bookmarkParamsSchema,
@@ -124,22 +125,24 @@ bookmarks.get("/link-metadata", validate("query", linkMetadataQuerySchema), asyn
     const html = await readHtml(res)
 
     const title =
-      html.match(/<meta property="og:title" content="(.*?)"/)?.[1] ||
-      html.match(/<title>(.*?)<\/title>/)?.[1]
+      cleanMetaDataText(html.match(/<meta property="og:title" content="(.*?)"/)?.[1]) ||
+      cleanMetaDataText(html.match(/<title>(.*?)<\/title>/)?.[1])
 
     const description =
-      html.match(/<meta property="og:description" content="(.*?)"/)?.[1] ||
-      html.match(/<meta name="description" content="(.*?)"/)?.[1]
+      cleanMetaDataText(html.match(/<meta property="og:description" content="(.*?)"/)?.[1]) ||
+      cleanMetaDataText(html.match(/<meta name="description" content="(.*?)"/)?.[1])
 
     const preview = html.match(/<meta property="og:image" content="(.*?)"/)?.[1]
 
-    const siteName = html.match(/<meta property="og:site_name" content="(.*?)"/)?.[1]
+    const siteName = cleanMetaDataText(
+      html.match(/<meta property="og:site_name" content="(.*?)"/)?.[1]
+    )
 
     return ctx.json({
-      title: title?.trim() || "",
-      description: description?.trim() || undefined,
+      title,
+      description: description || undefined,
       preview: preview?.trim() || undefined,
-      siteName: siteName?.trim() || undefined
+      siteName: siteName || undefined
     })
   } catch (error) {
     if (isClientUrlError(error)) {
