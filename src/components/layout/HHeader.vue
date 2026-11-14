@@ -6,40 +6,42 @@
       label="Clip It"
       to="/"
     />
-    <HContainer class="header-navigation">
-      <nav class="navigation">
-        <ul class="navigation-list">
-          <li
-            v-for="item in navigationMenuItems"
-            :key="item.label"
-          >
-            <HButton
-              :to="item.to"
-              :label="item.label"
-              :icon="item.icon"
-              variant="soft"
-              color="neutral"
-            />
-          </li>
-        </ul>
-      </nav>
-      <AddBookmarkModal
-        class="add-bookmark"
+    <nav class="navigation">
+      <ul class="navigation-list">
+        <li
+          v-for="item in navigationMenuItems"
+          :key="item.label"
+        >
+          <HButton
+            :to="item.to"
+            :label="item.label"
+            :icon="item.icon"
+            variant="soft"
+            color="neutral"
+          />
+        </li>
+      </ul>
+    </nav>
+    <HContainer class="header-actions">
+      <HContainer
         v-if="bookmarkLength > 0"
-      />
+        class="add-bookmark"
+      >
+        <AddBookmarkModal />
+      </HContainer>
+      <HDropdownMenu :items="dropDownMenuItems">
+        <template #activator="{ attrs }">
+          <HButton
+            v-bind="attrs"
+            type="button"
+            variant="outline"
+            color="neutral"
+            icon="tabler-user"
+            aria-label="Account"
+          />
+        </template>
+      </HDropdownMenu>
     </HContainer>
-    <HDropdownMenu :items="dropDownMenuItems">
-      <template #activator="{ attrs }">
-        <HButton
-          v-bind="attrs"
-          type="button"
-          variant="outline"
-          color="neutral"
-          icon="tabler-user"
-          aria-label="Account"
-        />
-      </template>
-    </HDropdownMenu>
   </header>
 </template>
 
@@ -84,44 +86,40 @@ const dropDownMenuItems: HDropdownMenuItem[][] = [
 
 <style scoped>
 .header {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   gap: 10px;
   width: 100%;
   max-width: var(--container-xl);
   margin: auto;
   padding: var(--spacing-lg);
 
-  .header-navigation {
-    display: flex;
-    flex: 1;
-    align-items: center;
-  }
-
   .brand {
+    justify-self: start;
     font-size: var(--font-size-lg);
   }
 
   .navigation {
     display: flex;
-    flex: 1;
-    justify-content: center;
+    justify-self: center;
 
     .navigation-list {
       display: flex;
-      align-items: center;
       gap: var(--spacing-3xl);
-      list-style: none;
     }
+  }
+
+  .header-actions {
+    display: flex;
+    justify-self: end;
+    gap: 10px;
   }
 }
 
 .add-bookmark {
   display: none;
-}
 
-@media (min-width: 640px) {
-  .add-bookmark {
+  @media (width >= 640px) {
     display: inline-flex;
   }
 }
