@@ -6,7 +6,7 @@ import { getAccessToken } from "../utils/cookies"
 import { httpError } from "../utils/errors"
 import { origin, requestOptions } from "../utils/config"
 import { validate } from "../utils/validation"
-import { assertSafeExternalHttpUrl, fetchTextWithLimit, isClientUrlError } from "../utils/safeFetch"
+import { assertSafeExternalHttpUrl, isClientUrlError, readHtml } from "../utils/safeFetch"
 import {
   bookmarkBodySchema,
   bookmarkParamsSchema,
@@ -111,7 +111,17 @@ bookmarks.get("/link-metadata", validate("query", linkMetadataQuerySchema), asyn
 
   try {
     const safeUrl = await assertSafeExternalHttpUrl(url)
-    const html = await fetchTextWithLimit(safeUrl, { timeout: 5_000 })
+    const res = await ofetch.raw(safeUrl.toString(), {
+      redirect: "manual",
+      ignoreResponseError: true,
+      responseType: "stream",
+      signal: AbortSignal.timeout(5_000),
+      headers: {
+        "user-agent": "HoldlyMetadataBot/1.0",
+        accept: "text/html,application/xhtml+xml"
+      }
+    })
+    const html = await readHtml(res)
 
     const title =
       html.match(/<meta property="og:title" content="(.*?)"/)?.[1] ||
