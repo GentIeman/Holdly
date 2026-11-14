@@ -23,9 +23,10 @@
           </li>
         </ul>
       </nav>
-      <HContainer class="add-bookmark">
-        <AddBookmarkModal />
-      </HContainer>
+      <AddBookmarkModal
+        class="add-bookmark"
+        v-if="bookmarkLength > 0"
+      />
     </HContainer>
     <HDropdownMenu :items="dropDownMenuItems">
       <template #activator="{ attrs }">
@@ -43,11 +44,15 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia"
 import type { HDropdownMenuItem } from "@/components/ui/HDropdownMenu.vue"
 import HContainer from "@/components/ui/HContainer.vue"
 import HButton from "@/components/ui/HButton.vue"
 import HDropdownMenu from "@/components/ui/HDropdownMenu.vue"
 import AddBookmarkModal from "@/features/bookmark/components/AddBookmarkModal.vue"
+import { useBookmarkStore } from "@/features/bookmark/stores/bookmark"
+
+const { bookmarkLength } = storeToRefs(useBookmarkStore())
 
 const navigationMenuItems = [
   {

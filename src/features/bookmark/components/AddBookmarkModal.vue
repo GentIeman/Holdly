@@ -8,7 +8,8 @@
     <template #trigger="{ attrs }">
       <HButton
         v-bind="attrs"
-        label="Save link"
+        :label="triggerLabel"
+        :icon="triggerIcon"
         variant="solid"
       />
     </template>
@@ -61,6 +62,11 @@ import LinkPreview from "./LinkPreview.vue"
 import { useLinkMetaData } from "@/features/bookmark/composables/useLinkMetaData"
 import { useBookmarkStore } from "@/features/bookmark/stores/bookmark"
 import { resetFormState } from "@/utils/resetFormState"
+
+const { triggerLabel = "Save link" } = defineProps<{
+  triggerLabel?: string
+  triggerIcon?: string
+}>()
 
 const schema = z.object({
   link: z.httpUrl()
