@@ -12,11 +12,13 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
   }
 
   const metadata = ref<LinkMetaData>({ ...emptyMetaData })
-  const isLoaded = ref(false)
+  const loaded = ref(false)
+  const isLoading = ref(false)
 
   const reset = () => {
     metadata.value = { ...emptyMetaData }
-    isLoaded.value = false
+    loaded.value = false
+    isLoading.value = false
   }
 
   const fetchMetaData = async () => {
@@ -26,13 +28,20 @@ export function useLinkMetaData(link: MaybeRefOrGetter<string>) {
 
     if (url.length < 5) return
 
-    metadata.value = await api<LinkMetaData>("/api/link-metadata", { query: { url } })
-    isLoaded.value = true
+    isLoading.value = true
+
+    try {
+      metadata.value = await api<LinkMetaData>("/api/link-metadata", { query: { url } })
+      loaded.value = true
+    } finally {
+      isLoading.value = false
+    }
   }
 
   return {
     metadata,
-    isLoaded,
+    loaded,
+    isLoading,
     fetchMetaData,
     reset
   }
