@@ -35,6 +35,7 @@
             @change="handleLinkChange"
           />
           <HButton
+            v-if="isLoaded"
             type="submit"
             label="Save"
             variant="solid"
