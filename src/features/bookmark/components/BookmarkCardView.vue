@@ -47,7 +47,6 @@ defineProps<{
 .card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: var(--spacing-xl);
   padding: 0.875rem;
   border: 2px solid var(--color-zinc-800);
@@ -96,6 +95,7 @@ defineProps<{
   .footer {
     display: flex;
     justify-content: flex-end;
+    margin-top: auto;
   }
 }
 </style>
