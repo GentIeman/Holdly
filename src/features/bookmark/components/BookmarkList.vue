@@ -4,7 +4,7 @@
       $style.bookmarks,
       {
         [$style.cards]: view === 'cards',
-        [$style.empty]: isBookmarksEmpty
+        [$style.empty]: isEmpty
       }
     ]"
   >
@@ -15,7 +15,7 @@
       :bookmark="bookmark"
     />
     <div
-      v-if="isBookmarksEmpty"
+      v-if="isEmpty"
       :class="$style.emptyState"
     >
       <HIcon
@@ -23,22 +23,22 @@
         size="xl"
       />
       <p :class="$style.emptyStateTitle">It looks like you haven't added any bookmarks</p>
-      <HButton
-        icon="tabler-plus"
-        label="Add"
+      <AddBookmarkModal
+        trigger-label="Add your first bookmark"
+        trigger-icon="tabler-bookmark-plus"
       />
     </div>
   </HContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, type Component } from "vue"
+import { type Component, computed } from "vue"
 import HContainer from "@/components/ui/HContainer.vue"
 import HIcon from "@/components/ui/HIcon.vue"
-import HButton from "@/components/ui/HButton.vue"
 import BookmarkCardView from "./BookmarkCardView.vue"
 import BookmarkListView from "./BookmarkListView.vue"
 import BookmarkHeadlineView from "./BookmarkHeadlineView.vue"
+import AddBookmarkModal from "./AddBookmarkModal.vue"
 import type { Bookmark } from "@/features/bookmark/stores/bookmark"
 
 export type BookmarkView = "cards" | "list" | "headlines"
@@ -53,7 +53,7 @@ const props = withDefaults(
   }
 )
 
-const isBookmarksEmpty = computed(() => props.bookmarks.length < 1)
+const isEmpty = computed(() => props.bookmarks.length === 0)
 
 const BookmarkComponentMap = {
   cards: BookmarkCardView,

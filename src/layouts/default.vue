@@ -5,14 +5,19 @@
       <slot />
     </main>
     <HContainer class="bottom-bar">
-      <AddBookmarkModal />
+      <AddBookmarkModal v-if="bookmarkLength > 0" />
     </HContainer>
   </div>
 </template>
 <script setup lang="ts">
+import { storeToRefs } from "pinia"
+
 import HHeader from "@/components/layout/HHeader.vue"
 import HContainer from "@/components/ui/HContainer.vue"
 import AddBookmarkModal from "@/features/bookmark/components/AddBookmarkModal.vue"
+import { useBookmarkStore } from "@/features/bookmark/stores/bookmark"
+
+const { bookmarkLength } = storeToRefs(useBookmarkStore())
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 
 import { api } from "@/utils/api"
 import { type User, useUserStore } from "@/features/user/stores/user"
@@ -21,6 +21,8 @@ export const useBookmarkStore = defineStore("bookmark", () => {
   const userStore = useUserStore()
 
   const bookmarks = ref<Bookmark[]>([])
+
+  const bookmarkLength = computed(() => bookmarks.value.length)
 
   const fetchBookmarks = async () => {
     if (!userStore.user) return
@@ -57,6 +59,7 @@ export const useBookmarkStore = defineStore("bookmark", () => {
     bookmarks,
     fetchBookmarks,
     deleteBookmark,
-    saveBookmark
+    saveBookmark,
+    bookmarkLength
   }
 })
