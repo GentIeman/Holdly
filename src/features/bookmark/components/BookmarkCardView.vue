@@ -50,7 +50,7 @@ defineProps<{
   gap: var(--spacing-xl);
   padding: 0.875rem;
   border: 2px solid var(--color-zinc-800);
-  border-radius: 0.75rem;
+  border-radius: var(--radius-xl);
   min-height: 400px;
   max-height: 500px;
 

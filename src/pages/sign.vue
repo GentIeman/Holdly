@@ -65,7 +65,7 @@ const isSignIn = ref(true)
   padding: 2.5rem;
   width: 512px;
   height: fit-content;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--color-zinc-700);
   backdrop-filter: blur(12px);
 
