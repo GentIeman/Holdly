@@ -36,12 +36,11 @@ import { type Component, computed } from "vue"
 import HContainer from "@/components/ui/HContainer.vue"
 import HIcon from "@/components/ui/HIcon.vue"
 import BookmarkCardView from "./BookmarkCardView.vue"
-import BookmarkListView from "./BookmarkListView.vue"
 import BookmarkHeadlineView from "./BookmarkHeadlineView.vue"
 import AddBookmarkModal from "./AddBookmarkModal.vue"
 import type { Bookmark } from "@/features/bookmark/stores/bookmark"
 
-export type BookmarkView = "cards" | "list" | "headlines"
+export type BookmarkView = "cards" | "headlines"
 
 const props = withDefaults(
   defineProps<{
@@ -57,7 +56,6 @@ const isEmpty = computed(() => props.bookmarks.length === 0)
 
 const BookmarkComponentMap = {
   cards: BookmarkCardView,
-  list: BookmarkListView,
   headlines: BookmarkHeadlineView
 } satisfies Record<BookmarkView, Component>
 </script>
